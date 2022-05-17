@@ -1,0 +1,11 @@
+Una clase Muestra que va a tener como colaborador a un ArrayList de revisiones que guarde cada revision de esa muestra para luego saber el resultado de la verificación.
+
+
+Una clase Usuario que va a tener un tipo de usuario(basico o experto) el cual puede cambiar segun un algoritmo que evalue los usuarios segun sus conocimientos 
+y participacion.
+Tomamos esta decisión ya que si Usuario fuera una clase abstracta y sus subclases fueran basico y experto, el algoritmo tendria que crear un nuevo usuario 
+con la informacion del "viejo" usuario para cambiarlo de categoria.
+
+Una clase Revisión que guarda el tipo de usuario que hizo la revision. Ya que si guardara el usuario y quisieramos saber el tipo de usuario que hizo la revision, 
+si pasaron mas de 30 dias de esa Revision quizá el usuario haya bajado o subido de categoria por lo que el resultado seria una categoria que no corresponde a la
+que tenia el usuario al hacer la revisión.
