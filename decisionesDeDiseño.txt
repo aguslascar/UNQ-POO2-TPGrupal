@@ -1,8 +1,9 @@
 Una clase Muestra que va a tener como colaborador a un ArrayList de revisiones que guarde cada revision de esa muestra para luego saber el resultado de la verificación.
 
+La clase AplicacionWeb es la que se encarga de almacenar las muestras y los usuarios. Se encarga de crear nuevos usuarios y registrarlos. Estos usuarios van a tener un numero asignado segun la cantidad de usuarios que haya en forma creciente. No pueden existir usuarios repetidos.
 
 Una clase Usuario que va a tener un tipo de usuario(basico o experto) el cual puede cambiar segun un algoritmo que evalue los usuarios segun sus conocimientos 
-y participacion.
+y participacion. Un idUsuario el cual se representa con un numero entero para coincidir con la logica de la aplicacion de no tener usuarios repetidos.
 Tomamos esta decisión ya que si Usuario fuera una clase abstracta y sus subclases fueran basico y experto, el algoritmo tendria que crear un nuevo usuario 
 con la informacion del "viejo" usuario para cambiarlo de categoria.
 La clase abstracta NivelDeUsuario que va a tener dos subclases Basico y Experto para representar los dos niveles de usuarios. Es abierto a que haya nuevos niveles.
