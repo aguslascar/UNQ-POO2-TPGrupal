@@ -5,6 +5,8 @@ Una clase Usuario que va a tener un tipo de usuario(basico o experto) el cual pu
 y participacion.
 Tomamos esta decisión ya que si Usuario fuera una clase abstracta y sus subclases fueran basico y experto, el algoritmo tendria que crear un nuevo usuario 
 con la informacion del "viejo" usuario para cambiarlo de categoria.
+La clase abstracta NivelDeUsuario que va a tener dos subclases Basico y Experto para representar los dos niveles de usuarios. Es abierto a que haya nuevos niveles.
+Esta clase se va a encargar de saber responder el mensaje "esExperto()". Esto para que la muestra sepa que nivel tiene el usuario que hace la revision. Esto evita comparar tipos. Ejemplo: "Experto" == "Experto.
 
 Una clase Revisión que guarda el tipo de usuario que hizo la revision. Ya que si guardara el usuario y quisieramos saber el tipo de usuario que hizo la revision, 
 si pasaron mas de 30 dias de esa Revision quizá el usuario haya bajado o subido de categoria por lo que el resultado seria una categoria que no corresponde a la
