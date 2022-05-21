@@ -9,3 +9,5 @@ con la informacion del "viejo" usuario para cambiarlo de categoria.
 Una clase Revisión que guarda el tipo de usuario que hizo la revision. Ya que si guardara el usuario y quisieramos saber el tipo de usuario que hizo la revision, 
 si pasaron mas de 30 dias de esa Revision quizá el usuario haya bajado o subido de categoria por lo que el resultado seria una categoria que no corresponde a la
 que tenia el usuario al hacer la revisión.
+
+El filtro de busqueda implementado con el patron Composite donde hay una interfaz Filtro la cual tiene como hojas FiltroFechaCreacionMuestra, FiltroFechaUltimaVotacion, FiltroNivelDeVerificacion y FiltroTipoDeInsecto. Y como compuestos, el FiltroAnd y el FiltroOr, los cuales van a estar compuestos de 2 elementos Filtro. 
