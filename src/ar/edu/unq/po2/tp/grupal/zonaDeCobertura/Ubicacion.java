@@ -32,13 +32,7 @@ public class Ubicacion {
 		double ct1 = a.x - b.x; // ct = cateto
 		double ct2 = a.y - b.y;
 		double hip = Math.sqrt(ct1 * ct1 + ct2 * ct2);
-		return hip;
+		return Math.round(hip);
 	}
 
-	static Ubicacion a = new Ubicacion(1, 0);
-	static Ubicacion b = new Ubicacion(6, 1);
-
-	public static void main(String[] args) {
-		System.out.println(distancia(a, b));
-	}
 }
