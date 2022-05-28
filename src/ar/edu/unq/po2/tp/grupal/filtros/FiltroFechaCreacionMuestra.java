@@ -16,16 +16,13 @@ public class FiltroFechaCreacionMuestra implements Filtro {
 	 *
 	 */
 	
-	public enum Operador {
-		/**
-		 * Este operador representa los dos operadores posibles para este filtro, mayor o menor.
-		 */
-		MAYOR, MENOR
-		
-	}
 	LocalDate fecha;
 	Operador operador;
 	
+	public FiltroFechaCreacionMuestra(LocalDate fecha, Operador operador) {
+		this.fecha = fecha;
+		this.operador = operador;
+	}
 	
 	@Override
 	public List<Muestra> filtrar(List<Muestra> muestras) {
