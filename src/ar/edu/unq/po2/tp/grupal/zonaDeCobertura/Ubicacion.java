@@ -28,7 +28,7 @@ public class Ubicacion {
 
 	// --------------------------------------------------------------------------------------------
 
-	public static double distancia(Ubicacion a, Ubicacion b) { // sacar static
+	public static double distanciaEntre(Ubicacion a, Ubicacion b) { // sacar static
 		double ct1 = a.x - b.x; // ct = cateto
 		double ct2 = a.y - b.y;
 		double hip = Math.sqrt(ct1 * ct1 + ct2 * ct2);

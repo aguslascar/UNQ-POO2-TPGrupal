@@ -14,7 +14,7 @@ class UbicacionTest {
 
 	@Test
 	void testdistancia() {
-		assertEquals(Ubicacion.distancia(puntoA, puntoB), 2);
+		assertEquals(Ubicacion.distanciaEntre(puntoA, puntoB), 2);
 	}
 
 
