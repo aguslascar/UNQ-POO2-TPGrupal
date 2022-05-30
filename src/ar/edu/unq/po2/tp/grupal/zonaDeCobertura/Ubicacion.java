@@ -1,38 +1,51 @@
 package ar.edu.unq.po2.tp.grupal.zonaDeCobertura;
 
-public class Ubicacion {
-	private double x, y;
+import java.util.ArrayList;
 
-	public Ubicacion(double x, double y) {
+public class Ubicacion {
+	private int x, y;
+
+	public Ubicacion(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
 
 	// --------Getters y Setters-------------------------------------------------
 
-	public double getX() {
+	public int getX() {
 		return x;
 	}
 
-	public void setX(double x) {
+	public void setX(int x) {
 		this.x = x;
 	}
 
-	public double getY() {
+	public int getY() {
 		return y;
 	}
 
-	public void setY(double y) {
+	public void setY(int y) {
 		this.y = y;
 	}
 
 	// --------------------------------------------------------------------------------------------
 
-	public static double distanciaEntre(Ubicacion a, Ubicacion b) { // sacar static
-		double ct1 = a.x - b.x; // ct = cateto
-		double ct2 = a.y - b.y;
-		double hip = Math.sqrt(ct1 * ct1 + ct2 * ct2);
-		return Math.round(hip);
+	public static int distanciaEntre(Ubicacion a, Ubicacion b) { // sacar static
+		int ct1 = (int) (a.getX() - b.getX()); // ct = cateto
+		int ct2 = (int) (a.getY() - b.getY());
+		int hip = (int) Math.sqrt(ct1 * ct1 + ct2 * ct2);
+		return hip;
+	}
+
+	public ArrayList<Ubicacion> seEncuentranAMenosDe(int n, ArrayList<Ubicacion> ubicaciones) {
+		Ubicacion ubicacionActual = new Ubicacion(this.getX(), this.getY());
+		ArrayList<Ubicacion> estabanAmenosDe = new ArrayList<Ubicacion>();
+		for (Ubicacion ubicacion : ubicaciones) {
+			if (distanciaEntre(ubicacionActual, ubicacion) < n) {
+				estabanAmenosDe.add(ubicacion);
+			}
+		}
+		return estabanAmenosDe;
 	}
 
 }
