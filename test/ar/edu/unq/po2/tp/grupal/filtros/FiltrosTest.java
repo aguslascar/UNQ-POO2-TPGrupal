@@ -23,6 +23,7 @@ class FiltrosTest {
 	Muestra muestra2;
 	Muestra muestra3;
 	List<Muestra> muestras;
+	ComparadorDeFechas comparador;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -38,19 +39,21 @@ class FiltrosTest {
 
 	@Test
 	void testFechaDeCreacionMenorA20Abril19() {
+		comparador = new ComparadorMenor();
 		when(muestra1.getFecha()).thenReturn(LocalDate.now());
 		when(muestra2.getFecha()).thenReturn(LocalDate.of(2018,05,01));
 		when(muestra3.getFecha()).thenReturn(LocalDate.of(2019,04,19));
-		filtro1 = new FiltroFechaCreacionMuestra(LocalDate.of(2019, 04, 20), Operador.MENOR);
+		filtro1 = new FiltroFechaCreacionMuestra(LocalDate.of(2019, 04, 20), comparador);
 		assertEquals(2, filtro1.filtrar(muestras).size());
 	}
 	
 	@Test
 	void testFechaDeUltimaVotacionMayorA20Abril19() {
+		comparador = new ComparadorMayor();
 		when(muestra1.fechaUltimaVotacion()).thenReturn(LocalDate.now());
 		when(muestra2.fechaUltimaVotacion()).thenReturn(LocalDate.of(2018,05,01));
 		when(muestra3.fechaUltimaVotacion()).thenReturn(LocalDate.of(2019,04,19));
-		filtro1 = new FiltroFechaUltimaVotacion(LocalDate.of(2019, 04, 20), Operador.MAYOR);
+		filtro1 = new FiltroFechaUltimaVotacion(LocalDate.of(2019, 04, 20), comparador);
 		assertEquals(1, filtro1.filtrar(muestras).size());
 	}
 	
@@ -80,10 +83,26 @@ class FiltrosTest {
 		filtro1 = new FiltroTipoDeInsecto("Chinche Foliada");
 		when(muestra1.getResultadoActual()).thenReturn("Verificada");
 		when(muestra2.getResultadoActual()).thenReturn("Votada");
-		when(muestra3.getResultadoActual()).thenReturn("Votada");
+		when(muestra3.getResultadoActual()).thenReturn("Verificada");
 		filtro2 = new FiltroNivelDeVerificacion("Verificada");
 		filtroAnd = new FiltroAND(filtro1,filtro2);
-		assertEquals(muestra1, filtroAnd.filtrar(muestras));
+		assert(filtroAnd.filtrar(muestras).contains(muestra3));
+		assert(!filtroAnd.filtrar(muestras).contains(muestra1));
 	}
 
+	@Test
+	void TestOR() {
+		when(muestra1.tipo()).thenReturn("Vinchuca");
+		when(muestra2.tipo()).thenReturn("Phtia-Chinche");
+		when(muestra3.tipo()).thenReturn("Chinche Foliada");
+		filtro1 = new FiltroTipoDeInsecto("Chinche Foliada");
+		when(muestra1.getResultadoActual()).thenReturn("Verificada");
+		when(muestra2.getResultadoActual()).thenReturn("Votada");
+		when(muestra3.getResultadoActual()).thenReturn("Verificada");
+		filtro2 = new FiltroNivelDeVerificacion("Verificada");
+		filtroOr = new FiltroOR(filtro1,filtro2);
+		assert(filtroOr.filtrar(muestras).contains(muestra3));
+		assert(filtroOr.filtrar(muestras).contains(muestra1));
+		assert(!filtroOr.filtrar(muestras).contains(muestra2));
+	}
 }

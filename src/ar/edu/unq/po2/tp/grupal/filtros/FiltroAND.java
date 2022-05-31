@@ -30,10 +30,11 @@ public class FiltroAND implements Filtro {
 		 * Y luego se intersectan sus resultados sin repetidos.
 		 * Retorna una lista de muestras.
 		 */
-		return filtro1.filtrar(muestras)
+		return filtro2.filtrar(muestras)
 				.stream()
-				.filter(filtro2.filtrar(muestras) :: contains)
+				.filter(m -> filtro1.filtrar(muestras).contains(m))
 				.collect(Collectors.toList());
+		
 	}
 
 }
