@@ -7,7 +7,7 @@ public class ComparadorMenor implements ComparadorDeFechas {
 	/**
 	 * 
 	 * @author aguslascar
-	 * Una clase que compara fechas con criterio de ser mayor.
+	 * Una clase que compara fechas con criterio de ser menor.
 	 */
 
 	@Override
