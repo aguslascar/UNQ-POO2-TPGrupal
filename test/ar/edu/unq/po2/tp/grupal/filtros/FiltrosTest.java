@@ -86,8 +86,8 @@ class FiltrosTest {
 		when(muestra3.getResultadoActual()).thenReturn("Verificada");
 		filtro2 = new FiltroNivelDeVerificacion("Verificada");
 		filtroAnd = new FiltroAND(filtro1,filtro2);
-		assert(filtroAnd.filtrar(muestras).contains(muestra3));
-		assert(!filtroAnd.filtrar(muestras).contains(muestra1));
+		assertTrue(filtroAnd.filtrar(muestras).contains(muestra3));
+		assertFalse(filtroAnd.filtrar(muestras).contains(muestra1));
 	}
 
 	@Test
@@ -101,8 +101,8 @@ class FiltrosTest {
 		when(muestra3.getResultadoActual()).thenReturn("Verificada");
 		filtro2 = new FiltroNivelDeVerificacion("Verificada");
 		filtroOr = new FiltroOR(filtro1,filtro2);
-		assert(filtroOr.filtrar(muestras).contains(muestra3));
-		assert(filtroOr.filtrar(muestras).contains(muestra1));
-		assert(!filtroOr.filtrar(muestras).contains(muestra2));
+		assertTrue(filtroOr.filtrar(muestras).contains(muestra3));
+		assertTrue(filtroOr.filtrar(muestras).contains(muestra1));
+		assertFalse(filtroOr.filtrar(muestras).contains(muestra2));
 	}
 }
