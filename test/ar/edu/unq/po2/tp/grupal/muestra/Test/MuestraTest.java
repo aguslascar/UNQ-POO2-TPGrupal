@@ -2,38 +2,37 @@ package ar.edu.unq.po2.tp.grupal.muestra.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.time.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ar.edu.unq.po2.tp.grupal.muestra.EstadoDeMuestra;
 import ar.edu.unq.po2.tp.grupal.muestra.Muestra;
 import ar.edu.unq.po2.tp.grupal.muestra.Ubicacion;
+import ar.edu.unq.po2.tp.grupal.revision.Opinion;
 import ar.edu.unq.po2.tp.grupal.revision.Revision;
 
 public class MuestraTest {
 	
 	private Revision revision1;
-	private Revision revision2;
-	private Revision revision3;
-	private Revision revision4;
 	private int idUsuario;
-	private EstadoDeMuestra estado;
 	private LocalDate fecha;
-	private ArrayList<Revision> revisiones;
 	private Muestra muestra;
 	private Ubicacion ubicacion;
+	private String foto;
+	private Opinion opinion;
 	
 	@BeforeEach
 	public void setUp() {
 		idUsuario = 207029442;
-		fecha = LocalDate.of(2012, 12, 20);    // Fecha 20 de Diciembre de 2016    
+		fecha = LocalDate.of(2012, 12, 20);    // Fecha 20 de Diciembre de 2012    
 		ubicacion = mock(Ubicacion.class);
 	    revision1 = mock(Revision.class);
-		muestra = new Muestra(idUsuario, fecha, 20, ubicacion, "Vinchuca");    // Mal instanciado, diseño a resolver
+	    foto = "Vinchuca.jpg";
+	    opinion = mock(Opinion.class);
+		muestra = new Muestra(idUsuario, fecha, foto, ubicacion, opinion); // Mal instanciado, diseño a resolver
 	}
 	
 	// Se testea que al instanciar una nueva Muestra, el idUsuario este bien almacenado y sea accesible publicamente
@@ -51,7 +50,7 @@ public class MuestraTest {
 	// Se testea que al instanciar una nueva Muestra, la foto este bien almacenada y sea accesible publicamente
 	@Test
 	public void testObtenerLaFotoQueSeAdjuntoALaMuestra() {
-		// Sin implementar, se requiere conocer la implementacion de la foto
+		assertEquals(muestra.getFoto(), foto);
 	}
 	
 	// Se testea que al instanciar una nueva Muestra, la ubicacion este bien almacenada y sea accesible publicamente
@@ -66,16 +65,26 @@ public class MuestraTest {
 		// sin implementar, se requiere conocer la implementacion de la opinion
 	}
 	
-	// Se testea que al instanciar una nueva Muestra, la lista de revisiones se inicialice vacia
+	// Se testea que al instanciar una nueva Muestra, la lista de revisiones se inicialice con la opinion del autor
 	@Test
-	public void testObtenerUnaListaVaciaDeRevisionesEnUnaMuestraRecienCreada() {
-		assertTrue(muestra.getRevisiones().isEmpty());
+	public void testObtenerUnaListaDeRevisionesUnicamenteConLaRevisionDelAutorEnUnaMuestraRecienCreada() {
+		assertTrue(muestra.getRevisiones().size() == 1);
+		assertEquals(muestra.getRevisiones().get(0).getOpinion(), muestra.getOpinion());
 	}
 	
-	// Se testea que al momento de agregar una nueva revision a la lista de revisiones en Muestra, esta se agregue correctamente
+	// Se testea que al momento de agregar una nueva revision a la lista de revisiones en Muestra,
+	// esta se agregue correctamente
 	@Test
 	public void testAgregarUnaRevisionALaListaDeRevisiones() {
 		muestra.agregarRevision(revision1);
 		assertTrue(muestra.getRevisiones().contains(revision1));
+	}
+	
+	// Se testea que al obtener el resultado actual de una muestra de la que no opino nadie mas que el autor,
+	// se retorne la opinión del autor
+	@Test
+	public void testObtenerResultadoActualSinRevisionesSoloCuentaLaOpinionDelAutor() {
+		when(opinion.getDescripcion()).thenReturn("Vinchuca Sordida");
+		assertEquals(muestra.getResultadoActual(), muestra.getOpinion().getDescripcion());
 	}
 }
