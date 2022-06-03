@@ -11,34 +11,45 @@ import org.junit.jupiter.api.Test;
 
 import ar.edu.unq.po2.tp.grupal.muestra.Muestra;
 import ar.edu.unq.po2.tp.grupal.muestra.Ubicacion;
+import ar.edu.unq.po2.tp.grupal.muestra.Usuario;
 import ar.edu.unq.po2.tp.grupal.revision.Opinion;
 import ar.edu.unq.po2.tp.grupal.revision.Revision;
 
 public class MuestraTest {
 	
 	private Revision revision1;
-	private int idUsuario;
+	private Revision revision2;
+	private Usuario usuario;
 	private LocalDate fecha;
 	private Muestra muestra;
 	private Ubicacion ubicacion;
 	private String foto;
-	private Opinion opinion;
+	private Opinion opinionAutor;
+	private Opinion opinion1;
+	private Opinion opinion2;
 	
 	@BeforeEach
 	public void setUp() {
-		idUsuario = 207029442;
+		usuario = mock(Usuario.class);
 		fecha = LocalDate.of(2012, 12, 20);    // Fecha 20 de Diciembre de 2012    
 		ubicacion = mock(Ubicacion.class);
 	    revision1 = mock(Revision.class);
+	    revision2 = mock(Revision.class);
 	    foto = "Vinchuca.jpg";
-	    opinion = mock(Opinion.class);
-		muestra = new Muestra(idUsuario, fecha, foto, ubicacion, opinion); // Mal instanciado, diseño a resolver
+	    opinionAutor = mock(Opinion.class);
+	    opinion1 = mock(Opinion.class);
+	    opinion2 = mock(Opinion.class);
+		muestra = new Muestra(usuario, fecha, foto, ubicacion, opinionAutor); 
 	}
 	
 	// Se testea que al instanciar una nueva Muestra, el idUsuario este bien almacenado y sea accesible publicamente
 	@Test
 	public void testConocerElIdDelUsuarioQueSubioLaMuestra() {
-		assertEquals(muestra.getIdUsuario(), idUsuario);
+		when(usuario.getIdUsuario()).thenReturn(20129319);
+		
+		Muestra nuevaMuestra = new Muestra(usuario, fecha, foto, ubicacion, opinionAutor);
+		
+		assertEquals(nuevaMuestra.getIdUsuario(), usuario.getIdUsuario());
 	}
 	
 	// Se testea que al instanciar una nueva Muestra, la fecha este bien almacenada y sea accesible publicamente
@@ -77,6 +88,7 @@ public class MuestraTest {
 	@Test
 	public void testAgregarUnaRevisionALaListaDeRevisiones() {
 		muestra.agregarRevision(revision1);
+		
 		assertTrue(muestra.getRevisiones().contains(revision1));
 	}
 	
@@ -84,7 +96,39 @@ public class MuestraTest {
 	// se retorne la opinión del autor
 	@Test
 	public void testObtenerResultadoActualSinRevisionesSoloCuentaLaOpinionDelAutor() {
-		when(opinion.getDescripcion()).thenReturn("Vinchuca Sordida");
+		when(opinionAutor.getDescripcion()).thenReturn("Vinchuca Sordida");
+		
 		assertEquals(muestra.getResultadoActual(), muestra.getOpinion().getDescripcion());
 	}
+	
+	// Se testea que cuando la opinion de otros usuarios es mas votada que la opinion del autor, entonces cuente
+	// la opinión de los usuarios que tenga mas votos
+	@Test
+	public void testObtenerResultadoActualCuandoLaOpinionDeLosUsuariosLeGanaALaOpinionDelAutor() {
+		when(opinionAutor.getDescripcion()).thenReturn("Vinchuca Sordida");
+		when(revision1.getOpinion()).thenReturn(opinion1);
+		when(revision2.getOpinion()).thenReturn(opinion2);
+		when(opinion1.getDescripcion()).thenReturn("Vinchuca Infestans");
+		when(opinion2.getDescripcion()).thenReturn("Vinchuca Infestans");
+		
+		muestra.agregarRevision(revision1);
+		muestra.agregarRevision(revision2);
+		
+		assertEquals(muestra.getResultadoActual(), "Vinchuca Infestans");
+	}
+	
+	// Se testea que al obtener un empate entre opiniones, por mas que se encuentre la opinión del autor, entonces
+	// se retorne como resultado 'No definido'
+	@Test
+	public void testObtenerResultadoActualCuandoUnUsuarioOpinaDistintoAlAutor() {
+		when(opinionAutor.getDescripcion()).thenReturn("Vinchuca Infestans");
+		when(revision1.getOpinion()).thenReturn(opinion1);
+		when(opinion1.getDescripcion()).thenReturn("Chinche Foliada");
+		
+		muestra.agregarRevision(revision1);
+		
+		assertEquals(muestra.getResultadoActual(), "No definido");
+	}
+	
+	
 }

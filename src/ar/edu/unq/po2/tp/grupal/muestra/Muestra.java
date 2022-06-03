@@ -48,22 +48,22 @@ public class Muestra {
 	
 	/**
 	 * Constructor de una nueva muestra tomada.
-	 * @param idUsuario Numero identificatorio del usuario que tomo la muestra.
+	 * @param usuario Usuario autor de la muestra.
 	 * @param fecha Fecha en la que se registró la muestra.
 	 * @param Foto Imagen adjunta que documenta la muestra.
 	 * @param ubicacion Ubicación en la que se generó la muestra.
 	 * @param opinion Opinión del propio usuario que tomó la muestra.
 	 */
-	public Muestra(int idUsuario, LocalDate fecha, String Foto, Ubicacion ubicacion, Opinion opinion) {
+	public Muestra(Usuario usuario, LocalDate fecha, String Foto, Ubicacion ubicacion, Opinion opinion) {
 		super();
-		this.setIdUsuario(idUsuario);
+		this.setIdUsuario(usuario.getIdUsuario());
 		this.setFecha(fecha);
 		this.setFoto(Foto);
 		this.setUbicacion(ubicacion);
 		this.setOpinion(opinion);
 		this.setRevisiones(new ArrayList<Revision>());
 		this.setEstado(new MuestraSinVerificar());
-		this.agregarRevision(new Revision(opinion));
+		this.agregarRevision(new Revision(opinion, fecha, usuario.getNivelDeUsuario()));
 	}
 	
 	/**
