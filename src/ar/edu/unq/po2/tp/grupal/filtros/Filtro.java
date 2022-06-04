@@ -6,11 +6,10 @@ import ar.edu.unq.po2.tp.grupal.muestra.Muestra;
 
 public interface Filtro {
 	/**
-	 *@author aguslascar
-	 *
-	 *Una interface Filtro que va a tener clases que la implementen para representar los filtros de busqueda.
-	 *En un patron composite donde los "leaf" son los criterios de busqueda y los "composite" filtros combinables con 
+	 * Una interface Filtro que va a tener clases que la implementen para representar los filtros de busqueda.
+	 * En un patron composite donde los "leaf" son los criterios de busqueda y los "composite" filtros combinables con 
 	 * AND y OR
+	 *@author aguslascar
 	 */
 	public List<Muestra> filtrar(List<Muestra> muestras)
 	/**

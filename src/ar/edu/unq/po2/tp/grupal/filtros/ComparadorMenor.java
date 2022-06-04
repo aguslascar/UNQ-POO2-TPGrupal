@@ -5,9 +5,8 @@ import java.time.LocalDate;
 public class ComparadorMenor implements ComparadorDeFechas {
 	
 	/**
-	 * 
-	 * @author aguslascar
 	 * Una clase que compara fechas con criterio de ser menor.
+	 * @author aguslascar
 	 */
 
 	@Override

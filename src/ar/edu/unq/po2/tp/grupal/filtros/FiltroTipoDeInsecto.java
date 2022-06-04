@@ -8,9 +8,9 @@ import ar.edu.unq.po2.tp.grupal.muestra.Muestra;
 
 public class FiltroTipoDeInsecto implements Filtro {
 	/**
-	 * @author aguslascar
 	 * Esta clase implementa la interfaz Filtro.
 	 * Tiene que tener un criterio que tiene que ser un tipo de insecto.
+	 * @author aguslascar
 	 */
 	String criterio;
 	

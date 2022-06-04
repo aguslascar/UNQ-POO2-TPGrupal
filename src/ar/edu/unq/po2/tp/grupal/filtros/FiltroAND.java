@@ -8,11 +8,11 @@ import ar.edu.unq.po2.tp.grupal.muestra.Muestra;
 public class FiltroAND implements Filtro {
 	
 	/**
-	 * @author aguslascar
 	 * Es un filtro compuesto de 2 elementos del tipo Filtro.
 	 * Es un filtro del tipo AND, por lo que al filtrar retorna el resultado de los elementos en comun entre
 	 * los dos filtros especificados.
 	 * Los dos filtros deben ser definidos al momento de la creacion.
+	 * @author aguslascar
 	 */
 	
 	Filtro filtro1;

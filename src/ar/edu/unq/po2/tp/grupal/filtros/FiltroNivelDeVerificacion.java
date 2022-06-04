@@ -7,9 +7,9 @@ import ar.edu.unq.po2.tp.grupal.muestra.Muestra;
 
 public class FiltroNivelDeVerificacion implements Filtro {
 	/**
-	 * @author aguslascar
 	 * Esta clase implementa la interfaz Filtro.
 	 * Filtra muestras segun el nivel que se le indique al ser creado.
+	 * @author aguslascar
 	 */
 	String nivelAFiltrar;
 	

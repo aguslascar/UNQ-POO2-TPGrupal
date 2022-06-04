@@ -8,10 +8,10 @@ import ar.edu.unq.po2.tp.grupal.muestra.Muestra;
 public class FiltroOR implements Filtro {
 	
 	/**
-	 * @author aguslascar
 	 * Es un filtro compuesto de 2 elementos de tipo Filtro. 
 	 * Es un filtro del tipo OR, por ende al filtrar, se van a combinar los resultados de ambos filtros.
 	 * Los dos filtros deben ser definidos al momento de la creacion.
+	 * @author aguslascar
 	 */
 	
 	Filtro filtro1;
