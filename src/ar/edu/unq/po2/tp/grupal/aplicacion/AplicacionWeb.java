@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import ar.edu.unq.po2.tp.grupal.muestra.Muestra;
 import ar.edu.unq.po2.tp.grupal.revision.Revision;
@@ -58,16 +59,22 @@ public class AplicacionWeb {
 		usuarios.add(usuario);
 	}
 	
-	public void agregarRevision(Muestra muestra, Revision revision) {
+	public void agregarRevision(Muestra muestra, Revision revision, int idUsuario) throws Exception {
 		/**
 		 * Este metodo agrega una revision a la muestra si y solo si,
-		 * la muestra esta en la lista de muestras
+		 * el usuario es usuario del sistema y la muestra esta en la lista de muestras
 		 */
-		muestras.stream()
-				.filter(m -> m.getidUsuario().equals(muestra.getidUsuario()))
-				.findFirst().ifPresent(m -> m.agregarRevision(revision));
+		if(this.esUsuario(idUsuario)) {
+			//Primero filtro que la muestra dada por parametro este en el sistema.
+			muestras.stream()
+					.filter(m -> m.esMismaMuestra(muestra))
+					.findFirst().ifPresent(m -> m.agregarRevision(revision));
 		//Me fijo si la muestra esta en la lista de muestras.
 		//Si esta, agrego la revision.
+		}
+		else {
+			throw new Exception();
+		}
 		
 	}
 
@@ -124,7 +131,46 @@ public class AplicacionWeb {
 		/**
 		 * Este metodo chequea que el usuario haya realizado mas de 10 envios y
 		 * mas de 20 revisiones que se hayan subido 30 dias anteriores a la fecha actual. 
+		 * @return un booleano 
 		 */
-		return usuario.enviosUltimos30dias() > 10 && usuario.revisionesUltimos30dias() > 20;
+		return this.enviosUltimos30dias(usuario) > 10 && this.revisionesUltimos30dias(usuario) > 20;
+	}
+
+	private int revisionesUltimos30dias(Usuario usuario) {
+		/**
+		 * Retorna la cantidad de revisiones de los ultimos 30 dias del usuario dado por parametro
+		 * @return un int.
+		 */
+		return usuario.revisionesUltimos30dias().size();
+	}
+
+	private int enviosUltimos30dias(Usuario usuario) {
+		/**
+		 * De los envios del usuario, filtra los envios de muestras de los ultimos 30 dias.
+		 * @return un int que representa la cantidad de envios de los ultimos 30 dias
+		 */
+		//Creo una fecha a comparar que es la fecha actual menos 30 dias
+		LocalDate fechaAComparar = LocalDate.now().minusDays(30);
+		//Tomo la lista de envios de muestras en sistema que haya realizado el usuario
+		List<Muestra> muestras = this.enviosDeUsuario(usuario);
+		//A esas muestras, filtro solo las que hayan sido realizadas los ultimos 30 dias.
+		muestras = muestras.stream()
+							.filter(m -> m.getFecha().isAfter(fechaAComparar))
+							.collect(Collectors.toList());
+		//Retorno la cantidad de muestras de los ultimos 30 dias.
+		return muestras.size();
+	}
+
+	private List<Muestra> enviosDeUsuario(Usuario usuario) {
+		/**
+		 * Este metodo devuelve una lista de Muestra que son los envios que realizo el usuario especificado 
+		 * en el sistema
+		 * @return una lista de Muestra
+		 */
+		//Filtro las muestras del sistema segun tengan el mismo id que el del usuario
+		//dado por parametro.
+		return muestras.stream()
+				.filter(m -> m.getidUsuario() == usuario.getidUsuario())
+				.collect(Collectors.toList());
 	}
 }
