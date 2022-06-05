@@ -31,14 +31,20 @@ class UsuarioTest {
 		opinion = mock(Opinion.class);
 		muestra = mock(Muestra.class);
 		nivel = mock(NivelDeUsuario.class);
-		usuario = new Usuario(1, sistema, nivel);
+		usuario = new Usuario(1, sistema, true);
 	}
 
 	@Test
-	void testCreacionUsuario() {
-		//Testeo que el usuario haya sido creado con id 1.
+	void testCreacionUsuarioValidado() {
+		//Testeo que el usuario haya sido creado con id 1 y sea experto.
 		assertEquals(1, usuario.getIdUsuario());
-		assertEquals(nivel, usuario.getNivel());
+		assertTrue(usuario.getNivel().esExperto());
+	}
+	
+	@Test 
+	void testCreacionUsuarioBasico() {
+		usuario = new Usuario(1, sistema, false);
+		assertFalse(usuario.getNivel().esExperto());
 	}
 	
 	@Test
@@ -46,7 +52,7 @@ class UsuarioTest {
 		// Testeo que el usuario pueda registrar una nueva muestra con los parametros dados.
 		//Chequeo que se haya llamado al mensaje del sistema registrarMuestra(param).
 		usuario.agregarMuestra(imagen, "Vinchuca", ubicacion);
-		verify(sistema).registrarMuestra(imagen, "Vinchuca", ubicacion, 1, LocalDate.now());
+		verify(sistema).registrarMuestra(eq(usuario), eq(LocalDate.now()), eq(imagen), eq(ubicacion), any(Opinion.class));
 	}
 	
 	@Test
