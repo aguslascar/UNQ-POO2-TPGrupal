@@ -13,9 +13,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
+import ar.edu.unq.po2.tp.grupal.aplicacion.*;
 import ar.edu.unq.po2.tp.grupal.muestra.*;
 import ar.edu.unq.po2.tp.grupal.revision.*;
-import ar.edu.unq.po2.tp.grupal.aplicacion.*;
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.*;
 
 class UsuarioTest {
