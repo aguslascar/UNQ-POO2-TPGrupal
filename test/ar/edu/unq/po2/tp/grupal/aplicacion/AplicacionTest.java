@@ -74,6 +74,19 @@ class AplicacionTest {
 		//Chequeo que no se haya lanzado una excepcion.
 		assertDoesNotThrow(() -> app.agregarRevision(muestraDelSistema, revision, 1));
 	}
-	
+	/*
+	@Test
+	void testCorrerAlgoritmoDeNiveles() {
+		//Testeo la correcta funcionalidad del algoritmo que chequea los niveles de los usuarios.
+		app.registrarNuevoUsuario(true); //usuario validado que no puede cambiar de nivel. 
+		app.registrarNuevoUsuario(false); // usuario basico que puede cambiar de nivel.
+		Usuario usuario1 = app.getUsuarios().get(0); //el usuario validado
+		Usuario usuario2 = app.getUsuarios().get(1); //el usuario basico
+		app.revisarNivelesDeUsuario();
+		assertTrue(usuario1.getNivel().esExperto());
+		assertFalse(usuario2.getNivel().esExperto());
+		
+	}
+	*/
 
 }
