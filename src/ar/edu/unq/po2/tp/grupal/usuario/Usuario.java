@@ -3,6 +3,8 @@ package ar.edu.unq.po2.tp.grupal.usuario;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import ar.edu.unq.po2.tp.grupal.revision.*;
 import ar.edu.unq.po2.tp.grupal.muestra.*;
 import ar.edu.unq.po2.tp.grupal.aplicacion.*;
@@ -48,17 +50,6 @@ public class Usuario {
 		return revisiones;
 	}
 	
-	
-	public void agregarMuestra(Imagen imagen, String especie, Ubicacion ubicacion) {
-		/**
-		 * Este metodo va a registrar una nueva muestra que hace el usuario en el sistema.
-		 * Se envia la fecha actual al momento de llamar a el metodo por lo que la muestra va a tener la
-		 * fecha en la que se registro.
-		 */
-		Opinion opinion = new Opinion(especie);
-		sistema.registrarMuestra(this, LocalDate.now(), imagen, ubicacion, opinion);
-	}
-	
 	public void agregarRevision(Muestra muestra, Opinion opinion) {
 		/**
 		 * Este metodo va a agregar una revision de la muestra dada con la opinion Opinion dada.
@@ -68,5 +59,18 @@ public class Usuario {
 		Revision revision = new Revision(opinion, LocalDate.now(), nivel);
 		revisiones.add(revision);
 		sistema.agregarRevision(muestra, revision);
+	}
+	
+	public List<Revision> revisionesUltimos30Dias() {
+		/**
+		 * Este metodo me retorna todas las revisiones del usuario que hizo en los ultimos 30 dias
+		 * @return lista de Revision
+		 */
+		//Seteo una fecha a comparar que es la fecha actual menos 30 dias.
+		LocalDate fechaAComparar = LocalDate.now().minusDays(30);
+		//Filtro las revisiones que estan despues de esa fecha a comparar.
+		return revisiones.stream()
+					.filter(r -> r.getFecha().isAfter(fechaAComparar))
+					.collect(Collectors.toList());
 	}
 }

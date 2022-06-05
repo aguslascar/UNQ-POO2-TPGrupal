@@ -6,9 +6,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+
 import ar.edu.unq.po2.tp.grupal.muestra.*;
 import ar.edu.unq.po2.tp.grupal.revision.*;
 import ar.edu.unq.po2.tp.grupal.aplicacion.*;
@@ -46,14 +50,7 @@ class UsuarioTest {
 		usuario = new Usuario(1, sistema, false);
 		assertFalse(usuario.getNivel().esExperto());
 	}
-	
-	@Test
-	void testAgregarMuestra() {
-		// Testeo que el usuario pueda registrar una nueva muestra con los parametros dados.
-		//Chequeo que se haya llamado al mensaje del sistema registrarMuestra(param).
-		usuario.agregarMuestra(imagen, "Vinchuca", ubicacion);
-		verify(sistema).registrarMuestra(eq(usuario), eq(LocalDate.now()), eq(imagen), eq(ubicacion), any(Opinion.class));
-	}
+
 	
 	@Test
 	void testAgregarRevision() {
@@ -64,5 +61,16 @@ class UsuarioTest {
 		usuario.agregarRevision(muestra, opinion);
 		assertEquals(1, usuario.getRevisiones().size());
 		verify(sistema).agregarRevision(muestra, usuario.getRevisiones().get(0));
+	}
+	
+	@Test
+	void testRevisionesUltimos30Dias() {
+		//Testeo que me devuelva solo las revisiones que tengan menos de 30 dias.
+		usuario.agregarRevision(muestra, opinion);
+		usuario.agregarRevision(muestra, opinion);
+		
+		}
+		
+		
 	}
 }
