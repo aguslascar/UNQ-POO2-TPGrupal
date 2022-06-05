@@ -1,10 +1,8 @@
 package ar.edu.unq.po2.tp.grupal.zonaDeCobertura;
 
 public class Ubicacion {
-	
+
 	private int x, y;
-	
-	
 
 	public Ubicacion(int x, int y) {
 		this.x = x; // longitud
