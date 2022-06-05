@@ -63,7 +63,7 @@ public class Usuario {
 		try {
 			Revision revision = new Revision(opinion, LocalDate.now(), nivel);
 			//Cuando a el sistema le envio en mensaje agregarRevision es cuando se puede generar la excepcion.
-			sistema.agregarRevision(muestra, revision);
+			sistema.agregarRevision(muestra, revision, this.getIdUsuario());
 			//Si no hubo excepcion, la agrego a la lista de revisiones.
 			revisiones.add(revision);
 			} catch (Exception e) {
