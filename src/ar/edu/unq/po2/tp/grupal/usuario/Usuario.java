@@ -23,11 +23,13 @@ public class Usuario {
 	private AplicacionWeb sistema;
 	private NivelDeUsuario nivel;
 	private List<Revision> revisiones;
+	private boolean conocimientoValidado;
 	
 	public Usuario(int idUsuario, AplicacionWeb sistema, boolean conocimientoValidado) {
 		super();
 		this.idUsuario = idUsuario;
 		this.sistema = sistema;
+		this.conocimientoValidado = conocimientoValidado;
 		this.revisiones = new ArrayList<Revision>();
 		if(conocimientoValidado) {
 			this.nivel = new Experto();
@@ -50,15 +52,23 @@ public class Usuario {
 		return revisiones;
 	}
 	
-	public void agregarRevision(Muestra muestra, Opinion opinion) {
+	public void agregarRevision(Muestra muestra, Opinion opinion)  {
 		/**
-		 * Este metodo va a agregar una revision de la muestra dada con la opinion Opinion dada.
+		 * Este metodo va a agregar una revision de la muestra dada con la opinion Opinion dada si y solo si
+		 * el usuario es un usuario del sistema y la muestra existe en el sistema.
 		 * Va a guardar esa revision en su lista de revisiones.
 		 * Esa revision va a ser enviada al sistema para que sea registrada.
+		 * 
 		 */
-		Revision revision = new Revision(opinion, LocalDate.now(), nivel);
-		revisiones.add(revision);
-		sistema.agregarRevision(muestra, revision);
+		try {
+			Revision revision = new Revision(opinion, LocalDate.now(), nivel);
+			//Cuando a el sistema le envio en mensaje agregarRevision es cuando se puede generar la excepcion.
+			sistema.agregarRevision(muestra, revision);
+			//Si no hubo excepcion, la agrego a la lista de revisiones.
+			revisiones.add(revision);
+			} catch (Exception e) {
+				System.out.println("Lo sentimos, no puede opinar sobre esta muestra.");
+			}		
 	}
 	
 	public List<Revision> revisionesUltimos30Dias() {
@@ -72,5 +82,22 @@ public class Usuario {
 		return revisiones.stream()
 					.filter(r -> r.getFecha().isAfter(fechaAComparar))
 					.collect(Collectors.toList());
+	}
+	
+	public void subirDeNivel() {
+		/**
+		 * Este metodo modifica el nivel del usuario y lo hace un usuario Experto.
+		 */
+		this.nivel = new Experto();
+	}
+	
+	public void bajarDeNivel() {
+		/**
+		 * Este metodo modifica el nivel del usuario lo hace un usuario Basico.
+		 * Chequeo que no tenga conocimiento validado, de tenerlo no se modifica su nivel
+		 */
+		if(!this.conocimientoValidado) {
+			this.nivel = new Basico();
+		}	
 	}
 }
