@@ -2,7 +2,6 @@ package ar.edu.unq.po2.tp.grupal.muestra.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.*;
