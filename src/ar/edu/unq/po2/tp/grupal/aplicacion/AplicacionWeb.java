@@ -66,8 +66,10 @@ public class AplicacionWeb {
 		 */
 		if(this.esUsuario(idUsuario)) {
 			//Primero filtro que la muestra dada por parametro este en el sistema.
+			//Utilizo equals para comprobar si alguna de las muestras del sistema
+			//es igual a la muestra dada por parametro
 			muestras.stream()
-					.filter(m -> m.esMismaMuestra(muestra))
+					.filter(m -> m.equals(muestra))
 					.findFirst().ifPresent(m -> m.agregarRevision(revision));
 		//Me fijo si la muestra esta en la lista de muestras.
 		//Si esta, agrego la revision.

@@ -73,7 +73,7 @@ class AplicacionTest {
 		Muestra muestraDelSistema = app.getMuestras().get(0);
 		//Chequeo que no se haya lanzado una excepcion.
 		assertDoesNotThrow(() -> app.agregarRevision(muestraDelSistema, revision, 1));
-		
 	}
+	
 
 }
