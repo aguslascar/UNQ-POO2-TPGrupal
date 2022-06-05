@@ -21,8 +21,9 @@ public class MuestraTest {
 	
 	private Revision revision1;
 	private Revision revision2;
+	private Revision revision3;
+	private Revision revision4;
 	private Usuario usuario;
-	private Usuario usuario2;
 	private LocalDate fecha;
 	private Muestra muestra;
 	private Ubicacion ubicacion;
@@ -30,17 +31,20 @@ public class MuestraTest {
 	private Opinion opinionAutor;
 	private Opinion opinion1;
 	private Opinion opinion2;
-	private NivelDeUsuario nivelDeUsuario;
+	private NivelDeUsuario nivelDeUsuario1;
+	private NivelDeUsuario nivelDeUsuario2;
 	
 	@BeforeEach
 	public void setUp() throws Exception {
 		usuario = mock(Usuario.class);
-		usuario2 = mock(Usuario.class);
-		nivelDeUsuario = mock(NivelDeUsuario.class);
+		nivelDeUsuario1 = mock(NivelDeUsuario.class);
+		nivelDeUsuario2 = mock(NivelDeUsuario.class);
 		fecha = LocalDate.of(2012, 12, 20);    // Fecha 20 de Diciembre de 2012    
 		ubicacion = mock(Ubicacion.class);
 	    revision1 = mock(Revision.class);
 	    revision2 = mock(Revision.class);
+	    revision3 = mock(Revision.class);
+	    revision4 = mock(Revision.class);
 	    foto = "Vinchuca.jpg";
 	    opinionAutor = mock(Opinion.class);
 	    opinion1 = mock(Opinion.class);
@@ -93,8 +97,8 @@ public class MuestraTest {
 	// esta se agregue correctamente
 	@Test
 	public void testAgregarUnaRevisionALaListaDeRevisiones() throws Exception {
-		when(revision1.getNivelDeUsuario()).thenReturn(nivelDeUsuario);
-		when(nivelDeUsuario.esExperto()).thenReturn(false);
+		when(revision1.getNivelDeUsuario()).thenReturn(nivelDeUsuario1);
+		when(nivelDeUsuario1.esExperto()).thenReturn(false);
 		
 		muestra.recibirRevision(revision1);
 		
@@ -118,9 +122,9 @@ public class MuestraTest {
 		when(opinionAutor.getDescripcion()).thenReturn("Vinchuca Sordida");
 		when(revision1.getOpinion()).thenReturn(opinion1);
 		when(revision2.getOpinion()).thenReturn(opinion2);
-		when(revision1.getNivelDeUsuario()).thenReturn(nivelDeUsuario);
-		when(revision2.getNivelDeUsuario()).thenReturn(nivelDeUsuario);
-		when(nivelDeUsuario.esExperto()).thenReturn(false);
+		when(revision1.getNivelDeUsuario()).thenReturn(nivelDeUsuario1);
+		when(revision2.getNivelDeUsuario()).thenReturn(nivelDeUsuario1);
+		when(nivelDeUsuario1.esExperto()).thenReturn(false);
 		when(opinion1.getDescripcion()).thenReturn("Vinchuca Infestans");
 		when(opinion2.getDescripcion()).thenReturn("Vinchuca Infestans");
 		
@@ -137,36 +141,166 @@ public class MuestraTest {
 		when(opinionAutor.getDescripcion()).thenReturn("Vinchuca Infestans");
 		when(revision1.getOpinion()).thenReturn(opinion1);
 		when(opinion1.getDescripcion()).thenReturn("Chinche Foliada");
-		when(revision1.getNivelDeUsuario()).thenReturn(nivelDeUsuario);
-		when(nivelDeUsuario.esExperto()).thenReturn(false);
+		when(revision1.getNivelDeUsuario()).thenReturn(nivelDeUsuario1);
+		when(nivelDeUsuario1.esExperto()).thenReturn(false);
 		
 		muestra.recibirRevision(revision1);
 		
 		assertEquals(muestra.getResultadoActual(), "No definido" + " - " + muestra.getEstado().getDescripcion());
 	}
 	
-	@Test
-	public void testPermitirACualquierUsuarioOpinarCuandoElEstadoDeMuestraEsSinVerificar() throws Exception {
-		when(revision1.getNivelDeUsuario()).thenReturn(nivelDeUsuario);
-		when(nivelDeUsuario.esExperto()).thenReturn(false);
-		
-		muestra.recibirRevision(revision1);
-		
-		assertTrue(muestra.getRevisiones().contains(revision1));
-	}
-	
+	// Se testea que cuando una nueva muestra sea creada entonces su estado sea sin verificar
 	@Test
 	public void testCuandoUnaNuevaMuestraEsCreadaEntoncesElEstadoEsMuestraSinVerificar() {
 		assertEquals(muestra.getEstado().getDescripcion(), "Muestra sin verificar");
 	}
 	
+	// Se testea que cuando por primera vez opine un usuario nivel experto, entonces el estado de muestra cambie a 
+	// estado opinada por expertos
 	@Test
 	public void testCuandoUnUsuarioExpertoOpinaEntoncesElEstadoDeLaMuestraCambiaAOpinadoPorExpertos() throws Exception {
-		when(nivelDeUsuario.esExperto()).thenReturn(true);
-		when(revision1.getNivelDeUsuario()).thenReturn(nivelDeUsuario);
+		when(nivelDeUsuario1.esExperto()).thenReturn(true);
+		when(revision1.getNivelDeUsuario()).thenReturn(nivelDeUsuario1);
 		
 		muestra.recibirRevision(revision1);
 		
 		assertEquals(muestra.getEstado().getDescripcion(), "Muestra opinada por expertos"); 
+	}
+	
+	// Se testea que cuando dos usuarios expertos coincidan en opinion, entonces el estado de la muestra cambie a
+	// muestra verificada
+	@Test
+	public void testCuandoDosUsuariosExpertosCoincidenEnSuOpinionEntoncesElEstadoDeLaMuestraCambiaAVerificada() throws Exception {
+		when(revision1.getOpinion()).thenReturn(opinion1);
+		when(revision2.getOpinion()).thenReturn(opinion2);
+		when(opinion1.getDescripcion()).thenReturn("Vinchuca Infestans");
+		when(opinion2.getDescripcion()).thenReturn("Vinchuca Infestans");
+		when(revision1.getNivelDeUsuario()).thenReturn(nivelDeUsuario1);
+		when(revision2.getNivelDeUsuario()).thenReturn(nivelDeUsuario1);
+		when(nivelDeUsuario1.esExperto()).thenReturn(true);
+		
+		muestra.recibirRevision(revision1);
+		muestra.recibirRevision(revision2);
+		
+		assertEquals(muestra.getEstado().getDescripcion(), "Muestra verificada");
+	}
+	
+	// Se testea que cuando el estado de la muestra es sin verificar, entonces se le permita a cualquier usuario
+	// opinar sobre esta muestra
+	@Test
+	public void testPermitirACualquierUsuarioOpinarCuandoElEstadoDeMuestraEsSinVerificar() throws Exception {
+		when(revision1.getNivelDeUsuario()).thenReturn(nivelDeUsuario1);
+		when(nivelDeUsuario1.esExperto()).thenReturn(false);
+		when(revision2.getNivelDeUsuario()).thenReturn(nivelDeUsuario2);
+		when(nivelDeUsuario2.esExperto()).thenReturn(true);
+			
+		muestra.recibirRevision(revision1);
+		
+		// Se realiza esta validacion en este punto, ya que si se prueba despues de revision2, el estado habrá
+		// cambiado a opinada por expertos
+		assertEquals(muestra.getEstado().getDescripcion(), "Muestra sin verificar");
+		
+		muestra.recibirRevision(revision2);
+			
+		assertTrue(muestra.getRevisiones().contains(revision1));
+		assertTrue(muestra.getRevisiones().contains(revision2));
+	}
+	
+	// Se testea que cuando el estado de muestra es opinada por expertos, entonces se le permita unicamente a 
+	// usuarios expertos opinar sobre la muestra
+	@Test
+	public void testPermitirSoloOpinarAUsuariosExpertosCuandoElEstadoDeMuestraEsOpinadaPorExpertos() throws Exception {
+		when(revision1.getNivelDeUsuario()).thenReturn(nivelDeUsuario1);
+		when(nivelDeUsuario1.esExperto()).thenReturn(true);
+		when(revision1.getOpinion()).thenReturn(opinion1);
+		when(opinion1.getDescripcion()).thenReturn("Ninguna");
+		when(revision2.getNivelDeUsuario()).thenReturn(nivelDeUsuario2);
+		when(nivelDeUsuario2.esExperto()).thenReturn(false);
+		when(revision2.getOpinion()).thenReturn(opinion2);
+		when(opinion2.getDescripcion()).thenReturn("Vinchuca Sordida");
+		
+		// Cambia el estado de la muestra a opinada por expertos
+		muestra.recibirRevision(revision1);
+		try {
+			// Se intenta agregar una revision de usuario basico y se espera una excepcion
+			muestra.recibirRevision(revision2);	
+			fail("Se esperaba una excepcion");
+		} catch(Exception e) {
+			assertTrue(muestra.getRevisiones().contains(revision1));
+			assertFalse(muestra.getRevisiones().contains(revision2));
+		}	
+	}
+	
+	// Se testea que cuando el estado de muestra es verificada, entonces no se permita a ningun tipo de usuario
+	// opinar sobre esta muestra
+	@Test 
+	public void testNoPermitirANingunTipoDeUsuarioOpinarSobreUnaMuestraConEstadoVerificada() throws Exception {
+		when(revision1.getNivelDeUsuario()).thenReturn(nivelDeUsuario1);
+		when(revision2.getNivelDeUsuario()).thenReturn(nivelDeUsuario1);
+		when(revision3.getNivelDeUsuario()).thenReturn(nivelDeUsuario1);
+		when(revision4.getNivelDeUsuario()).thenReturn(nivelDeUsuario2);
+		when(nivelDeUsuario1.esExperto()).thenReturn(true);
+		when(nivelDeUsuario2.esExperto()).thenReturn(false);
+		when(revision1.getOpinion()).thenReturn(opinion1);
+		when(revision2.getOpinion()).thenReturn(opinion2);
+		when(revision3.getOpinion()).thenReturn(opinion2);
+		when(revision4.getOpinion()).thenReturn(opinion1);
+		when(opinion1.getDescripcion()).thenReturn("Vinchuca Sordida");
+		when(opinion2.getDescripcion()).thenReturn("Vinchuca Sordida");
+		
+		// Cambia el estado de la muestra a verificada 
+		muestra.recibirRevision(revision1);
+		muestra.recibirRevision(revision2);	
+		try {
+			// Se intenta agregar una revision de usuario basico y se espera una excepcion
+			muestra.recibirRevision(revision3);	
+			muestra.recibirRevision(revision4);
+			fail("Se esperaba una excepcion");
+		} catch(Exception e) {
+			assertTrue(muestra.getRevisiones().contains(revision1));
+			assertTrue(muestra.getRevisiones().contains(revision2));
+			assertFalse(muestra.getRevisiones().contains(revision3));
+			assertFalse(muestra.getRevisiones().contains(revision4));
+			
+		}
+	}
+	
+	// Se testea que se reciba el String esperado cuando se pida el estado actual de una muestra sin verificar
+	@Test
+	public void testRecibirMensajeEsperadoCuandoSePideElResultadoActualDeUnaMuestraSinVerificar() {
+		when(opinionAutor.getDescripcion()).thenReturn("Vinchuca Infestans");
+		assertEquals(muestra.getResultadoActual(), "Vinchuca Infestans - Muestra sin verificar");
+	}
+	
+	// Se testea que se reciba el String esperado cuando se pida el estado actual de una muestra opinada por expertos
+	@Test
+	public void testRecibirMensajeEsperadoCuandoSePideElResultadoActualDeUnaMuestraOpinadaPorExpertos() throws Exception {
+		when(revision1.getNivelDeUsuario()).thenReturn(nivelDeUsuario1);
+		when(nivelDeUsuario1.esExperto()).thenReturn(true);
+		when(revision1.getOpinion()).thenReturn(opinion1);
+		when(opinion1.getDescripcion()).thenReturn("Vinchuca Infestans");
+		when(opinionAutor.getDescripcion()).thenReturn("Vinchuca Sordida");
+		
+		// Cambia el estado de la muestra a opinada por expertos
+		muestra.recibirRevision(revision1);
+		
+		assertEquals(muestra.getResultadoActual(), "No definido - Muestra opinada por expertos");
+	}
+	
+	// Se testea que se reciba el String esperado cuando se pida el estado actual de una muestra verificada
+	@Test
+	public void testRecibirMensajeEsperadoCuandoSePideElResultadoActualDeUnaMuestraVerificada() throws Exception {
+		when(revision1.getNivelDeUsuario()).thenReturn(nivelDeUsuario1);
+		when(nivelDeUsuario1.esExperto()).thenReturn(true);
+		when(revision1.getOpinion()).thenReturn(opinion1);
+		when(opinion1.getDescripcion()).thenReturn("Vinchuca Sordida");
+		when(revision2.getNivelDeUsuario()).thenReturn(nivelDeUsuario1);
+		when(revision2.getOpinion()).thenReturn(opinion2);
+		when(opinion2.getDescripcion()).thenReturn("Vinchuca Sordida");
+		
+		muestra.recibirRevision(revision1);
+		muestra.recibirRevision(revision2);
+		
+		assertEquals(muestra.getResultadoActual(), "Vinchuca Sordida - Muestra verificada");
 	}
 }

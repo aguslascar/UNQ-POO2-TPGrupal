@@ -3,9 +3,7 @@ package ar.edu.unq.po2.tp.grupal.muestra;
 import java.util.List;
 import java.time.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import ar.edu.unq.po2.tp.grupal.revision.NivelDeUsuario;
 import ar.edu.unq.po2.tp.grupal.revision.Opinion;
 import ar.edu.unq.po2.tp.grupal.revision.Revision;
 
@@ -88,7 +86,7 @@ public class Muestra {
 		this.getEstado().recibirRevision(revision, this);
 	}
 	
-	public void cambiarEstado(EstadoDeMuestra nuevoEstado) {
+	protected void cambiarEstado(EstadoDeMuestra nuevoEstado) {
 		this.setEstado(nuevoEstado);
 	}
 

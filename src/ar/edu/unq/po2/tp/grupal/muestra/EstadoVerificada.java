@@ -11,6 +11,7 @@ public class EstadoVerificada extends EstadoDeMuestra {
 		this.setOpinionVerificada(opinionVerificada);
 	}
 	
+	@Override
 	public String obtenerResultadoActual(Muestra muestra) {
 		return (this.getOpinionVerificada() + " - " + this.getDescripcion());
 	}
