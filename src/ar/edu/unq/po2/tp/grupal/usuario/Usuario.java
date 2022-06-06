@@ -22,14 +22,19 @@ public class Usuario {
 	private int idUsuario;
 	private AplicacionWeb sistema;
 	private NivelDeUsuario nivel;
+	private List<Muestra> muestras;
 	private List<Revision> revisiones;
 	private boolean conocimientoValidado;
 	
-	public Usuario(int idUsuario, AplicacionWeb sistema, boolean conocimientoValidado) {
+	public Usuario(AplicacionWeb sistema, boolean conocimientoValidado) {
+		/**
+		 * Se crea una instancia de usuario. Si tiene conocimiento validado
+		 * es experto, de no tenerlo, es basico por defecto.
+		 */
 		super();
-		this.idUsuario = idUsuario;
 		this.sistema = sistema;
 		this.conocimientoValidado = conocimientoValidado;
+		this.muestras = new ArrayList<Muestra>();
 		this.revisiones = new ArrayList<Revision>();
 		if(conocimientoValidado) {
 			this.nivel = new Experto();
@@ -40,16 +45,28 @@ public class Usuario {
 		//De tener conocimiento validado, su nivel al crearse va a ser Experto.
 	}
 
-	public int getIdUsuario() {
+	public int getidUsuario() {
 		return idUsuario;
-	}
-	
-	public NivelDeUsuario getNivel() {
-		return nivel;
 	}	
 	
 	public List<Revision> getRevisiones() {
 		return revisiones;
+	}
+	
+	public void setidUsuario(int idUsuario) {
+		this.idUsuario = idUsuario;
+	}
+
+	public boolean esExperto() {
+		return nivel.esExperto();
+	}
+	
+	public void agregarMuestra(Muestra muestra) {
+		/**
+		 * Este metodo se encarga de agregar muestras que haya hecho el usuario.
+		 * Este metodo va a ser llamado solo por el sistema.
+		 */
+		muestras.add(muestra);
 	}
 	
 	public void agregarRevision(Muestra muestra, Opinion opinion)  {
@@ -62,8 +79,8 @@ public class Usuario {
 		 */
 		try {
 			Revision revision = new Revision(opinion, LocalDate.now(), nivel);
-			//Cuando a el sistema le envio en mensaje agregarRevision es cuando se puede generar la excepcion.
-			sistema.agregarRevision(muestra, revision, this.getIdUsuario());
+			//Cuando a el sistema le envio el mensaje agregarRevision es cuando se puede generar la excepcion.
+			sistema.agregarRevision(muestra, revision, this.getidUsuario());
 			//Si no hubo excepcion, la agrego a la lista de revisiones.
 			revisiones.add(revision);
 			} catch (Exception e) {
@@ -71,7 +88,38 @@ public class Usuario {
 			}		
 	}
 	
-	public List<Revision> revisionesUltimos30Dias() {
+	public int cantidadRevisionesUltimos30Dias() {
+		/**
+		 * Este metodo retorna la cantidad de revisiones de los ultimos 30 dias.
+		 * @return int
+		 */
+		return this.revisionesUltimos30Dias().size();
+	}
+	
+	public int cantidadEnviosUltimos30Dias() {
+		/**
+		 * Este metodo retorna la cantidad de envios que realizo el usuario en los ultimos
+		 * 30 dias
+		 */
+		return this.enviosUltimos30dias().size();
+	}
+	
+	private List<Muestra> enviosUltimos30dias() {
+		/**
+		 * De los envios del usuario, filtra los envios de muestras de los ultimos 30 dias.
+		 * @return un int que representa la cantidad de envios de los ultimos 30 dias
+		 */
+		//Creo una fecha a comparar que es la fecha actual menos 30 dias
+		LocalDate fechaAComparar = LocalDate.now().minusDays(30);
+		//Tomo la lista de envios de muestras en sistema que haya realizado el usuario
+		//A esas muestras, filtro solo las que hayan sido realizadas los ultimos 30 dias.
+		return muestras = muestras.stream()
+							.filter(m -> m.getFecha().isAfter(fechaAComparar))
+							.collect(Collectors.toList());
+		
+	}
+	
+	private List<Revision> revisionesUltimos30Dias() {
 		/**
 		 * Este metodo me retorna todas las revisiones del usuario que hizo en los ultimos 30 dias
 		 * @return lista de Revision
@@ -94,10 +142,12 @@ public class Usuario {
 	public void bajarDeNivel() {
 		/**
 		 * Este metodo modifica el nivel del usuario lo hace un usuario Basico.
-		 * Chequeo que no tenga conocimiento validado, de tenerlo no se modifica su nivel
+		 * No puede llamarse si el usuario es un usuario validado externamente.
 		 */
-		if(!this.conocimientoValidado) {
-			this.nivel = new Basico();
-		}	
+			this.nivel = new Basico();	
+	}
+
+	public boolean tieneConocimientoValidado() {
+		return conocimientoValidado;
 	}
 }
