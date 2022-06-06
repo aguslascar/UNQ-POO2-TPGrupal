@@ -35,7 +35,7 @@ public class Muestra {
 	/**
 	 * Un String que representa una foto tomada para documentar la muestra.
 	 */
-	private String foto;
+	private Imagen foto;
 	/**
 	 * Una Ubicacion que representa la ubicación en la que se tomó la muestra.
 	 */
@@ -53,7 +53,7 @@ public class Muestra {
 	 * @param ubicacion Ubicación en la que se generó la muestra.
 	 * @param opinion Opinión del propio usuario que tomó la muestra.
 	 */
-	public Muestra(Usuario usuario, LocalDate fecha, String Foto, Ubicacion ubicacion, Opinion opinion) throws Exception {
+	public Muestra(Usuario usuario, LocalDate fecha, Imagen Foto, Ubicacion ubicacion, Opinion opinion) throws Exception {
 		super();
 		this.setIdUsuario(usuario.getIdUsuario());
 		this.setFecha(fecha);
@@ -62,7 +62,7 @@ public class Muestra {
 		this.setOpinion(opinion);
 		this.setRevisiones(new ArrayList<Revision>());
 		this.setEstado(new EstadoSinVerificar());
-		this.agregarRevision(new Revision(opinion, fecha, usuario.getNivelDeUsuario()));
+		this.agregarRevision(new Revision(opinion, fecha, usuario.getNivelDeUsuario(), usuario.getIdUsuario()));
 	}
 
 	/**
@@ -78,14 +78,33 @@ public class Muestra {
 	 * Agrega una nueva Revision a la lista de revisiones interna de la muestra.
 	 * @param revision Una Revision a guardar en la muestra a la que se hace referencia.
 	 */
-	protected void agregarRevision(Revision revision) throws Exception {
+	protected void agregarRevision(Revision revision) {
 			this.getRevisiones().add(revision);
 	}
 	
+	/**
+	 * Método que retorna el nivel de revision que posee la muestra actualmente.
+	 * @return Un String que representa la descripción del nombre del estado por el cual esta pasando la muestra.
+	 */
+	public String getNivelDeRevision() {
+		return this.getEstado().getDescripcion();
+	}
+	
+	/**
+	 * Método que analiza si 'revision' esta habilitada para opinar de la muestra según el estado de muestra y el nivel
+	 * del usuario que realizó la 'revision'.
+	 * @param revision Una Revision a analizar.
+	 * @throws Exception Si el usuario no esta habilitado para opinar segun su nivel y el estado de la muestra.
+	 * @see ar.edu.unq.po2.tp.grupal.revision.Revision Revision
+	 */
 	public void recibirRevision(Revision revision) throws Exception {
 		this.getEstado().recibirRevision(revision, this);
 	}
 	
+	/**
+	 * Método que cambia el estado por el cual esta pasando la muestra actualmente.
+	 * @param nuevoEstado Un EstadoDeMuestra que va a pasar a ser el nuevo estado de la muestra.
+	 */
 	protected void cambiarEstado(EstadoDeMuestra nuevoEstado) {
 		this.setEstado(nuevoEstado);
 	}
@@ -160,7 +179,7 @@ public class Muestra {
 	 * Método que retorna la foto que se registró al momento de crear la muestra.
 	 * @return Un String que representa la foto tomada al momento de registrar la muestra.
 	 */
-	public String getFoto() {
+	public Imagen getFoto() {
 		return foto;
 	}
 
@@ -168,7 +187,7 @@ public class Muestra {
 	 * Guarda en la variable interna privada foto el valor pasado como parámetro.
 	 * @param foto Un String que representa la foto tomada al momento de registrar la muestra.
 	 */
-	private void setFoto(String foto) {
+	private void setFoto(Imagen foto) {
 		this.foto = foto;
 	}
 

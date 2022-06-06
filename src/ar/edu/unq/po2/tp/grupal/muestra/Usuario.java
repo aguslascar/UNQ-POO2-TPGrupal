@@ -31,7 +31,7 @@ public class Usuario {
 	
 	public void agregarOpinion(Muestra muestra, Opinion opinion) {
 		try {
-		muestra.agregarRevision(new Revision(opinion, LocalDate.now(), this.getNivelDeUsuario()));
+		muestra.agregarRevision(new Revision(opinion, LocalDate.now(), this.getNivelDeUsuario(), this.getIdUsuario()));
 		} catch (Exception e) {
 			System.out.println("Lo sentimos, no estas habilitado para opinar sobre esta muestra.");
 		}

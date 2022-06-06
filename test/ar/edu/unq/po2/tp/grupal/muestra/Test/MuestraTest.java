@@ -9,6 +9,7 @@ import java.time.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ar.edu.unq.po2.tp.grupal.muestra.Imagen;
 import ar.edu.unq.po2.tp.grupal.muestra.Muestra;
 import ar.edu.unq.po2.tp.grupal.muestra.Ubicacion;
 import ar.edu.unq.po2.tp.grupal.muestra.Usuario;
@@ -26,7 +27,7 @@ public class MuestraTest {
 	private LocalDate fecha;
 	private Muestra muestra;
 	private Ubicacion ubicacion;
-	private String foto;
+	private Imagen foto;
 	private Opinion opinionAutor;
 	private Opinion opinion1;
 	private Opinion opinion2;
@@ -44,7 +45,7 @@ public class MuestraTest {
 	    revision2 = mock(Revision.class);
 	    revision3 = mock(Revision.class);
 	    revision4 = mock(Revision.class);
-	    foto = "Vinchuca.jpg";
+	    foto = mock(Imagen.class);
 	    opinionAutor = mock(Opinion.class);
 	    opinion1 = mock(Opinion.class);
 	    opinion2 = mock(Opinion.class);
@@ -110,8 +111,7 @@ public class MuestraTest {
 	public void testObtenerResultadoActualSinRevisionesSoloCuentaLaOpinionDelAutor() {
 		when(opinionAutor.getDescripcion()).thenReturn("Vinchuca Sordida");
 		
-		assertEquals(muestra.getResultadoActual(), muestra.getOpinion().getDescripcion() +
-				     " - " + muestra.getEstado().getDescripcion());
+		assertEquals(muestra.getResultadoActual(), muestra.getOpinion().getDescripcion());
 	}
 	
 	// Se testea que cuando la opinion de otros usuarios es mas votada que la opinion del autor, entonces cuente
@@ -130,7 +130,7 @@ public class MuestraTest {
 		muestra.recibirRevision(revision1);
 		muestra.recibirRevision(revision2);
 		
-		assertEquals(muestra.getResultadoActual(), "Vinchuca Infestans" + " - " + muestra.getEstado().getDescripcion());
+		assertEquals(muestra.getResultadoActual(), "Vinchuca Infestans");
 	}
 	
 	// Se testea que al obtener un empate entre opiniones, por mas que se encuentre la opinión del autor, entonces
@@ -145,7 +145,33 @@ public class MuestraTest {
 		
 		muestra.recibirRevision(revision1);
 		
-		assertEquals(muestra.getResultadoActual(), "No definido" + " - " + muestra.getEstado().getDescripcion());
+		assertEquals(muestra.getResultadoActual(), "No definido");
+	}
+	
+	@Test
+	public void testCuandoElEstadoDeMuestraEsOpinadaPorExpertosEntoncesLasOpinionesQueCuentanParaElResultadoActualSonLaDeExpertos() throws Exception {
+		when(revision1.getNivelDeUsuario()).thenReturn(nivelDeUsuario1);
+		when(revision2.getNivelDeUsuario()).thenReturn(nivelDeUsuario1);
+		when(revision3.getNivelDeUsuario()).thenReturn(nivelDeUsuario2);
+		when(revision4.getNivelDeUsuario()).thenReturn(nivelDeUsuario2);
+		when(nivelDeUsuario1.esExperto()).thenReturn(false);
+		when(nivelDeUsuario2.esExperto()).thenReturn(true);
+		when(revision1.getOpinion()).thenReturn(opinion1);
+		when(revision2.getOpinion()).thenReturn(opinion1);
+		when(revision3.getOpinion()).thenReturn(opinion1);
+		when(revision4.getOpinion()).thenReturn(opinion2);
+		when(opinion1.getDescripcion()).thenReturn("Vinchuca Sordida");
+		when(opinion2.getDescripcion()).thenReturn("Chinche Foliada");
+		
+		muestra.recibirRevision(revision1);
+		muestra.recibirRevision(revision2);
+		
+		assertEquals(muestra.getResultadoActual(), "Vinchuca Sordida");
+		// El estado de la muestra cambia a opinadaPorExpertos
+		muestra.recibirRevision(revision3);
+		muestra.recibirRevision(revision4);
+		
+		assertEquals(muestra.getResultadoActual(), "No definido");
 	}
 	
 	// Se testea que cuando una nueva muestra sea creada entonces su estado sea sin verificar
@@ -251,7 +277,7 @@ public class MuestraTest {
 		muestra.recibirRevision(revision1);
 		muestra.recibirRevision(revision2);	
 		try {
-			// Se intenta agregar una revision de usuario basico y se espera una excepcion
+			// Se intenta agregar una revision de usuario basico y otro experto, y se espera una excepcion
 			muestra.recibirRevision(revision3);	
 			muestra.recibirRevision(revision4);
 			fail("Se esperaba una excepcion");
@@ -264,16 +290,17 @@ public class MuestraTest {
 		}
 	}
 	
-	// Se testea que se reciba el String esperado cuando se pida el estado actual de una muestra sin verificar
+	// Se testea que se reciba el String esperado cuando se pida el nivel de revision actual de una muestra
+	// sin verificar
 	@Test
-	public void testRecibirMensajeEsperadoCuandoSePideElResultadoActualDeUnaMuestraSinVerificar() {
-		when(opinionAutor.getDescripcion()).thenReturn("Vinchuca Infestans");
-		assertEquals(muestra.getResultadoActual(), "Vinchuca Infestans - Muestra sin verificar");
+	public void testRecibirMensajeEsperadoCuandoSePideElNivelDeRevisionDeUnaMuestraSinVerificar() {
+		assertEquals(muestra.getNivelDeRevision(), "Muestra sin verificar");
 	}
 	
-	// Se testea que se reciba el String esperado cuando se pida el estado actual de una muestra opinada por expertos
+	// Se testea que se reciba el String esperado cuando se pida el nivel de revision actual de una muestra
+	// opinada por expertos
 	@Test
-	public void testRecibirMensajeEsperadoCuandoSePideElResultadoActualDeUnaMuestraOpinadaPorExpertos() throws Exception {
+	public void testRecibirMensajeEsperadoCuandoSePideElNivelDeRevisionActualDeUnaMuestraOpinadaPorExpertos() throws Exception {
 		when(revision1.getNivelDeUsuario()).thenReturn(nivelDeUsuario1);
 		when(nivelDeUsuario1.esExperto()).thenReturn(true);
 		when(revision1.getOpinion()).thenReturn(opinion1);
@@ -283,7 +310,7 @@ public class MuestraTest {
 		// Cambia el estado de la muestra a opinada por expertos
 		muestra.recibirRevision(revision1);
 		
-		assertEquals(muestra.getResultadoActual(), "No definido - Muestra opinada por expertos");
+		assertEquals(muestra.getNivelDeRevision(), "Muestra opinada por expertos");
 	}
 	
 	// Se testea que se reciba el String esperado cuando se pida el estado actual de una muestra verificada
@@ -300,6 +327,25 @@ public class MuestraTest {
 		muestra.recibirRevision(revision1);
 		muestra.recibirRevision(revision2);
 		
-		assertEquals(muestra.getResultadoActual(), "Vinchuca Sordida - Muestra verificada");
+		assertEquals(muestra.getResultadoActual(), "Vinchuca Sordida");
+	}
+	
+	@Test
+	public void testSiDosOpinionesDeUsuariosExpertosNoCoincidenEntoncesNoSeCambiaAEstadoDeMuestraVerificada() throws Exception {
+		when(opinionAutor.getDescripcion()).thenReturn("Vinchuca Sordida");
+		when(revision1.getNivelDeUsuario()).thenReturn(nivelDeUsuario1);
+		when(nivelDeUsuario1.esExperto()).thenReturn(true);
+		when(revision1.getOpinion()).thenReturn(opinion1);
+		when(opinion1.getDescripcion()).thenReturn("Vinchuca Sordida");
+		when(revision2.getNivelDeUsuario()).thenReturn(nivelDeUsuario1);
+		when(revision2.getOpinion()).thenReturn(opinion2);
+		when(opinion2.getDescripcion()).thenReturn("Chinche Foliada");
+		
+		muestra.recibirRevision(revision1);
+		muestra.recibirRevision(revision2);
+		
+		assertEquals(muestra.getResultadoActual(), "No definido");
+		assertTrue(muestra.getRevisiones().contains(revision1));
+		assertTrue(muestra.getRevisiones().contains(revision2));
 	}
 }
