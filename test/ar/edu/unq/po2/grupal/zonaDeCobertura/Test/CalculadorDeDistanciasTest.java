@@ -17,7 +17,7 @@ import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.ZonaDeCobertura;
 class CalculadorDeDistanciasTest {
 	
 	Ubicacion puntoA = new Ubicacion(0, 0);
-	Ubicacion puntoB = new Ubicacion(0, 2);
+	Ubicacion puntoB = new Ubicacion(1, 2);
 	Ubicacion puntoC = new Ubicacion(4, 2);
 	Ubicacion puntoD = new Ubicacion(2, 8);
 	

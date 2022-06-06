@@ -2,7 +2,7 @@ package ar.edu.unq.po2.tp.grupal.zonaDeCobertura;
 
 import java.util.ArrayList;
 
-public class ZonaDeCobertura {
+public class ZonaDeCobertura implements ZonaDeCoberturaObservable {
 	String nombre;
 	Ubicacion epicentro;
 	int radio;
@@ -10,13 +10,16 @@ public class ZonaDeCobertura {
 	ArrayList<Muestra> muestras = new ArrayList<Muestra>();
 	ArrayList<Ubicacion> ubicaciones = new ArrayList<Ubicacion>(); // Usar radio
 
+	private ArrayList<Ong> OngsSubscriptas = new ArrayList<Ong>();
+
 	public ZonaDeCobertura(String nombre, Ubicacion epicentro, int radio, ArrayList<Muestra> muestras,
-			ArrayList<Ubicacion> ubicaciones) {
+			ArrayList<Ubicacion> ubicaciones, ArrayList<Ong> OngsSubscriptas) {
 		this.nombre = nombre;
 		this.epicentro = epicentro;
 		this.radio = radio;
 		this.muestras = muestras;
 		this.ubicaciones = ubicaciones;
+		this.OngsSubscriptas = OngsSubscriptas;
 	}
 
 	// --------Getters-------------------------------------------------
@@ -39,6 +42,10 @@ public class ZonaDeCobertura {
 
 	public ArrayList<Ubicacion> getUbicaciones() {
 		return ubicaciones;
+	}
+
+	public ArrayList<Ong> getOngsSubscriptas() {
+		return OngsSubscriptas;
 	}
 
 	// ------------------------------------------------------------------------------
@@ -72,6 +79,29 @@ public class ZonaDeCobertura {
 			}
 		}
 		return seSolapaCon;
+	}
+
+	public void agregarMuestra(Muestra muestra) {
+		muestras.add(muestra);
+		this.notificar();
+	}
+
+	@Override
+	public void registrar(Observer o) {
+		this.getOngsSubscriptas().add((Ong) o);
+	}
+
+	@Override
+	public void desuscribir(Observer o) {
+		this.getOngsSubscriptas().remove(o);
+	}
+
+	@Override
+	public void notificar() {
+		for (Ong suscriptor : this.getOngsSubscriptas()) {
+			suscriptor.update();
+		}
+
 	}
 
 }
