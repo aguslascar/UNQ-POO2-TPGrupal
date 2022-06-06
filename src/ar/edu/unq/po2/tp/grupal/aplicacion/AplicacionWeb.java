@@ -2,17 +2,14 @@ package ar.edu.unq.po2.tp.grupal.aplicacion;
 
 import java.time.LocalDate;
 
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import ar.edu.unq.po2.tp.grupal.muestra.Muestra;
-import ar.edu.unq.po2.tp.grupal.revision.Revision;
-import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Ubicacion;
-import ar.edu.unq.po2.tp.grupal.filtro.Filtro;
+import ar.edu.unq.po2.tp.grupal.revision.*;
+import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.*;
+import ar.edu.unq.po2.tp.grupal.filtro.*;
 import ar.edu.unq.po2.tp.grupal.muestra.*;
 import ar.edu.unq.po2.tp.grupal.usuario.*;
-import ar.edu.unq.po2.tp.grupal.revision.*;
 
 public class AplicacionWeb {
 	
@@ -71,8 +68,14 @@ public class AplicacionWeb {
 		/**
 		 * Este metodo agrega una revision a la muestra si y solo si,
 		 * el usuario es usuario del sistema y la muestra esta en la lista de muestras
+		 * No podra hacer una revision sobre su propia muestra ni tampoco hacer una revision
+		 * si haya lo hizo anteriormente sobre esa muestra.
 		 */
-		if(this.esUsuario(idUsuario)) {
+		//Chequeo que es un usuario del sistema, que la muestra no haya sido
+		//subida por el mismo y que este habilitado a opinar.
+		if(this.esUsuario(idUsuario) 
+				&& muestra.getidUsuario() != idUsuario
+				&& muestra.puedeOpinar(idUsuario)) {
 			//Primero filtro que la muestra dada por parametro este en el sistema.
 			//Utilizo equals para comprobar si alguna de las muestras del sistema
 			//es igual a la muestra dada por parametro
