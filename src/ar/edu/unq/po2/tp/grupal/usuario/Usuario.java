@@ -1,6 +1,7 @@
 package ar.edu.unq.po2.tp.grupal.usuario;
 
 import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,6 +54,11 @@ public class Usuario {
 		return revisiones;
 	}
 	
+
+	public NivelDeUsuario getNivel() {
+		return nivel;
+	}
+	
 	public void setidUsuario(int idUsuario) {
 		this.idUsuario = idUsuario;
 	}
@@ -78,9 +84,9 @@ public class Usuario {
 		 * 
 		 */
 		try {
-			Revision revision = new Revision(opinion, LocalDate.now(), nivel);
+			Revision revision = new Revision(opinion, LocalDate.now(), nivel, idUsuario);
 			//Cuando a el sistema le envio el mensaje agregarRevision es cuando se puede generar la excepcion.
-			sistema.agregarRevision(muestra, revision, this.getidUsuario());
+			sistema.agregarRevision(muestra, revision);
 			//Si no hubo excepcion, la agrego a la lista de revisiones.
 			revisiones.add(revision);
 			} catch (Exception e) {
@@ -150,4 +156,5 @@ public class Usuario {
 	public boolean tieneConocimientoValidado() {
 		return conocimientoValidado;
 	}
+
 }

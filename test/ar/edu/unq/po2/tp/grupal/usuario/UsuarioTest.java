@@ -64,14 +64,14 @@ class UsuarioTest {
 		assertEquals(0, usuario.getRevisiones().size());
 		usuario.agregarRevision(muestra, opinion);
 		assertEquals(1, usuario.getRevisiones().size());
-		verify(sistema).agregarRevision(muestra, usuario.getRevisiones().get(0), 1);
+		verify(sistema).agregarRevision(muestra, usuario.getRevisiones().get(0));
 	}
 	
 	@Test
 	void testAgregarRevisionExcepcion() throws Exception {
 		//Testeo que cuando haya una excepcion por no estar la muestra o usuario en el sistema
 		//no se pueda agregar una revision.
-		doThrow(new Exception()).when(sistema).agregarRevision(any(), any(), anyInt());
+		doThrow(new Exception()).when(sistema).agregarRevision(any(), any());
 		usuario.agregarRevision(muestra, opinion);
 		//Chequeo que no se haya agregado a revision a la lista de revisiones, por ende 
 		//tampoco se agrega al sistema.

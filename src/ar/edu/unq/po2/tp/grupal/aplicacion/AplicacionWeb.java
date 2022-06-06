@@ -28,6 +28,9 @@ public class AplicacionWeb {
 	
 	
 	public AplicacionWeb() {
+		/**
+		 * Inicializa una aplicacion web con todos sus valores de cero.
+		 */
 		ultimoidUsuario = 0;
 		usuarios = new ArrayList<Usuario>();
 		muestras = new ArrayList<Muestra>();
@@ -50,6 +53,7 @@ public class AplicacionWeb {
 		 * Este metodo agrega un nuevo usuario recibido por parametro
 		 * y lo agrega a la lista de usuarios.
 		 * Por cada usuario nuevo se suma 1 al ultimo id del usuario y se le asigna ese id.
+		 * @param un Usuario que es un usuario a cargar en el sistema.
 		 */
 		ultimoidUsuario +=1;
 		usuario = this.asignaridUsuario(usuario, ultimoidUsuario);
@@ -59,47 +63,89 @@ public class AplicacionWeb {
 	private Usuario asignaridUsuario(Usuario usuario, int id) {
 		/**
 		 * Este metodo le asigna un id de usuario al usuario recibido por parametro.
+		 * @param un Usuario y un int que va a ser el id del usuario.
+		 * @return Usuario
 		 */
 		usuario.setidUsuario(id);
 		return usuario;
 	}
 
-	public void agregarRevision(Muestra muestra, Revision revision, int idUsuario) throws Exception {
+	public void agregarRevision(Muestra muestra, Revision revision) throws Exception{
 		/**
 		 * Este metodo agrega una revision a la muestra si y solo si,
-		 * el usuario es usuario del sistema y la muestra esta en la lista de muestras
+		 * el usuario que esta haciendo la revision es usuario del sistema y 
+		 * la muestra esta en la lista de muestras.
 		 * No podra hacer una revision sobre su propia muestra ni tampoco hacer una revision
-		 * si haya lo hizo anteriormente sobre esa muestra.
+		 * si ya lo hizo anteriormente sobre esa muestra.
+		 * @throws Exception si la muestra no admite revisiones
+		 * @param 	una Muestra que se le va a agregar una revision
+		 * 			una Revision que es la revision ya hecha
 		 */
-		//Chequeo que es un usuario del sistema, que la muestra no haya sido
-		//subida por el mismo y que este habilitado a opinar.
-		if(this.esUsuario(idUsuario) 
-				&& muestra.getidUsuario() != idUsuario
-				&& muestra.puedeOpinar(idUsuario)) {
-			//Primero filtro que la muestra dada por parametro este en el sistema.
-			//Utilizo equals para comprobar si alguna de las muestras del sistema
-			//es igual a la muestra dada por parametro
-			muestras.stream()
-					.filter(m -> m.equals(muestra))
-					.findFirst().ifPresent(m -> m.agregarRevision(revision));
-		//Me fijo si la muestra esta en la lista de muestras.
-		//Si esta, agrego la revision.
-		}
-		else {
-			throw new Exception();
+		int idUsuario = revision.getid();
+		//Tiene que existir la muestra en el sistema
+		//tiene que existir el usuario en el sistema
+		//No tiene que haber subido el mismo la muestra o ya haber opinado
+		if(this.muestraExisteEnElSistema(muestra)
+				&&   this.esUsuario(idUsuario)
+				&& ! this.yaOpino(muestra, idUsuario)) {
+					//Si se cumplen todas esas condiciones, envio a la muestra la revision
+					//Aca se puede generar una excepcion ya que la muestra puede no aceptar mas revisiones
+					// o no puede aceptar revisiones de usuarios basicos
+					muestra.recibirRevision(revision);
+		   	}
+			else {
+				//Este es el caso en el que no cumpla las condiciones pedidas
+				throw new Exception("No se puede opinar porque no es usuario del sistema, la muestra no esta en sistema o ya opino");
+			}
 		}
 		
+private boolean muestraExisteEnElSistema(Muestra muestra) {
+		/**
+		 * Este metodo retorna un booleano si la muestra dada por parametro esta en la lista de muestras
+		 * @param una Muestra
+		 * @return un booleano indicando si la muestra esta en el sistema
+		 */
+		return muestras.contains(muestra);
+	}
+		
+	private boolean yaOpino(Muestra muestra, int idUsuario) {
+		/**
+		 * Este metodo retorna true si el usuario ya hizo una revision de esa muestra
+		 * o bien subio el la muestra. false en otro caso
+		 * Precondicion: la lista de revisiones de la muestra no puede ser vacia.
+		 * @param 	una Muestra en la cual voy a buscar si el usuario hizo una revision
+		 * 			un int que representa el id a buscar en las revisiones 
+		 * @return un booleano
+		 */
+		/*
+		 * Como cuando un usuario sube una muestra, realiza una revision diciendo que tipo de insecto
+		 * cree que es, sin tener que preguntarle a muestra el id del usuario, 
+		 * puedo saber que si ese usuario realizo una revision de la muestra,
+		 * o bien es el que la subio o bien ya realizo una revision.
+		 * Considero esto para la resolucion. Si un usuario sube una muestra, existe 
+		 * una revision que contenga su id.
+		 */
+		return muestra.getRevisiones()
+						.stream()
+						.anyMatch(r -> r.getid() == idUsuario);
 	}
 
-	public void registrarMuestra(int idUsuario, LocalDate fecha, Imagen imagen, Ubicacion ubicacion, Opinion opinion) {
+
+	public void registrarMuestra(Usuario usuario, LocalDate fecha, Imagen imagen, Ubicacion ubicacion, Opinion opinion) {
 		/**
 		 * Este metodo crea una nueva muestra con los parametros dados y la registra
 		 * en la lista de muestras.
 		 * Si el idUsuario esta dentro de los usuarios, la crea, sino no hace nada
+		 * @param 	un Usuario que es el usuario que sube la muestra.
+		 * 			un LocalDate que representa la fecha de subida
+		 * 			una Imagen que representa la imagen de la muestra tomada
+		 * 			una Ubicacion que representa la ubicacion donde fue tomada la muestra
+		 * 			una Opinion que representa que tipo de insecto le parecio al usuario que subio la muestra
 		 */
+		int id = usuario.getidUsuario();
 		//Chequeo que el idUsuario que paso como parametro sea un id que este dentro de mis usuarios
-		if(this.esUsuario(idUsuario)) {
-			Muestra muestra = new Muestra(idUsuario, LocalDate.now(), imagen, ubicacion, opinion);
+		if(this.esUsuario(id)) {
+			Muestra muestra = new Muestra(usuario, LocalDate.now(), imagen, ubicacion, opinion);
 			muestras.add(muestra);
 			}
 	}
@@ -107,11 +153,18 @@ public class AplicacionWeb {
 	public boolean esUsuario(int id) {
 		/**
 		 * Este metodo retorna si el id esta dentro de la lista de usuarios.
+		 * @param un int que representa el id del usuario
+		 * @return un boolean
 		 */
 		return usuarios.stream().anyMatch(u -> u.getidUsuario() == id);
 	}
 
 	public List<Muestra> filtrarMuestras(Filtro filtro) {
+		/**
+		 * Este metodo filtra las muestras segun el criterio dado por el filtro que se utilice.
+		 * @param un Filtro que puede ser cualquiera de las implementaciones de la clase Filtro
+		 * @return una lista de Muestra.
+		 */
 		return filtro.filtrar(muestras);
 	}
 	
@@ -129,6 +182,7 @@ public class AplicacionWeb {
 		 * Si el usuario tiene conocimiento validado, no se modifica su nivel.
 		 * Si es basico y tiene el rendimiento esperado, sube de categoria.
 		 * Si es experto y no cumple con el rendimiento esperado, baja de categoria.
+		 * @param un Usuario a recategorizar.
 		 */
 		//es un usuario basico pero tiene el rendimiento esperado
 		if(!usuario.esExperto() 
@@ -147,6 +201,7 @@ public class AplicacionWeb {
 		/**
 		 * Este metodo chequea que el usuario haya realizado mas de 10 envios y
 		 * mas de 20 revisiones que se hayan subido 30 dias anteriores a la fecha actual. 
+		 * @param un Usuario el cual se va a ver si tiene el rendimiento esperado
 		 * @return un booleano 
 		 */
 		return this.enviosUltimos30dias(usuario) > 10 && this.revisionesUltimos30dias(usuario) > 20;
@@ -155,6 +210,7 @@ public class AplicacionWeb {
 	private int enviosUltimos30dias(Usuario usuario) {
 		/**
 		 * Retorna la cantidad de envios de los ultimos 30 dias del usuario dado por parametro
+		 * @param un Usuario del cual quiero saber la cantidad de envios
 		 * @return un int.
 		 */
 		return usuario.cantidadEnviosUltimos30Dias();
@@ -163,6 +219,7 @@ public class AplicacionWeb {
 	private int revisionesUltimos30dias(Usuario usuario) {
 		/**
 		 * Retorna la cantidad de revisiones de los ultimos 30 dias del usuario dado por parametro
+		 * @param un Usuario del cual quiero saber la cantidad de revisiones
 		 * @return un int.
 		 */
 		return usuario.cantidadRevisionesUltimos30Dias();

@@ -1,4 +1,4 @@
-package ar.edu.unq.po2.tp.grupal.filtros;
+package ar.edu.unq.po2.tp.grupal.filtro;
 
 import java.time.LocalDate;
 import java.util.List;

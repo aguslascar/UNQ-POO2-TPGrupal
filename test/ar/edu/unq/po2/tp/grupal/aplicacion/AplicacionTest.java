@@ -36,6 +36,7 @@ class AplicacionTest {
 		usuarioValidado = mock(Usuario.class);
 		usuarioBasico = mock(Usuario.class);
 		usuarioExperto = mock(Usuario.class);
+		revision = mock(Revision.class);
 	}
 
 	@Test
@@ -52,7 +53,7 @@ class AplicacionTest {
 		//Testeo que se cree y se agregue una nueva muestra
 		app.registrarNuevoUsuario(usuarioBasico);
 		when(usuarioBasico.getidUsuario()).thenReturn(1);
-		app.registrarMuestra(1, LocalDate.now(), imagen, ubicacion, opinion);
+		app.registrarMuestra(usuarioBasico, LocalDate.now(), imagen, ubicacion, opinion);
 		assertEquals(1, app.getMuestras().size());
 		//Me fijo que el id de usuario de la muestra cargada sea el mismo id del usuario que la cargo.
 		assertEquals(usuarioBasico.getidUsuario(), app.getMuestras().get(0).getidUsuario());
@@ -60,8 +61,8 @@ class AplicacionTest {
 	
 	@Test
 	void testAgregarNuevaMuestraUsuarioNoRegistrado() {
-		//Testeo que un usuario no registrado quiera subir una muestra.
-		app.registrarMuestra(50, LocalDate.now(), imagen, ubicacion, opinion);
+		//Testeo que un usuario no registrado quiera subir una muestra. Usuario experto nunca fue registrado en sistema.
+		app.registrarMuestra(usuarioExperto, LocalDate.now(), imagen, ubicacion, opinion);
 		//La muestra no se registro en el sistema.
 		assertEquals(0, app.getMuestras().size());
 	}
@@ -72,21 +73,48 @@ class AplicacionTest {
 		//y luego de una muestra que si esta pero el usuario no.
 		//Por ultimo testeo una muestra que esta y un usuario que tambien esta en sistema.
 		app.registrarNuevoUsuario(usuarioBasico);
+		app.registrarNuevoUsuario(usuarioExperto);
 		when(usuarioBasico.getidUsuario()).thenReturn(1);
-		app.agregarRevision(muestraFalsa, revision, 1);
-		//Chequeo que nunca se haya llamado al mensaje agregarRevision de esa muestra, ya que no
-		//es muestra del sistema
-		verify(muestraFalsa, never()).agregarRevision(revision);
+		when(revision.getid()).thenReturn(1);
+		//Chequeo que se haya enviado una excepcion, ya que muestraFalsa no es una muestra del sistema.
+		assertThrows(Exception.class, () -> app.agregarRevision(muestraFalsa, revision));
+		
 		//Pruebo agregar una muestra de un usuario con id 2, el cual no existe en sistema
-		//Chequeo que se arroje la excepcion.
-		assertThrows(Exception.class, () -> app.agregarRevision(muestraFalsa, revision, 2));
-		//Ahora agrego una revision de una muestra y un usuario existentes en el sistema.
-		//Primero agrego la muestra al sistema
-		app.registrarMuestra(1, LocalDate.now(), imagen, ubicacion, opinion);
+		when(revision.getid()).thenReturn(2);		
+		//Chequeo que se haya enviado una excepcion, ya que el usuario con id 2 no es un usuario del sistema.
+		assertThrows(Exception.class, () -> app.agregarRevision(muestraFalsa, revision));
+
+	}
+	
+	@Test
+	void testAgregarRevisionDeOtraMuestra() {
+		//Agrego una revision de una muestra de un usuario existente en el sistema.
+		app.registrarNuevoUsuario(usuarioBasico);
+		app.registrarNuevoUsuario(usuarioExperto);
+		when(usuarioBasico.getidUsuario()).thenReturn(1);
+		//Primero agrego la muestra al sistema con id 1(usuario basico)
+		app.registrarMuestra(usuarioBasico, LocalDate.now(), imagen, ubicacion, opinion);
 		//Luego guardo esa muestra para luego agregarle la revision
 		Muestra muestraDelSistema = app.getMuestras().get(0);
+		//El usuario experto(el cual nunca opino ni subio esa muestra) quiere hacer una revision
+		when(usuarioExperto.getidUsuario()).thenReturn(2);
+		when(revision.getid()).thenReturn(2);
 		//Chequeo que no se haya lanzado una excepcion.
-		assertDoesNotThrow(() -> app.agregarRevision(muestraDelSistema, revision, 1));
+		assertDoesNotThrow(() -> app.agregarRevision(muestraDelSistema, revision));		
+	}
+	@Test
+	void testAgregarRevisionDeSuPropiaMuestra() throws Exception {
+		//Testeo que cuando un usuario quiera opinar sobre la muestra que el subio,
+		//se lance una excepcion
+		app.registrarNuevoUsuario(usuarioBasico);
+		when(usuarioBasico.getidUsuario()).thenReturn(1);
+		when(revision.getid()).thenReturn(1);
+		//Ahora agrego una revision de una muestra de un usuario existente en el sistema.
+		//Primero agrego la muestra al sistema
+		app.registrarMuestra(usuarioBasico, LocalDate.now(), imagen, ubicacion, opinion);
+		//Luego guardo esa muestra para luego agregarle la revision
+		Muestra muestraDelSistema = app.getMuestras().get(0);
+		assertThrows(Exception.class, () -> app.agregarRevision(muestraDelSistema, revision));
 	}
 	
 	@Test
