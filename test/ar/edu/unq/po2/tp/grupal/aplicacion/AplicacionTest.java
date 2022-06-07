@@ -2,7 +2,10 @@ package ar.edu.unq.po2.tp.grupal.aplicacion;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,6 +14,7 @@ import ar.edu.unq.po2.tp.grupal.muestra.Muestra;
 import ar.edu.unq.po2.tp.grupal.revision.*;
 import ar.edu.unq.po2.tp.grupal.usuario.Usuario;
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Ubicacion;
+import ar.edu.unq.po2.tp.grupal.filtro.*;
 
 import static org.mockito.Mockito.*;
 
@@ -25,6 +29,7 @@ class AplicacionTest {
 	Usuario usuarioValidado;
 	Usuario usuarioBasico;
 	Usuario usuarioExperto;
+	Filtro filtro;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -37,6 +42,7 @@ class AplicacionTest {
 		usuarioBasico = mock(Usuario.class);
 		usuarioExperto = mock(Usuario.class);
 		revision = mock(Revision.class);
+		filtro = mock(Filtro.class);
 	}
 
 	@Test
@@ -78,12 +84,17 @@ class AplicacionTest {
 		when(revision.getid()).thenReturn(1);
 		//Chequeo que se haya enviado una excepcion, ya que muestraFalsa no es una muestra del sistema.
 		assertThrows(Exception.class, () -> app.agregarRevision(muestraFalsa, revision));
-		
+
+
+	}
+	
+	@Test
+	void testAgregarRevisionSinSerUsuarioSistema() {
+		app.registrarNuevoUsuario(usuarioBasico);
 		//Pruebo agregar una muestra de un usuario con id 2, el cual no existe en sistema
 		when(revision.getid()).thenReturn(2);		
 		//Chequeo que se haya enviado una excepcion, ya que el usuario con id 2 no es un usuario del sistema.
-		assertThrows(Exception.class, () -> app.agregarRevision(muestraFalsa, revision));
-
+		assertThrows(Exception.class, () -> app.agregarRevision(muestraFalsa, revision));		
 	}
 	
 	@Test
@@ -102,6 +113,7 @@ class AplicacionTest {
 		//Chequeo que no se haya lanzado una excepcion.
 		assertDoesNotThrow(() -> app.agregarRevision(muestraDelSistema, revision));		
 	}
+	
 	@Test
 	void testAgregarRevisionDeSuPropiaMuestra() throws Exception {
 		//Testeo que cuando un usuario quiera opinar sobre la muestra que el subio,
@@ -195,5 +207,17 @@ class AplicacionTest {
 		app.revisarNivelesDeUsuario();
 		//Chequeo que al usuario experto no se le haya enviado el mensaje bajar de nivel.
 		verify(usuarioExperto, never()).bajarDeNivel();		
+	}
+	
+	@Test
+	void testFiltrar() {
+		//Testeo la correcta funcionalidad del sistema al filtrar muestras
+		//Creo una lista de Muestra a la cual agrego la muestra falsa
+		List<Muestra> muestras = new ArrayList<Muestra>();
+		muestras.add(muestraFalsa);
+		//Mockeo el filtro para que cuando se filtre retorne esa lista de Muestra
+		when(filtro.filtrar(app.getMuestras())).thenReturn(muestras);
+		//Chequeo que el sistema hizo el llamado a filtrar(Muestra) y app.filtrarMuestras(filtro) contiene la muestra falsa.
+		assertTrue(app.filtrarMuestras(filtro).contains(muestraFalsa));
 	}
 }

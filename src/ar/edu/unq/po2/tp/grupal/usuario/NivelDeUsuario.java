@@ -6,5 +6,5 @@ public abstract class NivelDeUsuario {
 	 * Contiene un metodo abstracto que retorna un booleano diciendo si es experto o no.
 	 * @author aguslascar
 	 */
-	public abstract boolean esExperto();
+	abstract boolean esExperto();
 }

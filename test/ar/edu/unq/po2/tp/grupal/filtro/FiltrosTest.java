@@ -1,6 +1,7 @@
 package ar.edu.unq.po2.tp.grupal.filtro;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
@@ -18,7 +19,7 @@ import ar.edu.unq.po2.tp.grupal.filtro.FiltroNivelDeVerificacion;
 import ar.edu.unq.po2.tp.grupal.filtro.FiltroOR;
 import ar.edu.unq.po2.tp.grupal.filtro.FiltroTipoDeInsecto;
 import ar.edu.unq.po2.tp.grupal.muestra.*;
-
+import ar.edu.unq.po2.tp.grupal.revision.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -94,10 +95,10 @@ class FiltrosTest {
 	void testTipoDeInsectoDetectado() {
 		//Testeo el filtro de tipo de insecto.
 		//Testeo que el filtro filtre la muestra3 y no el resto
-		when(muestra1.tipo()).thenReturn("Vinchuca");
-		when(muestra2.tipo()).thenReturn("Phtia-Chinche");
-		when(muestra3.tipo()).thenReturn("Chinche Foliada");
-		filtro1 = new FiltroTipoDeInsecto("Chinche Foliada");
+		when(muestra1.getOpinion()).thenReturn(Opinion.VINCHUCAINFESTANS);
+		when(muestra2.getOpinion()).thenReturn(Opinion.VINCHUCASORDIDA);
+		when(muestra3.getOpinion()).thenReturn(Opinion.CHINCHEFOLIADA);
+		filtro1 = new FiltroTipoDeInsecto(Opinion.CHINCHEFOLIADA);
 		assertEquals(1, filtro1.filtrar(muestras).size());
 		assertTrue(filtro1.filtrar(muestras).contains(muestra3));		
 	}
@@ -106,10 +107,10 @@ class FiltrosTest {
 	void TestAND() {
 		//Testeo el filtro AND con 2 filtros por tipo de insecto y nivel de verificacion.
 		//Chequeo que contenga muestra3 y no contenga muestra1 ni muestra2.
-		when(muestra1.tipo()).thenReturn("Vinchuca");
-		when(muestra2.tipo()).thenReturn("Phtia-Chinche");
-		when(muestra3.tipo()).thenReturn("Chinche Foliada");
-		filtro1 = new FiltroTipoDeInsecto("Chinche Foliada");
+		when(muestra1.getOpinion()).thenReturn(Opinion.VINCHUCAINFESTANS);
+		when(muestra2.getOpinion()).thenReturn(Opinion.VINCHUCASORDIDA);
+		when(muestra3.getOpinion()).thenReturn(Opinion.CHINCHEFOLIADA);
+		filtro1 = new FiltroTipoDeInsecto(Opinion.CHINCHEFOLIADA);
 		when(muestra1.getResultadoActual()).thenReturn("Verificada");
 		when(muestra2.getResultadoActual()).thenReturn("Votada");
 		when(muestra3.getResultadoActual()).thenReturn("Verificada");
@@ -124,10 +125,10 @@ class FiltrosTest {
 	void TestOR() {
 		//Testeo el filtro OR con 2 filtros por tipo de insecto y nivel de verificacion.
 		//Chequeo que contenga muestra3 y muestra1 y no contenga muestra2.
-		when(muestra1.tipo()).thenReturn("Vinchuca");
-		when(muestra2.tipo()).thenReturn("Phtia-Chinche");
-		when(muestra3.tipo()).thenReturn("Chinche Foliada");
-		filtro1 = new FiltroTipoDeInsecto("Chinche Foliada");
+		when(muestra1.getOpinion()).thenReturn(Opinion.VINCHUCAINFESTANS);
+		when(muestra2.getOpinion()).thenReturn(Opinion.VINCHUCASORDIDA);
+		when(muestra3.getOpinion()).thenReturn(Opinion.CHINCHEFOLIADA);
+		filtro1 = new FiltroTipoDeInsecto(Opinion.CHINCHEFOLIADA);
 		when(muestra1.getResultadoActual()).thenReturn("Verificada");
 		when(muestra2.getResultadoActual()).thenReturn("Votada");
 		when(muestra3.getResultadoActual()).thenReturn("Verificada");
