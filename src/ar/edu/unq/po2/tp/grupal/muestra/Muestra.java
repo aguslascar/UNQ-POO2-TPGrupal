@@ -4,6 +4,7 @@ import java.util.List;
 import java.time.*;
 import java.util.ArrayList;
 
+import ar.edu.unq.po2.tp.grupal.revision.Basico;
 import ar.edu.unq.po2.tp.grupal.revision.Opinion;
 import ar.edu.unq.po2.tp.grupal.revision.Revision;
 
@@ -53,16 +54,16 @@ public class Muestra {
 	 * @param ubicacion Ubicación en la que se generó la muestra.
 	 * @param opinion Opinión del propio usuario que tomó la muestra.
 	 */
-	public Muestra(Usuario usuario, LocalDate fecha, Imagen Foto, Ubicacion ubicacion, Opinion opinion) throws Exception {
+	public Muestra(int idUsuario, LocalDate fecha, Imagen Foto, Ubicacion ubicacion, Opinion opinion) throws Exception {
 		super();
-		this.setIdUsuario(usuario.getIdUsuario());
+		this.setIdUsuario(idUsuario);
 		this.setFecha(fecha);
 		this.setFoto(Foto);
 		this.setUbicacion(ubicacion);
 		this.setOpinion(opinion);
 		this.setRevisiones(new ArrayList<Revision>());
 		this.setEstado(new EstadoSinVerificar());
-		this.agregarRevision(new Revision(opinion, fecha, usuario.getNivelDeUsuario(), usuario.getIdUsuario()));
+		this.agregarRevision(new Revision(opinion, fecha, new Basico(), idUsuario));
 	}
 
 	/**

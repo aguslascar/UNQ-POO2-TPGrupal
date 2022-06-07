@@ -1,7 +1,6 @@
 package ar.edu.unq.po2.tp.grupal.muestra;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import ar.edu.unq.po2.tp.grupal.revision.Revision;
@@ -64,7 +63,7 @@ public class EstadoOpinadaPorExpertos extends EstadoDeMuestra {
 	private boolean coincideConOpinionDeExperto(Revision rev) {
 		// Evalua para cada 'revision' en 'revisionesDeExpertos' si 'rev' coincide con esta.
 		for(Revision revision:this.getRevisionesDeExpertos()) {
-			if (revision.getOpinion().getDescripcion() == rev.getOpinion().getDescripcion()) {
+			if (revision.getOpinion().getDescripcion().equals(rev.getOpinion().getDescripcion())) {
 				return true;
 			}
 		}

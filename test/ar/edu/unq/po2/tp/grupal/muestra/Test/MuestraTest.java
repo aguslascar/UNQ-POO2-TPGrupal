@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import ar.edu.unq.po2.tp.grupal.muestra.Imagen;
 import ar.edu.unq.po2.tp.grupal.muestra.Muestra;
 import ar.edu.unq.po2.tp.grupal.muestra.Ubicacion;
-import ar.edu.unq.po2.tp.grupal.muestra.Usuario;
 import ar.edu.unq.po2.tp.grupal.revision.NivelDeUsuario;
 import ar.edu.unq.po2.tp.grupal.revision.Opinion;
 import ar.edu.unq.po2.tp.grupal.revision.Revision;
@@ -23,7 +22,6 @@ public class MuestraTest {
 	private Revision revision2;
 	private Revision revision3;
 	private Revision revision4;
-	private Usuario usuario;
 	private LocalDate fecha;
 	private Muestra muestra;
 	private Ubicacion ubicacion;
@@ -33,10 +31,10 @@ public class MuestraTest {
 	private Opinion opinion2;
 	private NivelDeUsuario nivelDeUsuario1;
 	private NivelDeUsuario nivelDeUsuario2;
+	private int idUsuario;
 	
 	@BeforeEach
 	public void setUp() throws Exception {
-		usuario = mock(Usuario.class);
 		nivelDeUsuario1 = mock(NivelDeUsuario.class);
 		nivelDeUsuario2 = mock(NivelDeUsuario.class);
 		fecha = LocalDate.of(2012, 12, 20);    // Fecha 20 de Diciembre de 2012    
@@ -49,17 +47,14 @@ public class MuestraTest {
 	    opinionAutor = mock(Opinion.class);
 	    opinion1 = mock(Opinion.class);
 	    opinion2 = mock(Opinion.class);
-		muestra = new Muestra(usuario, fecha, foto, ubicacion, opinionAutor); 
+	    idUsuario = 2578670;
+		muestra = new Muestra(idUsuario, fecha, foto, ubicacion, opinionAutor); 
 	}
 	
 	// Se testea que al instanciar una nueva Muestra, el idUsuario este bien almacenado y sea accesible publicamente
 	@Test
 	public void testConocerElIdDelUsuarioQueSubioLaMuestra() throws Exception {
-		when(usuario.getIdUsuario()).thenReturn(20129319);
-		
-		Muestra nuevaMuestra = new Muestra(usuario, fecha, foto, ubicacion, opinionAutor);
-		
-		assertEquals(nuevaMuestra.getIdUsuario(), usuario.getIdUsuario());
+		assertEquals(muestra.getIdUsuario(), idUsuario);
 	}
 	
 	// Se testea que al instanciar una nueva Muestra, la fecha este bien almacenada y sea accesible publicamente
@@ -148,6 +143,8 @@ public class MuestraTest {
 		assertEquals(muestra.getResultadoActual(), "No definido");
 	}
 	
+	// Se testea que cuando el estado de muestra es opinada por expertos, entonces solo cuenten las opiniones de 
+	// expertos para retornar el resultado actual de muestra
 	@Test
 	public void testCuandoElEstadoDeMuestraEsOpinadaPorExpertosEntoncesLasOpinionesQueCuentanParaElResultadoActualSonLaDeExpertos() throws Exception {
 		when(revision1.getNivelDeUsuario()).thenReturn(nivelDeUsuario1);
@@ -247,13 +244,13 @@ public class MuestraTest {
 		// Cambia el estado de la muestra a opinada por expertos
 		muestra.recibirRevision(revision1);
 		try {
-			// Se intenta agregar una revision de usuario basico y se espera una excepcion
+		    // Se intenta agregar una revision de usuario basico y se espera una excepcion
 			muestra.recibirRevision(revision2);	
-			fail("Se esperaba una excepcion");
 		} catch(Exception e) {
-			assertTrue(muestra.getRevisiones().contains(revision1));
-			assertFalse(muestra.getRevisiones().contains(revision2));
-		}	
+		
+		    assertTrue(muestra.getRevisiones().contains(revision1));
+		    assertFalse(muestra.getRevisiones().contains(revision2));
+		}
 	}
 	
 	// Se testea que cuando el estado de muestra es verificada, entonces no se permita a ningun tipo de usuario
@@ -330,6 +327,8 @@ public class MuestraTest {
 		assertEquals(muestra.getResultadoActual(), "Vinchuca Sordida");
 	}
 	
+	// Se testea que si dos opiniones de expertos no coinciden, entonces no se cambie el estado de muestra a
+	// verificada
 	@Test
 	public void testSiDosOpinionesDeUsuariosExpertosNoCoincidenEntoncesNoSeCambiaAEstadoDeMuestraVerificada() throws Exception {
 		when(opinionAutor.getDescripcion()).thenReturn("Vinchuca Sordida");
@@ -344,8 +343,18 @@ public class MuestraTest {
 		muestra.recibirRevision(revision1);
 		muestra.recibirRevision(revision2);
 		
-		assertEquals(muestra.getResultadoActual(), "No definido");
+		assertEquals(muestra.getNivelDeRevision(), "Muestra opinada por expertos");
 		assertTrue(muestra.getRevisiones().contains(revision1));
 		assertTrue(muestra.getRevisiones().contains(revision2));
+	}
+	
+	// Se testea que al crearse una nueva muestra, la opinión del autor de la muestra sea tomada como básica siempre,
+	// asi el estado de la muestra siempre se va a inicializar como sin verificar, y va a permitir a usuarios basicos
+	// opinar sobre esta.
+	@Test
+	public void testCuandoUnUsuarioSubeUnaMuestraEntoncesSiempreSeConsideraSuOpinionComoBasica() throws Exception {
+		assertFalse(muestra.getRevisiones().get(0).getNivelDeUsuario().esExperto());
+		assertEquals(muestra.getRevisiones().size(), 1);
+		assertEquals(muestra.getNivelDeRevision(),"Muestra sin verificar");
 	}
 }
