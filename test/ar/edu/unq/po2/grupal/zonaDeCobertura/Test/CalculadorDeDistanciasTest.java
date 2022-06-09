@@ -30,7 +30,7 @@ class CalculadorDeDistanciasTest {
 	ArrayList<Muestra> muestras = new ArrayList<Muestra>();
 
 	CalculadorDeDistancias calculador = new CalculadorDeDistancias();
-	ZonaDeCobertura zona = new ZonaDeCobertura("zonaA", puntoA, 3, muestras, ubicaciones);
+	ZonaDeCobertura zona = new ZonaDeCobertura("zonaA", puntoA, 3, muestras, ubicaciones, null);
 	CalculadorDeDistancias calculadorZ = new CalculadorDeDistancias(zona);
 	
 	@BeforeEach

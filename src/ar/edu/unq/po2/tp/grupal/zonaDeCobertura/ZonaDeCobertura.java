@@ -50,21 +50,11 @@ public class ZonaDeCobertura implements ZonaDeCoberturaObservable {
 
 	// ------------------------------------------------------------------------------
 
-	public Boolean perteneceAUbicaciones(Ubicacion ubicacion, ArrayList<Ubicacion> ubicaciones) {
-		Boolean seSolapa = false;
-		for (Ubicacion ubicacionDeLista : ubicaciones) {
-			if (ubicacion == ubicacionDeLista) {
-				seSolapa = true;
-			}
-		}
-		return seSolapa;
-	}
-
 	public Boolean seSolapa(ZonaDeCobertura zona1, ZonaDeCobertura zona2) {
 		Boolean esSolapada = false;
 		ArrayList<Ubicacion> ubicacionesDeZona2 = zona2.getUbicaciones();
 		for (Ubicacion ubicacionDeZona1 : zona1.getUbicaciones()) {
-			if (this.perteneceAUbicaciones(ubicacionDeZona1, ubicacionesDeZona2)) {
+			if (ubicacionesDeZona2.contains(ubicacionDeZona1)) {
 				esSolapada = true;
 			}
 		}
