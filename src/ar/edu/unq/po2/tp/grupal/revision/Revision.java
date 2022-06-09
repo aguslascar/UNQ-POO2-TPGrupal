@@ -25,6 +25,10 @@ public class Revision {
 	 * @see ar.edu.unq.po2.tp.grupal.revision.NivelDeUsuario NivelDeUsuario
 	 */
 	private NivelDeUsuario nivelDeUsuario;
+	/**
+	 * Un int que representa el número identificatorio del usuario que realizó la revisión.
+	 */
+	private int idUsuario;
 	
 	/**
 	 * Constructor de la clase Revisión, recrea una nueva Revisión realizada.
@@ -32,17 +36,20 @@ public class Revision {
 	 * @param fecha Fecha de tipo LocalDate que representa la fecha en la que se realizó la revisión.
 	 * @param nivelDeUsuario Instancia de la clase NivelDeUsuario que representa el nivel del usuario que realiza la
 	 *                       revisión.
+	 * @param idUsuario Un valor de tipo int que representa el número identificatorio del usuario que realizó la 
+	 *                  Revision.
 	 * @see ar.edu.unq.po2.tp.grupal.revision.Opinion Opinion
 	 * @see LocalDate
 	 * @see ar.edu.unq.po2.tp.grupal.revision.NivelDeUsuario NivelDeUsuario
 	 */
-	public Revision(Opinion opinion, LocalDate fecha, NivelDeUsuario nivelDeUsuario) {
+	public Revision(Opinion opinion, LocalDate fecha, NivelDeUsuario nivelDeUsuario, int idUsuario) {
 		super();
 		this.setOpinion(opinion);
 		this.setFecha(fecha);
 		this.setNivelDeUsuario(nivelDeUsuario);
+		this.setIdUsuario(idUsuario);
 	}
-	
+
 	/**
 	 * Método que retorna la fecha en la que se realizó la revisión.
 	 * @return Valor de tipo LocalDate.
@@ -95,5 +102,21 @@ public class Revision {
 	 */
 	public Opinion getOpinion() {
 		return opinion;
+	}
+	
+	/**
+	 * Método que retorna el valor en la variable idUsuario.
+	 * @return Un int que representa el número identificatorio del usuario que realizó la revisión.
+	 */
+	public int getIdUsuario() {
+		return idUsuario;
+	}
+
+	/**
+	 * Guarda en la variable de instancia idUsuario el valor pasado como parámetro.
+	 * @param idUsuario Un int que representa el número identificatorio del usuario que realizó la revisión.
+	 */
+	private void setIdUsuario(int idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 }

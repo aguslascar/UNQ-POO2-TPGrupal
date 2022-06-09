@@ -3,8 +3,8 @@ package ar.edu.unq.po2.tp.grupal.muestra;
 import java.util.List;
 import java.time.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 
+import ar.edu.unq.po2.tp.grupal.revision.Basico;
 import ar.edu.unq.po2.tp.grupal.revision.Opinion;
 import ar.edu.unq.po2.tp.grupal.revision.Revision;
 
@@ -36,7 +36,7 @@ public class Muestra {
 	/**
 	 * Un String que representa una foto tomada para documentar la muestra.
 	 */
-	private String foto;
+	private Imagen foto;
 	/**
 	 * Una Ubicacion que representa la ubicación en la que se tomó la muestra.
 	 */
@@ -54,73 +54,60 @@ public class Muestra {
 	 * @param ubicacion Ubicación en la que se generó la muestra.
 	 * @param opinion Opinión del propio usuario que tomó la muestra.
 	 */
-	public Muestra(Usuario usuario, LocalDate fecha, String Foto, Ubicacion ubicacion, Opinion opinion) {
+	public Muestra(int idUsuario, LocalDate fecha, Imagen Foto, Ubicacion ubicacion, Opinion opinion) throws Exception {
 		super();
-		this.setIdUsuario(usuario.getIdUsuario());
+		this.setIdUsuario(idUsuario);
 		this.setFecha(fecha);
 		this.setFoto(Foto);
 		this.setUbicacion(ubicacion);
 		this.setOpinion(opinion);
 		this.setRevisiones(new ArrayList<Revision>());
-		this.setEstado(new MuestraSinVerificar());
-		this.agregarRevision(new Revision(opinion, fecha, usuario.getNivelDeUsuario()));
+		this.setEstado(new EstadoSinVerificar());
+		this.agregarRevision(new Revision(opinion, fecha, new Basico(), idUsuario));
 	}
-	
+
 	/**
 	 * Método que retorna la opinión que tenga mayor cantidad de votos en la lista de revisiones de la muestra.
 	 * @return Un String que describe la opinión que tuvo mayor cantidad de votos, o un String por defecto
 	 *         ("No definido") en caso de que ninguna opinión tenga mayor cantidad de votos que otra.
 	 */
 	public String getResultadoActual() {
-		// Copia la lista de revisiones interna
-		List<Revision> revisionesAVer = this.getRevisiones(); 
-		// Crea un HashMap que va a guardar la descripcion de la opinion de cada revisión y
-		// un Integer con la cantidad de ocurrencias de la descripcion de la opinion
-		HashMap<String, Integer> mapa = new HashMap<>();
-		// Si la descripcion de la opinion no se encuentra como clave entonces la agrega 
-		// con valor 1 (primera ocurrencia), de lo contrario suma 1 al valor de la clave encontrada
-		for (int x = 0; x < revisionesAVer.size(); x++) {        
-			String opinionAver = revisionesAVer.get(x).getOpinion().getDescripcion();
-			if (mapa.containsKey(opinionAver)) {
-				mapa.put(opinionAver, mapa.get(opinionAver) + 1);
-			} else {
-				mapa.put(opinionAver, 1);
-			}
-		}
-		// Inicializa con un valor cualquiera que posteriormente se va a modificar
-		String opinionMayorCantVotosHastaAhora = "No definido";
-		// Inicializa el mayor numero de ocurrencias como 0 para que la primera key se guarde correctamente
-		int mayor = 0;
-		// Inicializa el segundo mayor en caso de empate entre opiniones
-		int segundoMayor = 0;
-		// Si el valor de la key en 'entry' es mayor a la variable 'mayor', entonces la variable 'mayor' y la
-		// variable opinionMayorCantVotosHastaAhora se settean con el valor y la key del 'entry' analizado,
-		// en caso de que el valor de la key en 'entry' sea igual al de la variable 'mayor' entonces la variable
-		// 'segundoMayor' se settea con el valor de la key del 'entry' analizado
-		for (HashMap.Entry<String, Integer> entry : mapa.entrySet()) {
-			if (entry.getValue() > mayor) {
-				mayor = entry.getValue();
-				opinionMayorCantVotosHastaAhora = entry.getKey();
-			} else if (entry.getValue() == mayor) {
-				segundoMayor = entry.getValue();
-			}
-		}
-		// Si finalmente las variables 'mayor' y 'segundoMayor' quedan como iguales después de analizar todos los
-		// 'entry' del HashMap, entonces se retorna como resultado 'No definido', de lo contrario se retorna
-		// la key con el mayor valor, significando que es la opinión que tuvo mayor cantidad de votos
-		if (mayor == segundoMayor) {
-			return ("No definido");
-		} else {
-			return (opinionMayorCantVotosHastaAhora);
-		}
+		return (this.getEstado().obtenerResultadoActual(this));
 	}
 	
 	/**
 	 * Agrega una nueva Revision a la lista de revisiones interna de la muestra.
 	 * @param revision Una Revision a guardar en la muestra a la que se hace referencia.
 	 */
-	public void agregarRevision(Revision revision) {
-		this.getRevisiones().add(revision);
+	protected void agregarRevision(Revision revision) {
+			this.getRevisiones().add(revision);
+	}
+	
+	/**
+	 * Método que retorna el nivel de revision que posee la muestra actualmente.
+	 * @return Un String que representa la descripción del nombre del estado por el cual esta pasando la muestra.
+	 */
+	public String getNivelDeRevision() {
+		return this.getEstado().getDescripcion();
+	}
+	
+	/**
+	 * Método que analiza si 'revision' esta habilitada para opinar de la muestra según el estado de muestra y el nivel
+	 * del usuario que realizó la 'revision'.
+	 * @param revision Una Revision a analizar.
+	 * @throws Exception Si el usuario no esta habilitado para opinar segun su nivel y el estado de la muestra.
+	 * @see ar.edu.unq.po2.tp.grupal.revision.Revision Revision
+	 */
+	public void recibirRevision(Revision revision) throws Exception {
+		this.getEstado().recibirRevision(revision, this);
+	}
+	
+	/**
+	 * Método que cambia el estado por el cual esta pasando la muestra actualmente.
+	 * @param nuevoEstado Un EstadoDeMuestra que va a pasar a ser el nuevo estado de la muestra.
+	 */
+	protected void cambiarEstado(EstadoDeMuestra nuevoEstado) {
+		this.setEstado(nuevoEstado);
 	}
 
 	/**
@@ -193,7 +180,7 @@ public class Muestra {
 	 * Método que retorna la foto que se registró al momento de crear la muestra.
 	 * @return Un String que representa la foto tomada al momento de registrar la muestra.
 	 */
-	public String getFoto() {
+	public Imagen getFoto() {
 		return foto;
 	}
 
@@ -201,7 +188,7 @@ public class Muestra {
 	 * Guarda en la variable interna privada foto el valor pasado como parámetro.
 	 * @param foto Un String que representa la foto tomada al momento de registrar la muestra.
 	 */
-	private void setFoto(String foto) {
+	private void setFoto(Imagen foto) {
 		this.foto = foto;
 	}
 
