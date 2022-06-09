@@ -6,7 +6,7 @@ public class Basico extends NivelDeUsuario {
 	 * @author aguslascar
 	 */
 	@Override
-	boolean esExperto() {
+	public boolean esExperto() {
 		/**
 		 * Un metodo para saber si el usuario es o no experto.
 		 * @return un booleano.

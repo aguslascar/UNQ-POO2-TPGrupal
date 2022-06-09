@@ -56,7 +56,7 @@ public class Muestra {
 	 * @param ubicacion Ubicación en la que se generó la muestra.
 	 * @param opinion Opinión del propio usuario que tomó la muestra.
 	 */
-	public Muestra(int idUsuario, LocalDate fecha, Imagen Foto, Ubicacion ubicacion, Opinion opinion) throws Exception {
+	public Muestra(int idUsuario, LocalDate fecha, Imagen Foto, Ubicacion ubicacion, Opinion opinion) {
 		super();
 		this.setIdUsuario(idUsuario);
 		this.setFecha(fecha);
@@ -66,6 +66,14 @@ public class Muestra {
 		this.setRevisiones(new ArrayList<Revision>());
 		this.setEstado(new EstadoSinVerificar());
 		this.agregarRevision(new Revision(opinion, fecha, new Basico(), idUsuario));
+	}
+	
+	/**
+	 * Método que retorna la fecha de la ultima revisión realizada hacia esta muestra.
+	 * @return Un LocalDate que representa la fecha de la ultima revisión realizada hacia esta muestra.
+	 */
+	public LocalDate fechaUltimaVotacion() {
+		return this.getRevisiones().get(revisiones.size() - 1).getFecha();
 	}
 
 	/**
@@ -198,7 +206,7 @@ public class Muestra {
 	 * 
 	 * Método que retorna la ubicación en la que se registró la muestra.
 	 * @return Una Ubicacion que representa la ubicación en la que se tomó la muestra.
-	 * @see ar.edu.unq.po2.tp.grupal.muestra.Ubicacion Ubicacion
+	 * @see ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Ubicacion Ubicacion
 	 */
 	public Ubicacion getUbicacion() {
 		return ubicacion;

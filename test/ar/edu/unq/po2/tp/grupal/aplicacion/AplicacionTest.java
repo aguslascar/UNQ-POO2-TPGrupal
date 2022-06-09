@@ -1,7 +1,10 @@
 package ar.edu.unq.po2.tp.grupal.aplicacion;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -12,11 +15,10 @@ import org.junit.jupiter.api.Test;
 
 import ar.edu.unq.po2.tp.grupal.muestra.Muestra;
 import ar.edu.unq.po2.tp.grupal.revision.*;
+import ar.edu.unq.po2.tp.grupal.usuario.NivelDeUsuario;
 import ar.edu.unq.po2.tp.grupal.usuario.Usuario;
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Ubicacion;
 import ar.edu.unq.po2.tp.grupal.filtro.*;
-
-import static org.mockito.Mockito.*;
 
 class AplicacionTest {
 
@@ -30,6 +32,7 @@ class AplicacionTest {
 	Usuario usuarioBasico;
 	Usuario usuarioExperto;
 	Filtro filtro;
+	NivelDeUsuario nivelDeUsuario;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -43,6 +46,7 @@ class AplicacionTest {
 		usuarioExperto = mock(Usuario.class);
 		revision = mock(Revision.class);
 		filtro = mock(Filtro.class);
+		nivelDeUsuario = mock(NivelDeUsuario.class);
 	}
 
 	@Test
@@ -62,7 +66,7 @@ class AplicacionTest {
 		app.registrarMuestra(usuarioBasico, LocalDate.now(), imagen, ubicacion, opinion);
 		assertEquals(1, app.getMuestras().size());
 		//Me fijo que el id de usuario de la muestra cargada sea el mismo id del usuario que la cargo.
-		assertEquals(usuarioBasico.getidUsuario(), app.getMuestras().get(0).getidUsuario());
+		assertEquals(usuarioBasico.getidUsuario(), app.getMuestras().get(0).getIdUsuario());
 	}
 	
 	@Test
@@ -81,7 +85,7 @@ class AplicacionTest {
 		app.registrarNuevoUsuario(usuarioBasico);
 		app.registrarNuevoUsuario(usuarioExperto);
 		when(usuarioBasico.getidUsuario()).thenReturn(1);
-		when(revision.getid()).thenReturn(1);
+		when(revision.getIdUsuario()).thenReturn(1);
 		//Chequeo que se haya enviado una excepcion, ya que muestraFalsa no es una muestra del sistema.
 		assertThrows(Exception.class, () -> app.agregarRevision(muestraFalsa, revision));
 
@@ -92,7 +96,7 @@ class AplicacionTest {
 	void testAgregarRevisionSinSerUsuarioSistema() {
 		app.registrarNuevoUsuario(usuarioBasico);
 		//Pruebo agregar una muestra de un usuario con id 2, el cual no existe en sistema
-		when(revision.getid()).thenReturn(2);		
+		when(revision.getIdUsuario()).thenReturn(2);		
 		//Chequeo que se haya enviado una excepcion, ya que el usuario con id 2 no es un usuario del sistema.
 		assertThrows(Exception.class, () -> app.agregarRevision(muestraFalsa, revision));		
 	}
@@ -103,13 +107,15 @@ class AplicacionTest {
 		app.registrarNuevoUsuario(usuarioBasico);
 		app.registrarNuevoUsuario(usuarioExperto);
 		when(usuarioBasico.getidUsuario()).thenReturn(1);
+		when(revision.getNivelDeUsuario()).thenReturn(nivelDeUsuario);
+		when(nivelDeUsuario.esExperto()).thenReturn(true);
 		//Primero agrego la muestra al sistema con id 1(usuario basico)
 		app.registrarMuestra(usuarioBasico, LocalDate.now(), imagen, ubicacion, opinion);
 		//Luego guardo esa muestra para luego agregarle la revision
 		Muestra muestraDelSistema = app.getMuestras().get(0);
 		//El usuario experto(el cual nunca opino ni subio esa muestra) quiere hacer una revision
 		when(usuarioExperto.getidUsuario()).thenReturn(2);
-		when(revision.getid()).thenReturn(2);
+		when(revision.getIdUsuario()).thenReturn(2);
 		//Chequeo que no se haya lanzado una excepcion.
 		assertDoesNotThrow(() -> app.agregarRevision(muestraDelSistema, revision));		
 	}
@@ -120,7 +126,7 @@ class AplicacionTest {
 		//se lance una excepcion
 		app.registrarNuevoUsuario(usuarioBasico);
 		when(usuarioBasico.getidUsuario()).thenReturn(1);
-		when(revision.getid()).thenReturn(1);
+		when(revision.getIdUsuario()).thenReturn(1);
 		//Ahora agrego una revision de una muestra de un usuario existente en el sistema.
 		//Primero agrego la muestra al sistema
 		app.registrarMuestra(usuarioBasico, LocalDate.now(), imagen, ubicacion, opinion);

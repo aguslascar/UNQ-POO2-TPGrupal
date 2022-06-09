@@ -13,9 +13,9 @@ import ar.edu.unq.po2.tp.grupal.muestra.EstadoOpinadaPorExpertos;
 import ar.edu.unq.po2.tp.grupal.muestra.EstadoSinVerificar;
 import ar.edu.unq.po2.tp.grupal.muestra.EstadoVerificada;
 import ar.edu.unq.po2.tp.grupal.muestra.Muestra;
-import ar.edu.unq.po2.tp.grupal.revision.NivelDeUsuario;
 import ar.edu.unq.po2.tp.grupal.revision.Opinion;
 import ar.edu.unq.po2.tp.grupal.revision.Revision;
+import ar.edu.unq.po2.tp.grupal.usuario.NivelDeUsuario;
 
 public class EstadoDeMuestraTest {
 

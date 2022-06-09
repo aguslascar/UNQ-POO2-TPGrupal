@@ -8,9 +8,9 @@ import java.time.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ar.edu.unq.po2.tp.grupal.revision.NivelDeUsuario;
 import ar.edu.unq.po2.tp.grupal.revision.Opinion;
 import ar.edu.unq.po2.tp.grupal.revision.Revision;
+import ar.edu.unq.po2.tp.grupal.usuario.NivelDeUsuario;
 
 public class RevisionTest {
 

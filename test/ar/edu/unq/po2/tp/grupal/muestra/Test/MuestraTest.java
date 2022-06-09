@@ -9,12 +9,12 @@ import java.time.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import ar.edu.unq.po2.tp.grupal.muestra.Imagen;
+import ar.edu.unq.po2.tp.grupal.aplicacion.Imagen;
 import ar.edu.unq.po2.tp.grupal.muestra.Muestra;
-import ar.edu.unq.po2.tp.grupal.muestra.Ubicacion;
-import ar.edu.unq.po2.tp.grupal.revision.NivelDeUsuario;
 import ar.edu.unq.po2.tp.grupal.revision.Opinion;
 import ar.edu.unq.po2.tp.grupal.revision.Revision;
+import ar.edu.unq.po2.tp.grupal.usuario.NivelDeUsuario;
+import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Ubicacion;
 
 public class MuestraTest {
 	

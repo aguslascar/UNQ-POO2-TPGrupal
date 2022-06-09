@@ -42,7 +42,7 @@ public class Revision {
 	 *                  Revision.
 	 * @see ar.edu.unq.po2.tp.grupal.revision.Opinion Opinion
 	 * @see LocalDate
-	 * @see ar.edu.unq.po2.tp.grupal.revision.NivelDeUsuario NivelDeUsuario
+	 * @see ar.edu.unq.po2.tp.grupal.usuario.NivelDeUsuario NivelDeUsuario
 	 */
 	public Revision(Opinion opinion, LocalDate fecha, NivelDeUsuario nivelDeUsuario, int idUsuario) {
 		super();
@@ -72,7 +72,7 @@ public class Revision {
 	/**
 	 * Método que retorna el nivel de usuario del usuario que realizó la revisión.
 	 * @return Una instancia de NivelDeUsuario.
-	 * @see ar.edu.unq.po2.tp.grupal.revision.NivelDeUsuario NivelDeUsuario
+	 * @see ar.edu.unq.po2.tp.grupal.usuario.NivelDeUsuario NivelDeUsuario
 	 */
 	public NivelDeUsuario getNivelDeUsuario() {
 		return nivelDeUsuario;
@@ -82,7 +82,7 @@ public class Revision {
 	 * Guarda el nivel del usuario que realizó la revisión.
 	 * @param nivelDeUsuario Una instancia de NivelDeUsuario que representa el nivel del usuario que realizó la
 	 *                       revisión.
-	 * @see ar.edu.unq.po2.tp.grupal.revision.NivelDeUsuario NivelDeUsuario
+	 * @see ar.edu.unq.po2.tp.grupal.usuario.NivelDeUsuario NivelDeUsuario
 	 */
 	private void setNivelDeUsuario(NivelDeUsuario nivelDeUsuario) {
 		this.nivelDeUsuario = nivelDeUsuario;
