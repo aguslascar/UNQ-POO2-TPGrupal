@@ -2,6 +2,8 @@ package ar.edu.unq.po2.tp.grupal.revision;
 
 import java.time.LocalDate;
 
+import ar.edu.unq.po2.tp.grupal.usuario.*;
+
 /**
  * Esta clase representa y guarda los datos de una revisión realizada por un usuario hacia otra muestra, o hacia su 
  * propia muestra, guardando una opinion, una fecha de realización y el nivel del usuario que realizó la revisión.

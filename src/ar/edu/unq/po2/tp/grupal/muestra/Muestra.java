@@ -1,12 +1,14 @@
 package ar.edu.unq.po2.tp.grupal.muestra;
 
 import java.util.List;
+
 import java.time.*;
 import java.util.ArrayList;
 
-import ar.edu.unq.po2.tp.grupal.revision.Basico;
-import ar.edu.unq.po2.tp.grupal.revision.Opinion;
-import ar.edu.unq.po2.tp.grupal.revision.Revision;
+import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.*;
+import ar.edu.unq.po2.tp.grupal.aplicacion.*;
+import ar.edu.unq.po2.tp.grupal.usuario.*;
+import ar.edu.unq.po2.tp.grupal.revision.*;
 
 /**
  * Esta clase representa y guarda datos de una muestra tomada, como la fecha en que se registró la muestra, el id del

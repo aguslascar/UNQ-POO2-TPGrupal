@@ -3,6 +3,7 @@ package ar.edu.unq.po2.tp.grupal.aplicacion;
 import java.time.LocalDate;
 
 
+
 import java.util.ArrayList;
 import java.util.List;
 import ar.edu.unq.po2.tp.grupal.revision.*;
@@ -81,7 +82,7 @@ public class AplicacionWeb {
 		 * @param 	una Muestra que se le va a agregar una revision
 		 * 			una Revision que es la revision ya hecha
 		 */
-		int idUsuario = revision.getid();
+		int idUsuario = revision.getIdUsuario();
 		//Tiene que existir la muestra en el sistema
 		//tiene que existir el usuario en el sistema
 		//No tiene que haber subido el mismo la muestra o ya haber opinado
@@ -127,7 +128,7 @@ private boolean muestraExisteEnElSistema(Muestra muestra) {
 		 */
 		return muestra.getRevisiones()
 						.stream()
-						.anyMatch(r -> r.getid() == idUsuario);
+						.anyMatch(r -> r.getIdUsuario() == idUsuario);
 	}
 
 
@@ -145,7 +146,7 @@ private boolean muestraExisteEnElSistema(Muestra muestra) {
 		int id = usuario.getidUsuario();
 		//Chequeo que el idUsuario que paso como parametro sea un id que este dentro de mis usuarios
 		if(this.esUsuario(id)) {
-			Muestra muestra = new Muestra(usuario, LocalDate.now(), imagen, ubicacion, opinion);
+			Muestra muestra = new Muestra(id, LocalDate.now(), imagen, ubicacion, opinion);
 			muestras.add(muestra);
 			}
 	}
