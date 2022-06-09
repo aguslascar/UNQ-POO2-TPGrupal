@@ -13,7 +13,9 @@ public interface Filtro {
 	 */
 	public List<Muestra> filtrar(List<Muestra> muestras)
 	/**
-	 * Este metodo va a filtrar una lista de muestras segun el criterio de busqueda. Retorna una lista de muestras.
+	 * Este metodo va a filtrar una lista de muestras segun el criterio de busqueda. 
+	 * @param una lista de Muestra a filtrar
+	 * @return una lista de Muestra
 	 */;
 	
 }

@@ -14,12 +14,18 @@ public class FiltroNivelDeVerificacion implements Filtro {
 	String nivelAFiltrar;
 	
 	public FiltroNivelDeVerificacion(String nivelAFiltrar) {
+		/**
+		 * Crea una instancia de un Filtro que va a filtrar por nivel de verificacion de la muestra
+		 * @param un String que va a ser el nivel a buscar. Solo pueden ser: "Muestra verificada" o "Muestra sin verificar"
+		 */
 		this.nivelAFiltrar = nivelAFiltrar;
 	}
 	@Override
 	public List<Muestra> filtrar(List<Muestra> muestras) {
 		/**
 		 * Filtra una lista de muestras y retorna una lista de muestras segun el nivel solicitado.
+		 * @param una lista de Muestra a filtrar
+		 * @return una lista de Muestra
 		 */
 		return muestras.stream()
 		.filter(m -> m.getResultadoActual() == nivelAFiltrar)

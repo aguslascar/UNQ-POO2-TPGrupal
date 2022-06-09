@@ -19,6 +19,10 @@ public class FiltroAND implements Filtro {
 	Filtro filtro2;
 	
 	public FiltroAND(Filtro filtro1, Filtro filtro2) {
+		/**
+		 * Crea una nueva instancia de un Filtro que va a tener dos filtros con un operador AND
+		 * @param dos Filtro que van a ser los filtros a operar.
+		 */
 		this.filtro1 = filtro1;
 		this.filtro2 = filtro2;
 	}
@@ -28,7 +32,8 @@ public class FiltroAND implements Filtro {
 		/**
 		 * Filtra la lista de muestras segun los criterios de los dos filtros que contenga
 		 * Y luego se intersectan sus resultados sin repetidos.
-		 * Retorna una lista de muestras.
+		 * @param una lista de Muestra a filtrar
+		 * @return una lista de Muestra
 		 */
 		return filtro2.filtrar(muestras)
 				.stream()

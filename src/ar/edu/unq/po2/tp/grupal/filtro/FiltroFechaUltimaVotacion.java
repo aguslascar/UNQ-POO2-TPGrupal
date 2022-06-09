@@ -21,6 +21,10 @@ public class FiltroFechaUltimaVotacion implements Filtro {
 	ComparadorDeFechas comparador;
 	
 	public FiltroFechaUltimaVotacion(LocalDate fecha, ComparadorDeFechas comparador) {
+		/**
+		 * Crea una instancia de un Filtro que va a filtrar por fecha de ultima votacion de la muestra
+		 * @param un LocalDate(fecha a comparar) y un ComparadorDeFechas que va a indicar si compara por menor o mayor.
+		 */
 		this.fecha = fecha;
 		this.comparador = comparador;
 	}

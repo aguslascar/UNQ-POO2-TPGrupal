@@ -20,6 +20,10 @@ public class FiltroFechaCreacionMuestra implements Filtro {
 	ComparadorDeFechas comparador;
 	
 	public FiltroFechaCreacionMuestra(LocalDate fecha, ComparadorDeFechas comparador) {
+		/**
+		 * Crea una instancia de un Filtro que va a filtrar por fecha de creacion de la muestra
+		 * @param un LocalDate(fecha a comparar) y un ComparadorDeFechas que va a indicar si compara por menor o mayor.
+		 */
 		this.fecha = fecha;
 		this.comparador = comparador;
 	}
@@ -29,7 +33,8 @@ public class FiltroFechaCreacionMuestra implements Filtro {
 		/**
 		 * Filtra una lista de muestras segun la fecha de creacion de cada muestra
 		 *  y si son anteriores o posteriores a la fecha dada a filtrar.
-		 *  Retorna una lista de muestras.
+		 *  @param una lista de Muestra a filtrar
+		 *  @return una lista de Muestra
 		 */
 		return muestras.stream()
 				.filter(m -> comparador.comparar(m.getFecha(), fecha))

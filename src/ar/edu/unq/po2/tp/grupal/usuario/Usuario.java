@@ -62,8 +62,21 @@ public class Usuario {
 	public void setidUsuario(int idUsuario) {
 		this.idUsuario = idUsuario;
 	}
+	
+
+	public boolean tieneConocimientoValidado() {
+		/**
+		 * Indica si el usuario tiene conocimiento validado externamente
+		 * @return un booleano
+		 */
+		return conocimientoValidado;
+	}
 
 	public boolean esExperto() {
+		/**
+		 * Indica si el usuario tiene nivel Experto
+		 * @return un booleano
+		 */
 		return nivel.esExperto();
 	}
 	
@@ -71,6 +84,7 @@ public class Usuario {
 		/**
 		 * Este metodo se encarga de agregar muestras que haya hecho el usuario.
 		 * Este metodo va a ser llamado solo por el sistema.
+		 * @param una Muestra
 		 */
 		muestras.add(muestra);
 	}
@@ -81,6 +95,7 @@ public class Usuario {
 		 * el usuario es un usuario del sistema y la muestra existe en el sistema.
 		 * Va a guardar esa revision en su lista de revisiones.
 		 * Esa revision va a ser enviada al sistema para que sea registrada.
+		 * @param una Muestra a agregar revision y una Opinion que es la opinion de la revision a agregar a la muestra
 		 * 
 		 */
 		try {
@@ -97,7 +112,7 @@ public class Usuario {
 	public int cantidadRevisionesUltimos30Dias() {
 		/**
 		 * Este metodo retorna la cantidad de revisiones de los ultimos 30 dias.
-		 * @return int
+		 * @return un int
 		 */
 		return this.revisionesUltimos30Dias().size();
 	}
@@ -106,6 +121,7 @@ public class Usuario {
 		/**
 		 * Este metodo retorna la cantidad de envios que realizo el usuario en los ultimos
 		 * 30 dias
+		 * @return un int
 		 */
 		return this.enviosUltimos30dias().size();
 	}
@@ -153,8 +169,5 @@ public class Usuario {
 			this.nivel = new Basico();	
 	}
 
-	public boolean tieneConocimientoValidado() {
-		return conocimientoValidado;
-	}
 
 }

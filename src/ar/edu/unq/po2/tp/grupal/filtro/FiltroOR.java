@@ -28,7 +28,8 @@ public class FiltroOR implements Filtro {
 		/**
 		 * Filtra la lista de muestras segun los criterios de los dos filtros que contenga
 		 * Y luego une sus resultados sin repetidos.
-		 * Retorna una lista de muestras.
+		 * @param una lista de Muestra a filtrar
+		 * @return una lista de Muestra.
 		 */
 		/*
 		 * Uso el mensaje combinarResultados dandole como parametro cada lista de muestras segun cada uno de los filtros
@@ -38,9 +39,11 @@ public class FiltroOR implements Filtro {
 
 
 	private List<Muestra> combinarResultados(List<Muestra> lista1, List<Muestra> lista2) {
-		/*
-		 * Chequeo si cada muestra de la segunda lista NO esta en la lista1, si no esta, lo agrego y retorno la lista1.
+		/**
+		 * Chequea si cada muestra de la segunda lista NO esta en la lista1, si no esta, lo agrego y retorno la lista1.
 		 * El resultado es la lista1 con los elementos no repetidos de la lista2.
+		 * @param lista1 y lista2 son una lista de Muestra que van a combinarse
+		 * @return una lista de Muestra que contenga los resultados de lista1 y lista2.
 		 */
 		for (Muestra m : lista2) {
 			if(! lista1.contains(m)) {
