@@ -1,13 +1,12 @@
 package ar.edu.unq.po2.grupal.zonaDeCobertura.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Muestra;
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Ong;
@@ -19,7 +18,8 @@ class ZonaDeCoberturaTest {
 	Muestra muestraA;
 	Muestra muestraB;
 	
-	Ong ong1;
+	Ong ong1 =new Ong("Ong1");
+	Ong spyOng;
 	
 	Ubicacion puntoA = new Ubicacion(0, 0);
 	Ubicacion puntoB = new Ubicacion(0, 1);
@@ -44,7 +44,6 @@ class ZonaDeCoberturaTest {
 	
 	ArrayList<ZonaDeCobertura> zonas = new ArrayList<ZonaDeCobertura>();
 	
-	
 	@BeforeEach
 	public void setUp() {
 		ubicaciones1.add(puntoA);
@@ -63,7 +62,7 @@ class ZonaDeCoberturaTest {
 		muestras1.add(muestraA);
 		muestras1.add(muestraB);
 		
-		this.ong1 = mock(Ong.class);
+		spyOng = Mockito.spy(new Ong("SpyOng"));
 		ongs.add(ong1);
 	}
 	
@@ -86,22 +85,27 @@ class ZonaDeCoberturaTest {
 	
 	@Test
 	void testAgregarMuestra() {
-		fail("Not yet implemented");
+		zona1.agregarMuestra(muestraA);
+		assertEquals(zona1.getMuestras().size(), 3);
 	}
 
 	@Test
 	void testRegistrar() {
-		fail("Not yet implemented");
+		zona1.registrar(ong1);
+		assertEquals(zona1.getOngsSubscriptas().size(), 2);
 	}
 	
 	@Test
 	void testDesuscribir() {
-		fail("Not yet implemented");
+		zona1.desuscribir(ong1);
+		assertEquals(zona1.getOngsSubscriptas().size(), 0);
 	}
 	
 	@Test
 	void testNotificar() {
-		fail("Not yet implemented");
+		zona1.registrar(spyOng);
+		zona1.notificar();		
+		Mockito.verify(spyOng).update();
 	}
 
 }
