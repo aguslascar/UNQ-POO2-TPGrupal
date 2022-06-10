@@ -49,11 +49,15 @@ public class ZonaDeCobertura implements ZonaDeCoberturaObservable {
 	}
 
 	// ------------------------------------------------------------------------------
-
-	public Boolean seSolapa(ZonaDeCobertura zona1, ZonaDeCobertura zona2) {
+	
+	public void agregarUbicacion(Ubicacion ubicacion) {
+		ubicaciones.add(ubicacion);
+	}
+	
+	public Boolean seSolapa(ZonaDeCobertura zona2) {
 		Boolean esSolapada = false;
 		ArrayList<Ubicacion> ubicacionesDeZona2 = zona2.getUbicaciones();
-		for (Ubicacion ubicacionDeZona1 : zona1.getUbicaciones()) {
+		for (Ubicacion ubicacionDeZona1 : this.getUbicaciones()) {
 			if (ubicacionesDeZona2.contains(ubicacionDeZona1)) {
 				esSolapada = true;
 			}
@@ -64,7 +68,7 @@ public class ZonaDeCobertura implements ZonaDeCoberturaObservable {
 	public ArrayList<ZonaDeCobertura> zonasSolapadas(ArrayList<ZonaDeCobertura> zonas) {
 		ArrayList<ZonaDeCobertura> seSolapaCon = new ArrayList<ZonaDeCobertura>();
 		for (ZonaDeCobertura zona : zonas) {
-			if (this.seSolapa(this, zona)) {
+			if (this.seSolapa(zona)) {
 				seSolapaCon.add(zona);
 			}
 		}
@@ -93,5 +97,6 @@ public class ZonaDeCobertura implements ZonaDeCoberturaObservable {
 		}
 
 	}
+
 
 }

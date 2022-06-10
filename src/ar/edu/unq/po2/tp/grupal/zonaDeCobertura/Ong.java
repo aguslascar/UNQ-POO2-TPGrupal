@@ -9,6 +9,18 @@ public class Ong implements Observer {
 	public Ong(String nombre) {
 		this.nombre = nombre;
 	}
+	
+	//----------------Setters------------------------------------------------------
+	
+	public void setFuncionalidadMuestra(FuncionalidadExterna nuevaFuncionalidad) {
+		muestra = nuevaFuncionalidad;
+	}
+	
+	public void setFuncionalidadValidacion(FuncionalidadExterna nuevaFuncionalidad) {
+		validacion = nuevaFuncionalidad;
+	}
+	
+	//------------------------------------------------------------------------------
 
 	@Override
 	public void update() {
@@ -21,6 +33,5 @@ public class Ong implements Observer {
 		// Llamar funcionalidad externa para validación.
 		
 	}
-
 
 }

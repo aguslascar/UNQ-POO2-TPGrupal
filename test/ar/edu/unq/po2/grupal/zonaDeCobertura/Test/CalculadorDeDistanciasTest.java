@@ -52,7 +52,7 @@ class CalculadorDeDistanciasTest {
 	}
 
 	@Test
-	void testdistancia() {
+	void testDistancia() {
 		assertEquals(calculador.distanciaEntre(puntoA, puntoB), 2);
 	}
 
