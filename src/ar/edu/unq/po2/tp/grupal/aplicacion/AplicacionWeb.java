@@ -11,27 +11,27 @@ import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.*;
 import ar.edu.unq.po2.tp.grupal.filtro.*;
 import ar.edu.unq.po2.tp.grupal.muestra.*;
 import ar.edu.unq.po2.tp.grupal.usuario.*;
-
+/**
+ * Esta clase representa a la aplicacion web la cual se encargara de
+ * registrar usuarios, muestras y revisiones.
+ * Guarda una lista de Muestra y una lista de Usuario.
+ * Tiene un contador para saber el ultimo id del ultimo usuario registrado.
+ * 
+ * @author aguslascar
+ */
 public class AplicacionWeb {
 	
-	/**
-	 * Esta clase representa a la aplicacion web la cual se encargara de
-	 * registrar usuarios, muestras y revisiones.
-	 * Guarda una lista de Muestra y una lista de Usuario.
-	 * Tiene un contador para saber el ultimo id del ultimo usuario registrado.
-	 * 
-	 * @author aguslascar
-	 */
+	
 	
 	private int ultimoidUsuario;
 	private List<Usuario> usuarios;
 	private List<Muestra> muestras;
 	
-	
+	/**
+	 * Inicializa una aplicacion web con todos sus valores de cero.
+	 */
 	public AplicacionWeb() {
-		/**
-		 * Inicializa una aplicacion web con todos sus valores de cero.
-		 */
+		
 		ultimoidUsuario = 0;
 		usuarios = new ArrayList<Usuario>();
 		muestras = new ArrayList<Muestra>();
@@ -49,39 +49,42 @@ public class AplicacionWeb {
 		return ultimoidUsuario;
 	}
 	
+	/**
+	 * Este metodo agrega un nuevo usuario recibido por parametro
+	 * y lo agrega a la lista de usuarios.
+	 * Por cada usuario nuevo se suma 1 al ultimo id del usuario y se le asigna ese id.
+	 * @param un Usuario que es un usuario a cargar en el sistema.
+	 */
 	public void registrarNuevoUsuario(Usuario usuario) {
-		/**
-		 * Este metodo agrega un nuevo usuario recibido por parametro
-		 * y lo agrega a la lista de usuarios.
-		 * Por cada usuario nuevo se suma 1 al ultimo id del usuario y se le asigna ese id.
-		 * @param un Usuario que es un usuario a cargar en el sistema.
-		 */
+		
 		ultimoidUsuario +=1;
 		usuario = this.asignaridUsuario(usuario, ultimoidUsuario);
 		usuarios.add(usuario);
 	}
 	
+	/**
+	 * Este metodo le asigna un id de usuario al usuario recibido por parametro.
+	 * @param un Usuario y un int que va a ser el id del usuario.
+	 * @return Usuario
+	 */
 	private Usuario asignaridUsuario(Usuario usuario, int id) {
-		/**
-		 * Este metodo le asigna un id de usuario al usuario recibido por parametro.
-		 * @param un Usuario y un int que va a ser el id del usuario.
-		 * @return Usuario
-		 */
+		
 		usuario.setidUsuario(id);
 		return usuario;
 	}
-
+	
+	/**
+	 * Este metodo agrega una revision a la muestra si y solo si,
+	 * el usuario que esta haciendo la revision es usuario del sistema y 
+	 * la muestra esta en la lista de muestras.
+	 * No podra hacer una revision sobre su propia muestra ni tampoco hacer una revision
+	 * si ya lo hizo anteriormente sobre esa muestra.
+	 * @throws Exception si la muestra no admite revisiones
+	 * @param 	una Muestra que se le va a agregar una revision
+	 * 			una Revision que es la revision ya hecha
+	 */
 	public void agregarRevision(Muestra muestra, Revision revision) throws Exception{
-		/**
-		 * Este metodo agrega una revision a la muestra si y solo si,
-		 * el usuario que esta haciendo la revision es usuario del sistema y 
-		 * la muestra esta en la lista de muestras.
-		 * No podra hacer una revision sobre su propia muestra ni tampoco hacer una revision
-		 * si ya lo hizo anteriormente sobre esa muestra.
-		 * @throws Exception si la muestra no admite revisiones
-		 * @param 	una Muestra que se le va a agregar una revision
-		 * 			una Revision que es la revision ya hecha
-		 */
+		
 		int idUsuario = revision.getIdUsuario();
 		//Tiene que existir la muestra en el sistema
 		//tiene que existir el usuario en el sistema
@@ -99,25 +102,27 @@ public class AplicacionWeb {
 				throw new Exception("No se puede opinar porque no es usuario del sistema, la muestra no esta en sistema o ya opino");
 			}
 		}
+	
+	/**
+	 * Este metodo retorna un booleano si la muestra dada por parametro esta en la lista de muestras
+	 * @param una Muestra
+	 * @return un booleano indicando si la muestra esta en el sistema
+	 */	
+	private boolean muestraExisteEnElSistema(Muestra muestra) {
 		
-private boolean muestraExisteEnElSistema(Muestra muestra) {
-		/**
-		 * Este metodo retorna un booleano si la muestra dada por parametro esta en la lista de muestras
-		 * @param una Muestra
-		 * @return un booleano indicando si la muestra esta en el sistema
-		 */
 		return muestras.contains(muestra);
 	}
-		
+	
+	/**
+	 * Este metodo retorna true si el usuario ya hizo una revision de esa muestra
+	 * o bien subio el la muestra. false en otro caso
+	 * Precondicion: la lista de revisiones de la muestra no puede ser vacia.
+	 * @param 	una Muestra en la cual voy a buscar si el usuario hizo una revision
+	 * 			un int que representa el id a buscar en las revisiones 
+	 * @return un booleano
+	 */	
 	private boolean yaOpino(Muestra muestra, int idUsuario) {
-		/**
-		 * Este metodo retorna true si el usuario ya hizo una revision de esa muestra
-		 * o bien subio el la muestra. false en otro caso
-		 * Precondicion: la lista de revisiones de la muestra no puede ser vacia.
-		 * @param 	una Muestra en la cual voy a buscar si el usuario hizo una revision
-		 * 			un int que representa el id a buscar en las revisiones 
-		 * @return un booleano
-		 */
+		
 		/*
 		 * Como cuando un usuario sube una muestra, realiza una revision diciendo que tipo de insecto
 		 * cree que es, sin tener que preguntarle a muestra el id del usuario, 
@@ -131,18 +136,18 @@ private boolean muestraExisteEnElSistema(Muestra muestra) {
 						.anyMatch(r -> r.getIdUsuario() == idUsuario);
 	}
 
-
+	/**
+	 * Este metodo crea una nueva muestra con los parametros dados y la registra
+	 * en la lista de muestras.
+	 * Si el idUsuario esta dentro de los usuarios, la crea, sino no hace nada
+	 * @param 	un Usuario que es el usuario que sube la muestra.
+	 * 			un LocalDate que representa la fecha de subida
+	 * 			una Imagen que representa la imagen de la muestra tomada
+	 * 			una Ubicacion que representa la ubicacion donde fue tomada la muestra
+	 * 			una Opinion que representa que tipo de insecto le parecio al usuario que subio la muestra
+	 */
 	public void registrarMuestra(Usuario usuario, LocalDate fecha, Imagen imagen, Ubicacion ubicacion, Opinion opinion) {
-		/**
-		 * Este metodo crea una nueva muestra con los parametros dados y la registra
-		 * en la lista de muestras.
-		 * Si el idUsuario esta dentro de los usuarios, la crea, sino no hace nada
-		 * @param 	un Usuario que es el usuario que sube la muestra.
-		 * 			un LocalDate que representa la fecha de subida
-		 * 			una Imagen que representa la imagen de la muestra tomada
-		 * 			una Ubicacion que representa la ubicacion donde fue tomada la muestra
-		 * 			una Opinion que representa que tipo de insecto le parecio al usuario que subio la muestra
-		 */
+		
 		int id = usuario.getidUsuario();
 		//Chequeo que el idUsuario que paso como parametro sea un id que este dentro de mis usuarios
 		if(this.esUsuario(id)) {
@@ -151,21 +156,23 @@ private boolean muestraExisteEnElSistema(Muestra muestra) {
 			}
 	}
 	
+	/**
+	 * Este metodo retorna si el id esta dentro de la lista de usuarios.
+	 * @param un int que representa el id del usuario
+	 * @return un boolean
+	 */
 	public boolean esUsuario(int id) {
-		/**
-		 * Este metodo retorna si el id esta dentro de la lista de usuarios.
-		 * @param un int que representa el id del usuario
-		 * @return un boolean
-		 */
+		
 		return usuarios.stream().anyMatch(u -> u.getidUsuario() == id);
 	}
-
+	
+	/**
+	 * Este metodo filtra las muestras segun el criterio dado por el filtro que se utilice.
+	 * @param un Filtro que puede ser cualquiera de las implementaciones de la clase Filtro
+	 * @return una lista de Muestra.
+	 */
 	public List<Muestra> filtrarMuestras(Filtro filtro) {
-		/**
-		 * Este metodo filtra las muestras segun el criterio dado por el filtro que se utilice.
-		 * @param un Filtro que puede ser cualquiera de las implementaciones de la clase Filtro
-		 * @return una lista de Muestra.
-		 */
+		
 		return filtro.filtrar(muestras);
 	}
 	
@@ -176,15 +183,16 @@ private boolean muestraExisteEnElSistema(Muestra muestra) {
 		 */
 		usuarios.stream().forEach(u -> this.recategorizar(u));
 	}
-
+	
+	/**
+	 * Este metodo, dado un usuario lo recategoriza segun su rendimiento.
+	 * Si el usuario tiene conocimiento validado, no se modifica su nivel.
+	 * Si es basico y tiene el rendimiento esperado, sube de categoria.
+	 * Si es experto y no cumple con el rendimiento esperado, baja de categoria.
+	 * @param un Usuario a recategorizar.
+	 */
 	private void recategorizar(Usuario usuario) {
-		/**
-		 * Este metodo, dado un usuario lo recategoriza segun su rendimiento.
-		 * Si el usuario tiene conocimiento validado, no se modifica su nivel.
-		 * Si es basico y tiene el rendimiento esperado, sube de categoria.
-		 * Si es experto y no cumple con el rendimiento esperado, baja de categoria.
-		 * @param un Usuario a recategorizar.
-		 */
+		
 		//es un usuario basico pero tiene el rendimiento esperado
 		if(!usuario.esExperto() 
 				&& this.tieneRendimientoEsperado(usuario)) {
@@ -196,33 +204,35 @@ private boolean muestraExisteEnElSistema(Muestra muestra) {
 				&& ! this.tieneRendimientoEsperado(usuario)) {
 			usuario.bajarDeNivel();
 		}
-}
-
+	}
+	/**
+	 * Este metodo chequea que el usuario haya realizado mas de 10 envios y
+	 * mas de 20 revisiones que se hayan subido 30 dias anteriores a la fecha actual. 
+	 * @param un Usuario el cual se va a ver si tiene el rendimiento esperado
+	 * @return un booleano 
+	 */
 	private boolean tieneRendimientoEsperado(Usuario usuario) {
-		/**
-		 * Este metodo chequea que el usuario haya realizado mas de 10 envios y
-		 * mas de 20 revisiones que se hayan subido 30 dias anteriores a la fecha actual. 
-		 * @param un Usuario el cual se va a ver si tiene el rendimiento esperado
-		 * @return un booleano 
-		 */
+		
 		return this.enviosUltimos30dias(usuario) > 10 && this.revisionesUltimos30dias(usuario) > 20;
 	}
 
+	/**
+	 * Retorna la cantidad de envios de los ultimos 30 dias del usuario dado por parametro
+	 * @param un Usuario del cual quiero saber la cantidad de envios
+	 * @return un int.
+	 */
 	private int enviosUltimos30dias(Usuario usuario) {
-		/**
-		 * Retorna la cantidad de envios de los ultimos 30 dias del usuario dado por parametro
-		 * @param un Usuario del cual quiero saber la cantidad de envios
-		 * @return un int.
-		 */
+		
 		return usuario.cantidadEnviosUltimos30Dias();
 	}
 
+	/**
+	 * Retorna la cantidad de revisiones de los ultimos 30 dias del usuario dado por parametro
+	 * @param un Usuario del cual quiero saber la cantidad de revisiones
+	 * @return un int.
+	 */
 	private int revisionesUltimos30dias(Usuario usuario) {
-		/**
-		 * Retorna la cantidad de revisiones de los ultimos 30 dias del usuario dado por parametro
-		 * @param un Usuario del cual quiero saber la cantidad de revisiones
-		 * @return un int.
-		 */
+		
 		return usuario.cantidadRevisionesUltimos30Dias();
 	}
 
