@@ -192,10 +192,16 @@ public class AplicacionWeb {
 	 * @param una Ong
 	 * @param una ZonaDeCobertura
 	 */
-	public void registrarOngAZona(Ong organizacion, ZonaDeCobertura zona) {
+	public void registrarOngAZona(Ong organizacion, ZonaDeCobertura zona) throws Exception{
 		if(organizaciones.contains(organizacion) 
 				&& zonas.contains(zona)) {
 			zona.registrar(organizacion);
+		}
+		else if (organizaciones.contains(organizacion)) {
+			throw new Exception("Error: la zona no existe");
+		}
+		else {
+			throw new Exception("Error: la organizacion no es existe en el sistema");	
 		}
 	}
 

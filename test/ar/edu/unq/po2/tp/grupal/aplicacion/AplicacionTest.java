@@ -289,7 +289,7 @@ class AplicacionTest {
 	}
 	
 	@Test
-	void testRegistrarUnaOrganizacionAUnaZona() {
+	void testRegistrarUnaOrganizacionAUnaZona() throws Exception {
 		//Testeo que una ong perteneciente al sistema sea agregada a su zona de cobertura de interes,
 		//la cual tambien esta en el sistema.
 		app.agregarOrganizacion(organizacion);
@@ -299,17 +299,18 @@ class AplicacionTest {
 	}
 	
 	@Test
-	void testRegistrarOngAZonaInexistentes() {
+	void testRegistrarOngAZonaInexistentes() throws Exception {
 		//Testeo que una ong que no pertenece al sistema quiera registrarse a una zona que tampoco pertenece
-		app.registrarOngAZona(organizacion, zona);
+		assertThrows(Exception.class, () -> app.registrarOngAZona(organizacion, zona));
 		verify(zona, never()).registrar(organizacion);
+		
 	}
 	
 	@Test
-	void testRegistrarOngPertenecienteAOngInexistente() {
+	void testRegistrarOngPertenecienteAOngInexistente() throws Exception {
 		//Testeo que una ong del sistema quiera registrarse a una zona que no pertenece al sistema.
 		app.agregarOrganizacion(organizacion);
-		app.registrarOngAZona(organizacion, zona);
+		assertThrows(Exception.class, () -> app.registrarOngAZona(organizacion, zona));
 		verify(zona, never()).registrar(organizacion);
 	}
 }
