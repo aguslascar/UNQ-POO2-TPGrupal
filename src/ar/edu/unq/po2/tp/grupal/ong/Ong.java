@@ -1,4 +1,6 @@
-package ar.edu.unq.po2.tp.grupal.zonaDeCobertura;
+package ar.edu.unq.po2.tp.grupal.ong;
+
+import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Observer;
 
 public class Ong implements Observer {
 

@@ -6,6 +6,8 @@ public interface ZonaDeCoberturaObservable {
 
 	public void desuscribir(Observer o);
 
-	public void notificar();
+	public void notificarNuevaMuestra();
+	
+	public void notificarValidacion();
 
 }

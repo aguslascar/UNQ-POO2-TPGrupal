@@ -8,8 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import ar.edu.unq.po2.tp.grupal.ong.Ong;
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Muestra;
-import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Ong;
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Ubicacion;
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.ZonaDeCobertura;
 
@@ -67,6 +67,21 @@ class ZonaDeCoberturaTest {
 	}
 	
 	@Test
+	void testGetNombre() {
+		assertEquals(zona1.getNombre(), "Zona1");
+	}
+	
+	@Test
+	void testGetEpicentro() {
+		assertEquals(zona1.getEpicentro(), puntoA);
+	}
+	
+	@Test
+	void testGetRadio() {
+		assertEquals(zona1.getRadio(), 2);
+	}
+
+	@Test
 	void testAgregarUbicacion() {
 		zona1.agregarUbicacion(puntoC);
 		assertEquals(zona1.getUbicaciones().size(), 5);
@@ -88,6 +103,16 @@ class ZonaDeCoberturaTest {
 		zona1.agregarMuestra(muestraA);
 		assertEquals(zona1.getMuestras().size(), 3);
 	}
+	
+	@Test
+	void testPerteneceAZona() {
+		assertTrue(zona1.perteneceAZona(puntoA));
+	}
+	
+	@Test
+	void testEsMuestraDeZona() {
+		assertTrue(zona1.esMuestraDeZona(muestraA));
+	}
 
 	@Test
 	void testRegistrar() {
@@ -102,10 +127,17 @@ class ZonaDeCoberturaTest {
 	}
 	
 	@Test
-	void testNotificar() {
+	void testNotificarNuevaMuestra() {
 		zona1.registrar(spyOng);
-		zona1.notificar();		
+		zona1.notificarNuevaMuestra();		
 		Mockito.verify(spyOng).update();
+	}
+	
+	@Test
+	void testNotificarValidacion() {
+		zona1.registrar(spyOng);
+		zona1.notificarValidacion();
+		Mockito.verify(spyOng).updateValidacion();
 	}
 
 }

@@ -3,19 +3,19 @@ package ar.edu.unq.po2.tp.grupal.zonaDeCobertura;
 import java.util.ArrayList;
 
 public class CalculadorDeDistancias {
-
-	private ZonaDeCobertura zonaCobertura;
+	
+	private AplicacionWeb  aplicacion;
 
 	public CalculadorDeDistancias() {
 
 	}
 	
-	public CalculadorDeDistancias(ZonaDeCobertura zonaCobertura) {
-		this.zonaCobertura = zonaCobertura;
+	public CalculadorDeDistancias(AplicacionWeb aplicacion) {
+		this.aplicacion = aplicacion;
 	}
 
-	public ZonaDeCobertura getZona() {
-		return zonaCobertura;
+	public AplicacionWeb getAplicacion() {
+		return aplicacion;
 	}
 
 	// Devuelve la distancia de 2 ubicaciones.
@@ -41,10 +41,16 @@ public class CalculadorDeDistancias {
 
 	// Dado una muestra, conocer todas las muestras obtenidas a menos de x metros o
 	// kilómetros.
+	/**
+	 * 
+	 * @param muestra
+	 * @param n
+	 * @return
+	 */
 	public ArrayList<Muestra> muestrasObtenidasA(Muestra m, int n) {
 		Ubicacion ubicacionActualMuestra = m.getUbicacion();
 		ArrayList<Muestra> muestrasObtenidas = new ArrayList<Muestra>();
-		for (Muestra muestra : this.getZona().getMuestras()) {
+		for (Muestra muestra : this.getAplicacion().getMuestras()) {
 			if (distanciaEntre(ubicacionActualMuestra, muestra.getUbicacion()) < n) {
 				muestrasObtenidas.add(muestra);
 			}

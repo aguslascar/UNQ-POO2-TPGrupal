@@ -2,13 +2,15 @@ package ar.edu.unq.po2.tp.grupal.zonaDeCobertura;
 
 import java.util.ArrayList;
 
+import ar.edu.unq.po2.tp.grupal.ong.Ong;
+
 public class ZonaDeCobertura implements ZonaDeCoberturaObservable {
 	String nombre;
 	Ubicacion epicentro;
 	int radio;
 
 	ArrayList<Muestra> muestras = new ArrayList<Muestra>();
-	ArrayList<Ubicacion> ubicaciones = new ArrayList<Ubicacion>(); // Usar radio
+	ArrayList<Ubicacion> ubicaciones = new ArrayList<Ubicacion>(); 
 
 	private ArrayList<Ong> OngsSubscriptas = new ArrayList<Ong>();
 
@@ -77,7 +79,15 @@ public class ZonaDeCobertura implements ZonaDeCoberturaObservable {
 
 	public void agregarMuestra(Muestra muestra) {
 		muestras.add(muestra);
-		this.notificar();
+		this.notificarNuevaMuestra();
+	}
+	
+	public boolean perteneceAZona(Ubicacion ubicacion) {
+		return this.getUbicaciones().contains(ubicacion);
+	}
+	
+	public boolean esMuestraDeZona(Muestra muestra) {
+		return this.getMuestras().contains(muestra);
 	}
 
 	@Override
@@ -91,11 +101,17 @@ public class ZonaDeCobertura implements ZonaDeCoberturaObservable {
 	}
 
 	@Override
-	public void notificar() {
+	public void notificarNuevaMuestra() {
 		for (Ong suscriptor : this.getOngsSubscriptas()) {
 			suscriptor.update();
 		}
-
+	}
+	
+	@Override
+	public void notificarValidacion() {
+		for (Ong suscriptor : this.getOngsSubscriptas()) {
+			suscriptor.updateValidacion();
+		}
 	}
 
 
