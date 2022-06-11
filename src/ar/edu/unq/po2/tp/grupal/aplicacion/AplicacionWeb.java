@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 
 
+
 import java.util.ArrayList;
 import java.util.List;
 import ar.edu.unq.po2.tp.grupal.revision.*;
@@ -11,10 +12,11 @@ import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.*;
 import ar.edu.unq.po2.tp.grupal.filtro.*;
 import ar.edu.unq.po2.tp.grupal.muestra.*;
 import ar.edu.unq.po2.tp.grupal.usuario.*;
+import ar.edu.unq.po2.tp.grupal.organizaciones.*;
 /**
  * Esta clase representa a la aplicacion web la cual se encargara de
  * registrar usuarios, muestras y revisiones.
- * Guarda una lista de Muestra y una lista de Usuario.
+ * Guarda una lista de Muestra, una lista de Usuario, una lista de ZonaDeCobertura y una lista de Ong.
  * Tiene un contador para saber el ultimo id del ultimo usuario registrado.
  * 
  * @author aguslascar
@@ -26,6 +28,8 @@ public class AplicacionWeb {
 	private int ultimoidUsuario;
 	private List<Usuario> usuarios;
 	private List<Muestra> muestras;
+	private List<ZonaDeCobertura> zonas;
+	private List<Ong> organizaciones;
 	
 	/**
 	 * Inicializa una aplicacion web con todos sus valores de cero.
@@ -35,6 +39,8 @@ public class AplicacionWeb {
 		ultimoidUsuario = 0;
 		usuarios = new ArrayList<Usuario>();
 		muestras = new ArrayList<Muestra>();
+		zonas = new ArrayList<ZonaDeCobertura>();
+		organizaciones = new ArrayList<Ong>();
 	}
 	
 	public List<Usuario> getUsuarios() {
@@ -45,6 +51,14 @@ public class AplicacionWeb {
 		return muestras;
 	}
 	
+	public List<ZonaDeCobertura> getZonas() {
+		return zonas;
+	}
+
+	public List<Ong> getOrganizaciones() {
+		return organizaciones;
+	}
+
 	public int getUltimoidUsuario() {
 		return ultimoidUsuario;
 	}
@@ -151,11 +165,40 @@ public class AplicacionWeb {
 		int id = usuario.getidUsuario();
 		//Chequeo que el idUsuario que paso como parametro sea un id que este dentro de mis usuarios
 		if(this.esUsuario(id)) {
-			Muestra muestra = new Muestra(id, LocalDate.now(), imagen, ubicacion, opinion);
+			Muestra muestra = new Muestra(id, LocalDate.now(), imagen, ubicacion, opinion, this);
 			muestras.add(muestra);
+			this.agregarAZona(muestra);
 			}
 	}
 	
+	/**
+	 * Este metodo agrega una nueva muestra a una zona de cobertura(o mas de una si se solapan)
+	 * si su ubicacion esta dentro de alguna zona de cobertura, sino no hace nada.
+	 * @param una Muestra
+	 */
+	private void agregarAZona(Muestra muestra) {
+		for(ZonaDeCobertura zona : zonas) {
+			if(zona.perteneceAZona(muestra.getUbicacion())) {
+				zona.agregarMuestra(muestra);
+			}
+		}
+	}
+	
+	
+	/**
+	 * Este metodo registra una organizacion a una zona de cobertura de su interes.
+	 * Verifica que la organizacion sea parte del sistema
+	 * Si la zona no existe, no hace nada
+	 * @param una Ong
+	 * @param una ZonaDeCobertura
+	 */
+	public void registrarOngAZona(Ong organizacion, ZonaDeCobertura zona) {
+		if(organizaciones.contains(organizacion) 
+				&& zonas.contains(zona)) {
+			zona.registrar(organizacion);
+		}
+	}
+
 	/**
 	 * Este metodo retorna si el id esta dentro de la lista de usuarios.
 	 * @param un int que representa el id del usuario
@@ -174,6 +217,22 @@ public class AplicacionWeb {
 	public List<Muestra> filtrarMuestras(Filtro filtro) {
 		
 		return filtro.filtrar(muestras);
+	}
+	
+	/**
+	 * Este metodo agrega una ZonaDeCobertura a la lista de zonas
+	 * @param una ZonaDeCobertura
+	 */
+	public void agregarZona(ZonaDeCobertura zona) {
+		zonas.add(zona);
+	}
+	
+	/**
+	 * Este metodo agrega una ong a la lista de organizaciones
+	 * @param una Ong
+	 */
+	public void agregarOrganizacion(Ong organizacion) {
+		organizaciones.add(organizacion);
 	}
 	
 	public void revisarNivelesDeUsuario() {
@@ -236,4 +295,16 @@ public class AplicacionWeb {
 		return usuario.cantidadRevisionesUltimos30Dias();
 	}
 
+	/**
+	 * Este metodo se llama cuando una muestra ha sido verificada por expertos.
+	 * Notifica a las ZonasDeCobertura que contengan a esa muestra, su validacion.
+	 * @param una Muestra
+	 */
+	public void seValidoMuestra(Muestra muestra) {
+		for(ZonaDeCobertura zona : zonas) {
+			if(zona.esMuestraDeZona(muestra)) {
+				zona.notificarValidacion();
+			}
+		}
+	}
 }

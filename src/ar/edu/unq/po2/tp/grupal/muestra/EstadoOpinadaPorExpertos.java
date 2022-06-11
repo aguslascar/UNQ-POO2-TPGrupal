@@ -42,6 +42,7 @@ public class EstadoOpinadaPorExpertos extends EstadoDeMuestra {
 		if (revision.getNivelDeUsuario().esExperto() && coincideConOpinionDeExperto(revision)) {
 			muestra.agregarRevision(revision);
 			muestra.cambiarEstado(new EstadoVerificada(revision.getOpinion().getDescripcion()));
+			muestra.notificarVerificacion();
 		// Si el usuario que realizo 'revision' solo es experto pero no coincide con al menos una revisión anterior de
 	    // otro experto, entonces solo se agrega 'revision' a 'muestra' y a la variable 'revisionesDeExpertos'.
 		} else if (revision.getNivelDeUsuario().esExperto()) {

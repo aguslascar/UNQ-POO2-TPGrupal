@@ -1,10 +1,8 @@
 package ar.edu.unq.po2.tp.grupal.aplicacion;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+
+import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,10 +12,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ar.edu.unq.po2.tp.grupal.muestra.Muestra;
+import ar.edu.unq.po2.tp.grupal.organizaciones.Ong;
 import ar.edu.unq.po2.tp.grupal.revision.*;
 import ar.edu.unq.po2.tp.grupal.usuario.NivelDeUsuario;
 import ar.edu.unq.po2.tp.grupal.usuario.Usuario;
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Ubicacion;
+import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.ZonaDeCobertura;
 import ar.edu.unq.po2.tp.grupal.filtro.*;
 
 class AplicacionTest {
@@ -33,6 +33,8 @@ class AplicacionTest {
 	Usuario usuarioExperto;
 	Filtro filtro;
 	NivelDeUsuario nivelDeUsuario;
+	Ong organizacion;
+	ZonaDeCobertura zona;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -47,6 +49,8 @@ class AplicacionTest {
 		revision = mock(Revision.class);
 		filtro = mock(Filtro.class);
 		nivelDeUsuario = mock(NivelDeUsuario.class);
+		zona = mock(ZonaDeCobertura.class);
+		organizacion = mock(Ong.class);
 	}
 
 	@Test
@@ -225,5 +229,87 @@ class AplicacionTest {
 		when(filtro.filtrar(app.getMuestras())).thenReturn(muestras);
 		//Chequeo que el sistema hizo el llamado a filtrar(Muestra) y app.filtrarMuestras(filtro) contiene la muestra falsa.
 		assertTrue(app.filtrarMuestras(filtro).contains(muestraFalsa));
+	}
+	
+	@Test
+	void testAgregarZonaDeCobertura() {
+		//Testeo que se agregue una zona de cobertura a la lista de zonas
+		app.agregarZona(zona);
+		assertTrue(app.getZonas().contains(zona));
+	}
+	
+	@Test
+	void testAgregarOrganizacion() {
+		//Testeo que se agregue una ong a la lista de organizaciones
+		app.agregarOrganizacion(organizacion);
+		assertTrue(app.getOrganizaciones().contains(organizacion));
+	}
+	
+	@Test
+	void testAgregarNuevaMuestraYRegistrarEnZona() {
+		//Testeo que al agregar una muestra, se agregue a la zona de cobertura
+		//Mockeo la zona para que indique que la ubicacion de la muestra si pertenece a esa zona
+		app.agregarZona(zona);
+		app.registrarNuevoUsuario(usuarioBasico);
+		when(zona.perteneceAZona(ubicacion)).thenReturn(true);
+		when(usuarioBasico.getidUsuario()).thenReturn(1);
+		app.registrarMuestra(usuarioBasico, LocalDate.now(), imagen, ubicacion, opinion);
+		verify(zona).agregarMuestra(any());
+	}
+	
+	@Test
+	void testAgregarNuevaMuestraYNoRegistrarEnZona() {
+		//Testeo que al agregar una muestra, no se agregue a una zona de cobertura
+		//Mockeo la zona para que indique que la ubicacion de la muestra no pertenece a esa zona
+		app.agregarZona(zona);
+		app.registrarNuevoUsuario(usuarioBasico);
+		when(zona.perteneceAZona(ubicacion)).thenReturn(false);
+		when(usuarioBasico.getidUsuario()).thenReturn(1);
+		app.registrarMuestra(usuarioBasico, LocalDate.now(), imagen, ubicacion, opinion);
+		verify(zona, never()).agregarMuestra(any());
+	}
+	
+	@Test 
+	void testMuestraHaSidoVerificada() {
+		//Testeo que una muestra que pertenece a una zona, se valide y notifique a la zona
+		app.agregarZona(zona);
+		when(zona.esMuestraDeZona(muestraFalsa)).thenReturn(true);
+		app.seValidoMuestra(muestraFalsa);
+		verify(zona).notificarValidacion();
+	}
+	
+	@Test 
+	void testMuestraHaSidoVerificadaPeroNoPerteneceANingunaZona() {
+		//Testeo que una muestra que no pertenece a ninguna una zona, se valide y no haga nada
+		app.agregarZona(zona);
+		when(zona.esMuestraDeZona(muestraFalsa)).thenReturn(false);
+		app.seValidoMuestra(muestraFalsa);
+		//Verifico que a la unica zona del sistema, no se le envie ningun mensaje
+		verify(zona, never()).notificarValidacion();
+	}
+	
+	@Test
+	void testRegistrarUnaOrganizacionAUnaZona() {
+		//Testeo que una ong perteneciente al sistema sea agregada a su zona de cobertura de interes,
+		//la cual tambien esta en el sistema.
+		app.agregarOrganizacion(organizacion);
+		app.agregarZona(zona);
+		app.registrarOngAZona(organizacion, zona);
+		verify(zona).registrar(organizacion);
+	}
+	
+	@Test
+	void testRegistrarOngAZonaInexistentes() {
+		//Testeo que una ong que no pertenece al sistema quiera registrarse a una zona que tampoco pertenece
+		app.registrarOngAZona(organizacion, zona);
+		verify(zona, never()).registrar(organizacion);
+	}
+	
+	@Test
+	void testRegistrarOngPertenecienteAOngInexistente() {
+		//Testeo que una ong del sistema quiera registrarse a una zona que no pertenece al sistema.
+		app.agregarOrganizacion(organizacion);
+		app.registrarOngAZona(organizacion, zona);
+		verify(zona, never()).registrar(organizacion);
 	}
 }

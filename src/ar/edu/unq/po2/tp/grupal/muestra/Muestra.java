@@ -49,6 +49,11 @@ public class Muestra {
 	private Opinion opinion;
 	
 	/**
+	 * Una aplicacion web que representa el sistema que registro la muestra.
+	 */
+	private AplicacionWeb sistema;
+	
+	/**
 	 * Constructor de una nueva muestra tomada.
 	 * @param usuario Usuario autor de la muestra.
 	 * @param fecha Fecha en la que se registró la muestra.
@@ -56,7 +61,7 @@ public class Muestra {
 	 * @param ubicacion Ubicación en la que se generó la muestra.
 	 * @param opinion Opinión del propio usuario que tomó la muestra.
 	 */
-	public Muestra(int idUsuario, LocalDate fecha, Imagen Foto, Ubicacion ubicacion, Opinion opinion) {
+	public Muestra(int idUsuario, LocalDate fecha, Imagen Foto, Ubicacion ubicacion, Opinion opinion, AplicacionWeb sistema) {
 		super();
 		this.setIdUsuario(idUsuario);
 		this.setFecha(fecha);
@@ -65,9 +70,12 @@ public class Muestra {
 		this.setOpinion(opinion);
 		this.setRevisiones(new ArrayList<Revision>());
 		this.setEstado(new EstadoSinVerificar());
+		this.setSistema(sistema);
 		this.agregarRevision(new Revision(opinion, fecha, new Basico(), idUsuario));
 	}
 	
+	
+
 	/**
 	 * Método que retorna la fecha de la ultima revisión realizada hacia esta muestra.
 	 * @return Un LocalDate que representa la fecha de la ultima revisión realizada hacia esta muestra.
@@ -196,7 +204,7 @@ public class Muestra {
 
 	/**
 	 * Guarda en la variable interna privada foto el valor pasado como parámetro.
-	 * @param foto Un String que representa la foto tomada al momento de registrar la muestra.
+	 * @param foto Una Imagen que representa la foto tomada al momento de registrar la muestra.
 	 */
 	private void setFoto(Imagen foto) {
 		this.foto = foto;
@@ -234,5 +242,18 @@ public class Muestra {
 	 */
 	private void setOpinion(Opinion opinion) {
 		this.opinion = opinion;
+	}
+
+	
+	private void setSistema(AplicacionWeb sistema) {
+		this.sistema = sistema;
+		
+	}
+	
+	/**
+	 * Notifica al sistema de que la muestra ha sido verificada por expertos.
+	 */
+	public void notificarVerificacion() {
+		sistema.seValidoMuestra(this);
 	}
 }

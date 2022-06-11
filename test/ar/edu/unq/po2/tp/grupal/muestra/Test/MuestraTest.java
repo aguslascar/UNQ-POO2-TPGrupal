@@ -9,6 +9,7 @@ import java.time.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ar.edu.unq.po2.tp.grupal.aplicacion.AplicacionWeb;
 import ar.edu.unq.po2.tp.grupal.aplicacion.Imagen;
 import ar.edu.unq.po2.tp.grupal.muestra.Muestra;
 import ar.edu.unq.po2.tp.grupal.revision.Opinion;
@@ -32,6 +33,7 @@ public class MuestraTest {
 	private NivelDeUsuario nivelDeUsuario1;
 	private NivelDeUsuario nivelDeUsuario2;
 	private int idUsuario;
+	private AplicacionWeb app;
 	
 	@BeforeEach
 	public void setUp() throws Exception {
@@ -48,7 +50,8 @@ public class MuestraTest {
 	    opinion1 = mock(Opinion.class);
 	    opinion2 = mock(Opinion.class);
 	    idUsuario = 2578670;
-		muestra = new Muestra(idUsuario, fecha, foto, ubicacion, opinionAutor); 
+	    app = mock(AplicacionWeb.class);
+		muestra = new Muestra(idUsuario, fecha, foto, ubicacion, opinionAutor, app); 
 	}
 	
 	// Se testea que al instanciar una nueva Muestra, el idUsuario este bien almacenado y sea accesible publicamente
