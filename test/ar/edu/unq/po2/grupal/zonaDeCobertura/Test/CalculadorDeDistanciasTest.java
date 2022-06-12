@@ -8,10 +8,12 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.CalculadorDeDistancias;
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Muestra;
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Ubicacion;
+import ar.edu.unq.po2.tp.grupal.ong.Ong;
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.AplicacionWeb;
 
 class CalculadorDeDistanciasTest {
@@ -30,12 +32,9 @@ class CalculadorDeDistanciasTest {
 	ArrayList<Muestra> muestras = new ArrayList<Muestra>();
 
 	CalculadorDeDistancias calculador = new CalculadorDeDistancias();
-	AplicacionWeb aplicacion = new AplicacionWeb(muestras);
-	CalculadorDeDistancias calculadorA = new CalculadorDeDistancias(aplicacion);
 
 	@BeforeEach
 	public void setUp() {
-		aplicacion = mock(AplicacionWeb.class);
 
 		ubicaciones.add(puntoA);
 		ubicaciones.add(puntoB);
@@ -51,12 +50,7 @@ class CalculadorDeDistanciasTest {
 		muestras.add(muestraB);
 		muestras.add(muestraC);
 		muestras.add(muestraD);
-	}
-
-	// Se testea que la descripción de la aplicación sea el esperado.
-	@Test
-	void testGetAplicacion() {
-		assertEquals(calculadorA.getAplicacion(), aplicacion); // Consultar
+		
 	}
 
 	// Se testea que la distancia entre dos puntos sea el esperado.
@@ -79,9 +73,7 @@ class CalculadorDeDistanciasTest {
 		when(muestraC.getUbicacion()).thenReturn(puntoC);
 		when(muestraD.getUbicacion()).thenReturn(puntoD);
 
-		when(aplicacion.getMuestras()).thenReturn(muestras); // Consultar
-
-		assertEquals(calculadorA.muestrasObtenidasA(muestraA, 8).size(), 3);
+		assertEquals(calculador.muestrasObtenidasA(muestraA, 8, muestras).size(), 3);
 	}
 
 }

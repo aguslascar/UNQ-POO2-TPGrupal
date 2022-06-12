@@ -31,8 +31,10 @@ public class Ong implements Observer {
 	 * 
 	 * @param nombre El nombre de la organización.
 	 */
-	public Ong(String nombre) {
+	public Ong(String nombre, FuncionalidadExterna muestra, FuncionalidadExterna validacion) {
 		this.nombre = nombre;
+		this.setFuncionalidadMuestra(muestra);
+		this.setFuncionalidadValidacion(validacion);
 	}
 
 	// ---------------Getters y Setters-------------------------------------

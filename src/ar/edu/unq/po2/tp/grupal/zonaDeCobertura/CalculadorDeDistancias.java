@@ -14,29 +14,10 @@ import java.util.ArrayList;
 public class CalculadorDeDistancias {
 
 	/**
-	 * Una aplicacion del tipo AplicacionWeb que representa la aplicacion que usa el
-	 * calculador.
-	 */
-	private AplicacionWeb aplicacion;
-
-	/**
 	 * Inicializa un calculador de distancias.
 	 */
 	public CalculadorDeDistancias() {
-	}
-
-	/**
-	 * Inicializa un calculador de distancias que requiera devolver muestras por una
-	 * aplicacion.
-	 * 
-	 * @param una aplicacion que tenga las muestras a calcular.
-	 */
-	public CalculadorDeDistancias(AplicacionWeb aplicacion) {
-		this.aplicacion = aplicacion;
-	}
-
-	public AplicacionWeb getAplicacion() {
-		return aplicacion;
+		super();
 	}
 
 	/**
@@ -84,10 +65,10 @@ public class CalculadorDeDistancias {
 	 * @return Todas las muestras que estaban a n metros o kilómetros de la muestra
 	 *         dada.
 	 */
-	public ArrayList<Muestra> muestrasObtenidasA(Muestra m, int n) {
+	public ArrayList<Muestra> muestrasObtenidasA(Muestra m, int n, ArrayList<Muestra> muestras) {
 		Ubicacion ubicacionActualMuestra = m.getUbicacion();
 		ArrayList<Muestra> muestrasObtenidas = new ArrayList<Muestra>();
-		for (Muestra muestra : this.getAplicacion().getMuestras()) {
+		for (Muestra muestra : muestras) {
 			if (distanciaEntre(ubicacionActualMuestra, muestra.getUbicacion()) < n) {
 				muestrasObtenidas.add(muestra);
 			}

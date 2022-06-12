@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import static org.mockito.Mockito.mock;
 
+import ar.edu.unq.po2.tp.grupal.ong.FuncionalidadExterna;
 import ar.edu.unq.po2.tp.grupal.ong.Ong;
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Muestra;
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Ubicacion;
@@ -18,7 +20,9 @@ class ZonaDeCoberturaTest {
 	Muestra muestraA;
 	Muestra muestraB;
 
-	Ong ong1 = new Ong("Ong1");
+	FuncionalidadExterna muestra;
+	FuncionalidadExterna validacion;
+	Ong ong1 = new Ong("Ong1", muestra, validacion);
 	Ong spyOng;
 
 	Ubicacion puntoA = new Ubicacion(0, 0);
@@ -62,7 +66,10 @@ class ZonaDeCoberturaTest {
 		muestras1.add(muestraA);
 		muestras1.add(muestraB);
 
-		spyOng = Mockito.spy(new Ong("SpyOng"));
+		this.muestra = mock(FuncionalidadExterna.class);
+		this.validacion = mock(FuncionalidadExterna.class);
+		
+		spyOng = Mockito.spy(new Ong("SpyOng",  muestra, validacion));
 		ongs.add(ong1);
 	}
 
