@@ -1,6 +1,7 @@
-package ar.edu.unq.po2.grupal.zonaDeCobertura.Test;
+package ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -8,13 +9,10 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.CalculadorDeDistancias;
-import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Muestra;
+import ar.edu.unq.po2.tp.grupal.muestra.*;
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Ubicacion;
-import ar.edu.unq.po2.tp.grupal.ong.Ong;
-import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.AplicacionWeb;
 
 class CalculadorDeDistanciasTest {
 

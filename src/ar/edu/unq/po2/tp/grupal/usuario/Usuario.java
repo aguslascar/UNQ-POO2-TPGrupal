@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import ar.edu.unq.po2.tp.grupal.revision.*;
-import ar.edu.unq.po2.tp.grupal.aplicacion.*;
+import ar.edu.unq.po2.tp.grupal.aplicacion.AplicacionWeb;
 import ar.edu.unq.po2.tp.grupal.muestra.*;
 
 /**

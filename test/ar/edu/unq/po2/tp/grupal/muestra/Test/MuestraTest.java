@@ -360,4 +360,14 @@ public class MuestraTest {
 		assertEquals(muestra.getRevisiones().size(), 1);
 		assertEquals(muestra.getNivelDeRevision(),"Muestra sin verificar");
 	}
+	
+	//Se testea que la fecha de la ultima votacion, corresponda con la fecha de la ultima revision agregada.
+	@Test
+	public void testObtenerUltimaFechaDeVotacion() throws Exception {
+		when(revision1.getFecha()).thenReturn(LocalDate.now());
+		when(revision1.getNivelDeUsuario()).thenReturn(nivelDeUsuario1);
+		when(nivelDeUsuario1.esExperto()).thenReturn(true);
+		muestra.recibirRevision(revision1);
+		assertEquals(LocalDate.now(), muestra.fechaUltimaVotacion());
+	}
 }

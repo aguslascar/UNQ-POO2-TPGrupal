@@ -5,14 +5,15 @@ import java.time.LocalDate;
 
 
 
+
 import java.util.ArrayList;
 import java.util.List;
 import ar.edu.unq.po2.tp.grupal.revision.*;
+import ar.edu.unq.po2.tp.grupal.usuario.Usuario;
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.*;
-import ar.edu.unq.po2.tp.grupal.filtro.*;
+import ar.edu.unq.po2.tp.grupal.filtro.Filtro;
 import ar.edu.unq.po2.tp.grupal.muestra.*;
-import ar.edu.unq.po2.tp.grupal.usuario.*;
-import ar.edu.unq.po2.tp.grupal.organizaciones.*;
+import ar.edu.unq.po2.tp.grupal.ong.*;
 /**
  * Esta clase representa a la aplicacion web la cual se encargara de
  * registrar usuarios, muestras y revisiones.

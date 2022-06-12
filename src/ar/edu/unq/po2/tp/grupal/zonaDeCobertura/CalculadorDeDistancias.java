@@ -2,6 +2,8 @@ package ar.edu.unq.po2.tp.grupal.zonaDeCobertura;
 
 import java.util.ArrayList;
 
+import ar.edu.unq.po2.tp.grupal.muestra.*;
+
 /**
  * Esta clase representa a un calculador de distancias, que se encanga de
  * calcular la distancia entre dos ubicaciones, de devolver las ubicaciones

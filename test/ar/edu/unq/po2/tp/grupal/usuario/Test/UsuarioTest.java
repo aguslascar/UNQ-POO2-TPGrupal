@@ -1,4 +1,4 @@
-package ar.edu.unq.po2.tp.grupal.usuario;
+package ar.edu.unq.po2.tp.grupal.usuario.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -6,16 +6,16 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 
-import ar.edu.unq.po2.tp.grupal.aplicacion.*;
+import ar.edu.unq.po2.tp.grupal.aplicacion.AplicacionWeb;
+import ar.edu.unq.po2.tp.grupal.aplicacion.Imagen;
 import ar.edu.unq.po2.tp.grupal.muestra.*;
 import ar.edu.unq.po2.tp.grupal.revision.*;
+import ar.edu.unq.po2.tp.grupal.usuario.NivelDeUsuario;
+import ar.edu.unq.po2.tp.grupal.usuario.Usuario;
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.*;
 
 class UsuarioTest {

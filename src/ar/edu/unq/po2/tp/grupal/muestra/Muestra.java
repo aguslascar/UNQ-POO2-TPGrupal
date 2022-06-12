@@ -6,9 +6,10 @@ import java.time.*;
 import java.util.ArrayList;
 
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.*;
-import ar.edu.unq.po2.tp.grupal.aplicacion.*;
-import ar.edu.unq.po2.tp.grupal.usuario.*;
+import ar.edu.unq.po2.tp.grupal.aplicacion.AplicacionWeb;
+import ar.edu.unq.po2.tp.grupal.aplicacion.Imagen;
 import ar.edu.unq.po2.tp.grupal.revision.*;
+import ar.edu.unq.po2.tp.grupal.usuario.Basico;
 
 /**
  * Esta clase representa y guarda datos de una muestra tomada, como la fecha en que se registró la muestra, el id del

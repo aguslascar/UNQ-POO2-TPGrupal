@@ -1,6 +1,7 @@
-package ar.edu.unq.po2.grupal.zonaDeCobertura.Test;
+package ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 
 import java.util.ArrayList;
 
@@ -11,7 +12,7 @@ import static org.mockito.Mockito.mock;
 
 import ar.edu.unq.po2.tp.grupal.ong.FuncionalidadExterna;
 import ar.edu.unq.po2.tp.grupal.ong.Ong;
-import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Muestra;
+import ar.edu.unq.po2.tp.grupal.muestra.*;
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Ubicacion;
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.ZonaDeCobertura;
 

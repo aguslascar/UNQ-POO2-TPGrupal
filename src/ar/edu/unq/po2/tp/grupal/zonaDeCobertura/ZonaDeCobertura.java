@@ -1,6 +1,7 @@
 package ar.edu.unq.po2.tp.grupal.zonaDeCobertura;
 
 import java.util.ArrayList;
+import ar.edu.unq.po2.tp.grupal.muestra.*;
 
 import ar.edu.unq.po2.tp.grupal.ong.Ong;
 

@@ -1,6 +1,7 @@
-package ar.edu.unq.po2.tp.grupal.aplicacion;
+package ar.edu.unq.po2.tp.grupal.aplicacion.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 
 import static org.mockito.Mockito.*;
 
@@ -11,14 +12,16 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ar.edu.unq.po2.tp.grupal.aplicacion.AplicacionWeb;
+import ar.edu.unq.po2.tp.grupal.aplicacion.Imagen;
+import ar.edu.unq.po2.tp.grupal.filtro.Filtro;
 import ar.edu.unq.po2.tp.grupal.muestra.Muestra;
-import ar.edu.unq.po2.tp.grupal.organizaciones.Ong;
+import ar.edu.unq.po2.tp.grupal.ong.Ong;
 import ar.edu.unq.po2.tp.grupal.revision.*;
 import ar.edu.unq.po2.tp.grupal.usuario.NivelDeUsuario;
 import ar.edu.unq.po2.tp.grupal.usuario.Usuario;
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Ubicacion;
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.ZonaDeCobertura;
-import ar.edu.unq.po2.tp.grupal.filtro.*;
 
 class AplicacionTest {
 

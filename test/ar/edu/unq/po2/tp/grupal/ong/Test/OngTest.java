@@ -1,4 +1,4 @@
-package ar.edu.unq.po2.grupal.ong.Test;
+package ar.edu.unq.po2.tp.grupal.ong.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
