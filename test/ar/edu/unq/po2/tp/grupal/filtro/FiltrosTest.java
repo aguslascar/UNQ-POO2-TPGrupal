@@ -2,22 +2,14 @@ package ar.edu.unq.po2.tp.grupal.filtro;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import ar.edu.unq.po2.tp.grupal.filtro.ComparadorDeFechas;
-import ar.edu.unq.po2.tp.grupal.filtro.ComparadorMayor;
-import ar.edu.unq.po2.tp.grupal.filtro.ComparadorMenor;
-import ar.edu.unq.po2.tp.grupal.filtro.Filtro;
-import ar.edu.unq.po2.tp.grupal.filtro.FiltroAND;
-import ar.edu.unq.po2.tp.grupal.filtro.FiltroFechaCreacionMuestra;
-import ar.edu.unq.po2.tp.grupal.filtro.FiltroFechaUltimaVotacion;
-import ar.edu.unq.po2.tp.grupal.filtro.FiltroNivelDeVerificacion;
-import ar.edu.unq.po2.tp.grupal.filtro.FiltroOR;
-import ar.edu.unq.po2.tp.grupal.filtro.FiltroTipoDeInsecto;
+import ar.edu.unq.po2.tp.grupal.filtro.*;
 import ar.edu.unq.po2.tp.grupal.muestra.*;
 import ar.edu.unq.po2.tp.grupal.revision.*;
 import org.junit.jupiter.api.BeforeEach;
