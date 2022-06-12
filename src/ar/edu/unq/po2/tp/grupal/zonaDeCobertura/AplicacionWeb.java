@@ -6,12 +6,13 @@ import java.util.List;
 public class AplicacionWeb {
 
 	private List<Muestra> muestras;
-	
-public AplicacionWeb() {
+
+	public AplicacionWeb(ArrayList<Muestra> muestras) {
 		muestras = new ArrayList<Muestra>();
 	}
-	
+
 	public List<Muestra> getMuestras() {
 		return muestras;
 	}
+
 }

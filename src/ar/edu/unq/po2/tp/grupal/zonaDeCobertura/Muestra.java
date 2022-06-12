@@ -7,5 +7,5 @@ public class Muestra {
 	public Ubicacion getUbicacion() {
 		return ubicacion;
 	}
-	// Esta es una clase falsa que se utiliza para testear el funcionamiento de ZonaDeCobertura.
+	// Esta es una clase falsa que se utiliza para testear el funcionamiento de ZonaDeCobertura y CalculadorDeDistancias.
 }
