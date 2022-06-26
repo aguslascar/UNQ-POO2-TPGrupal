@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-06-26T23:47:19.382Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.53 Safari/537.36 Edg/103.0.1264.37" etag="SLWPz_3sm6H_6uC7Ttvx" version="20.0.0" type="github">
+<mxfile host="app.diagrams.net" modified="2022-06-26T23:48:18.902Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.53 Safari/537.36 Edg/103.0.1264.37" etag="bGcpIbz4gV-yR1i-C2HV" version="20.0.0" type="github">
   <diagram id="vw9YXLVe1vG7YreCULzH" name="Page-1">
     <mxGraphModel dx="1848" dy="1736" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -635,7 +635,7 @@
         <mxCell id="oRG1gbgD4fiUrxnUVrbW-50" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" parent="oRG1gbgD4fiUrxnUVrbW-48" vertex="1">
           <mxGeometry y="26" width="230" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="oRG1gbgD4fiUrxnUVrbW-51" value="+comparar(LocalDate, LocalDate): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="oRG1gbgD4fiUrxnUVrbW-48" vertex="1">
+        <mxCell id="oRG1gbgD4fiUrxnUVrbW-51" value="+comparar(LocalDate, LocalDate): boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="oRG1gbgD4fiUrxnUVrbW-48" vertex="1">
           <mxGeometry y="34" width="230" height="26" as="geometry" />
         </mxCell>
         <mxCell id="oRG1gbgD4fiUrxnUVrbW-52" value="ComparadorMayor" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
@@ -644,7 +644,7 @@
         <mxCell id="oRG1gbgD4fiUrxnUVrbW-53" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" parent="oRG1gbgD4fiUrxnUVrbW-52" vertex="1">
           <mxGeometry y="26" width="230" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="oRG1gbgD4fiUrxnUVrbW-54" value="+comparar(LocalDate, LocalDate): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="oRG1gbgD4fiUrxnUVrbW-52" vertex="1">
+        <mxCell id="oRG1gbgD4fiUrxnUVrbW-54" value="+comparar(LocalDate, LocalDate): boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="oRG1gbgD4fiUrxnUVrbW-52" vertex="1">
           <mxGeometry y="34" width="230" height="26" as="geometry" />
         </mxCell>
         <mxCell id="Hv2r_ZBpnT26aQtqRklM-1" value="CalculadorDeDistancias" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
