@@ -94,13 +94,14 @@ public class AplicacionWeb {
 	 * la muestra esta en la lista de muestras.
 	 * No podra hacer una revision sobre su propia muestra ni tampoco hacer una revision
 	 * si ya lo hizo anteriormente sobre esa muestra.
-	 * @throws Exception si la muestra no admite revisiones
+	 * @throws Exception si no se cumplen las condiciones anteriormente mencionadas
 	 * @param 	una Muestra que se le va a agregar una revision
-	 * 			una Revision que es la revision ya hecha
+	 * 			un Usuario que es el usuario que esta opinando
+	 * 			una Opinion que es la opinion del usuario
 	 */
-	public void agregarRevision(Muestra muestra, Revision revision) throws Exception{
+	public void agregarRevision(Muestra muestra, Usuario usuario, Opinion opinion) throws Exception{
 		
-		int idUsuario = revision.getIdUsuario();
+		int idUsuario = usuario.getidUsuario();
 		//Tiene que existir la muestra en el sistema
 		//tiene que existir el usuario en el sistema
 		//No tiene que haber subido el mismo la muestra o ya haber opinado
@@ -110,7 +111,7 @@ public class AplicacionWeb {
 					//Si se cumplen todas esas condiciones, envio a la muestra la revision
 					//Aca se puede generar una excepcion ya que la muestra puede no aceptar mas revisiones
 					// o no puede aceptar revisiones de usuarios basicos
-					muestra.recibirRevision(revision);
+					usuario.agregarRevision(muestra, opinion);
 		   	}
 			else {
 				//Este es el caso en el que no cumpla las condiciones pedidas
@@ -168,6 +169,7 @@ public class AplicacionWeb {
 		if(this.esUsuario(id)) {
 			Muestra muestra = new Muestra(id, LocalDate.now(), imagen, ubicacion, opinion, this);
 			muestras.add(muestra);
+			usuario.agregarMuestra(muestra);
 			this.agregarAZona(muestra);
 			}
 	}

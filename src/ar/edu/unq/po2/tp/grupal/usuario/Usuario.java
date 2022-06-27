@@ -2,17 +2,16 @@ package ar.edu.unq.po2.tp.grupal.usuario;
 
 import java.time.LocalDate;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import ar.edu.unq.po2.tp.grupal.revision.*;
-import ar.edu.unq.po2.tp.grupal.aplicacion.AplicacionWeb;
 import ar.edu.unq.po2.tp.grupal.muestra.*;
 
 /**
  * Esta clase representa un Usuario en el sistema.
- * El usuario va a tener la instancia del sistema.
  * Para instanciarlo se requiere un id de usuario y un booleano que indique si tiene conocimiento validado.
  * De no tener conocimiento validado su nivel sera basico por defecto.
  * Va a contener una lista de revisiones que seran guardadas a medida que las haga.
@@ -21,7 +20,6 @@ import ar.edu.unq.po2.tp.grupal.muestra.*;
 public class Usuario {
 	
 	private int idUsuario;
-	private AplicacionWeb sistema;
 	private NivelDeUsuario nivel;
 	private List<Muestra> muestras;
 	private List<Revision> revisiones;
@@ -30,11 +28,11 @@ public class Usuario {
 	/**
 	 * Se crea una instancia de usuario. Si tiene conocimiento validado
 	 * es experto, de no tenerlo, es basico por defecto.
+	 * @param boolean que representa si el usuario tiene conocimiento validado externamente
 	 */
-	public Usuario(AplicacionWeb sistema, boolean conocimientoValidado) {
+	public Usuario(boolean conocimientoValidado) {
 		
 		super();
-		this.sistema = sistema;
 		this.conocimientoValidado = conocimientoValidado;
 		this.muestras = new ArrayList<Muestra>();
 		this.revisiones = new ArrayList<Revision>();
@@ -94,10 +92,12 @@ public class Usuario {
 	}
 	
 	/**
-	 * Este metodo va a agregar una revision de la muestra dada con la opinion Opinion dada si y solo si
-	 * el usuario es un usuario del sistema y la muestra existe en el sistema.
+	 * Este metodo va a agregar una revision de la muestra dada con la opinion Opinion dada
+	 * Va a ser llamado por el sistema solo si el usuario es parte del sistema, la muestra es parte del sistema
+	 * y el usuario no opino antes
 	 * Va a guardar esa revision en su lista de revisiones.
-	 * Esa revision va a ser enviada al sistema para que sea registrada.
+	 * Esa revision va a ser recibida por la muestra solo si la muestra admite la revision.
+	 * Caso contrario imprimira un mensaje indicando que no se pudo opinar.
 	 * @param una Muestra a agregar revision y una Opinion que es la opinion de la revision a agregar a la muestra
 	 * 
 	 */
@@ -105,9 +105,7 @@ public class Usuario {
 		
 		try {
 			Revision revision = new Revision(opinion, LocalDate.now(), nivel, idUsuario);
-			//Cuando a el sistema le envio el mensaje agregarRevision es cuando se puede generar la excepcion.
-			sistema.agregarRevision(muestra, revision);
-			//Si no hubo excepcion, la agrego a la lista de revisiones.
+			muestra.recibirRevision(revision);
 			revisiones.add(revision);
 			} catch (Exception e) {
 				System.out.println("Lo sentimos, no puede opinar sobre esta muestra.");
