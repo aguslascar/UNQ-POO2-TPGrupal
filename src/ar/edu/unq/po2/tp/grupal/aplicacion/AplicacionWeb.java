@@ -176,14 +176,11 @@ public class AplicacionWeb {
 	
 	/**
 	 * Este metodo agrega una nueva muestra a una zona de cobertura(o mas de una si se solapan)
-	 * si su ubicacion esta dentro de alguna zona de cobertura, sino no hace nada.
 	 * @param una Muestra
 	 */
 	private void agregarAZona(Muestra muestra) {
 		for(ZonaDeCobertura zona : zonas) {
-			if(zona.perteneceAZona(muestra.getUbicacion())) {
 				zona.agregarMuestra(muestra);
-			}
 		}
 	}
 	

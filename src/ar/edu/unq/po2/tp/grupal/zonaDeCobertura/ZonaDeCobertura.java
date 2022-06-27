@@ -137,13 +137,16 @@ public class ZonaDeCobertura implements ZonaDeCoberturaObservable {
 	}
 
 	/**
-	 * Agrega una muestra a la lista de muestras.
+	 * Agrega una muestra a la lista de muestras solo si la ubicacion de la muestra
+	 * esta dentro de la lista de ubicaciones de la zona.
 	 * 
 	 * @param muestra Nueva muestra a agregar a la zona.
 	 */
 	public void agregarMuestra(Muestra muestra) {
-		muestras.add(muestra);
-		this.notificarNuevaMuestra();
+		if(perteneceAZona(muestra.getUbicacion())) {
+			muestras.add(muestra);
+			this.notificarNuevaMuestra();
+		}	
 	}
 
 	/**

@@ -242,26 +242,13 @@ class AplicacionTest {
 	
 	@Test
 	void testAgregarNuevaMuestraYRegistrarEnZona() {
-		//Testeo que al agregar una muestra, se agregue a la zona de cobertura
-		//Mockeo la zona para que indique que la ubicacion de la muestra si pertenece a esa zona
+		//Testeo que al agregar una muestra, se llame al mensaje agregarMuestra de la zona
 		app.agregarZona(zona);
 		app.registrarNuevoUsuario(usuarioBasico);
 		when(zona.perteneceAZona(ubicacion)).thenReturn(true);
 		when(usuarioBasico.getidUsuario()).thenReturn(1);
 		app.registrarMuestra(usuarioBasico, LocalDate.now(), imagen, ubicacion, opinion);
 		verify(zona).agregarMuestra(any());
-	}
-	
-	@Test
-	void testAgregarNuevaMuestraYNoRegistrarEnZona() {
-		//Testeo que al agregar una muestra, no se agregue a una zona de cobertura
-		//Mockeo la zona para que indique que la ubicacion de la muestra no pertenece a esa zona
-		app.agregarZona(zona);
-		app.registrarNuevoUsuario(usuarioBasico);
-		when(zona.perteneceAZona(ubicacion)).thenReturn(false);
-		when(usuarioBasico.getidUsuario()).thenReturn(1);
-		app.registrarMuestra(usuarioBasico, LocalDate.now(), imagen, ubicacion, opinion);
-		verify(zona, never()).agregarMuestra(any());
 	}
 	
 	@Test 

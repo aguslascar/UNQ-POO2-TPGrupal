@@ -3,12 +3,13 @@ package ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 
+
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 import ar.edu.unq.po2.tp.grupal.ong.FuncionalidadExterna;
 import ar.edu.unq.po2.tp.grupal.ong.Ong;
@@ -20,6 +21,7 @@ class ZonaDeCoberturaTest {
 
 	Muestra muestraA;
 	Muestra muestraB;
+	Muestra muestraC;
 
 	FuncionalidadExterna muestra;
 	FuncionalidadExterna validacion;
@@ -69,6 +71,7 @@ class ZonaDeCoberturaTest {
 
 		this.muestra = mock(FuncionalidadExterna.class);
 		this.validacion = mock(FuncionalidadExterna.class);
+		this.muestraC = mock(Muestra.class);
 		
 		spyOng = Mockito.spy(new Ong("SpyOng",  muestra, validacion));
 		ongs.add(ong1);
@@ -114,7 +117,8 @@ class ZonaDeCoberturaTest {
 // Se testea que al llamar agregarMuestra regrese la cantidad esperada de muestras.
 	@Test
 	void testAgregarMuestra() {
-		zona1.agregarMuestra(muestraA);
+		when(muestraC.getUbicacion()).thenReturn(puntoB);
+		zona1.agregarMuestra(muestraC);
 		assertEquals(zona1.getMuestras().size(), 3);
 	}
 
@@ -159,6 +163,14 @@ class ZonaDeCoberturaTest {
 		zona1.registrar(spyOng);
 		zona1.notificarValidacion();
 		Mockito.verify(spyOng).updateValidacion();
+	}
+// Se testea que si la ubicacion de una muestra no esta en la zona, no se agregue la muestra.
+	@Test
+	void testNoAgregarMuestra() {
+		//La muestra va a tener como ubicacion el puntoG, el cual no es un punto de la zona1
+		when(muestraC.getUbicacion()).thenReturn(puntoG);
+		zona1.agregarMuestra(muestraC);
+		assertEquals(2, zona1.getMuestras().size());
 	}
 
 }
