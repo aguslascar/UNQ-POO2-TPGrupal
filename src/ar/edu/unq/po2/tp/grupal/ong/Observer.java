@@ -1,4 +1,4 @@
-package ar.edu.unq.po2.tp.grupal.zonaDeCobertura;
+package ar.edu.unq.po2.tp.grupal.ong;
 
 /**
  * Interface hecha para que implemente la ong.
@@ -8,7 +8,7 @@ package ar.edu.unq.po2.tp.grupal.zonaDeCobertura;
  */
 public interface Observer {
 
-	public void update();
+	public void nuevaMuestra();
 
-	public void updateValidacion();
+	public void nuevaValidacion();
 }

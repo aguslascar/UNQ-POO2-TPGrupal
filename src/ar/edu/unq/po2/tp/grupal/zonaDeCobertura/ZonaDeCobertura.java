@@ -2,7 +2,7 @@ package ar.edu.unq.po2.tp.grupal.zonaDeCobertura;
 
 import java.util.ArrayList;
 import ar.edu.unq.po2.tp.grupal.muestra.*;
-
+import ar.edu.unq.po2.tp.grupal.ong.Observer;
 import ar.edu.unq.po2.tp.grupal.ong.Ong;
 
 /**
@@ -92,6 +92,17 @@ public class ZonaDeCobertura implements ZonaDeCoberturaObservable {
 	}
 
 	// ------------------------------------------------------------------------------
+
+	/**
+	 * Calcula la distancia de la Zona de Cobertura con su radio y la devuelve en
+	 * Kilometros.
+	 * 
+	 * @return
+	 */
+	public int distanciaDeLaZonaEnKM() {
+		return (int) (2 * Math.PI * radio);
+	}
+
 	/**
 	 * Agrega una nueva ubicacion a la lista de ubicaciones de la zona.
 	 * 
@@ -143,10 +154,10 @@ public class ZonaDeCobertura implements ZonaDeCoberturaObservable {
 	 * @param muestra Nueva muestra a agregar a la zona.
 	 */
 	public void agregarMuestra(Muestra muestra) {
-		if(perteneceAZona(muestra.getUbicacion())) {
+		if (perteneceAZona(muestra.getUbicacion())) {
 			muestras.add(muestra);
 			this.notificarNuevaMuestra();
-		}	
+		}
 	}
 
 	/**
@@ -177,6 +188,7 @@ public class ZonaDeCobertura implements ZonaDeCoberturaObservable {
 	@Override
 	public void registrar(Observer o) {
 		this.getOngsSubscriptas().add((Ong) o);
+		((Ong)o).registrarZona(this);
 	}
 
 	/**
@@ -184,7 +196,8 @@ public class ZonaDeCobertura implements ZonaDeCoberturaObservable {
 	 */
 	@Override
 	public void desuscribir(Observer o) {
-		this.getOngsSubscriptas().remove(o);
+		this.getOngsSubscriptas().remove((Ong)o);
+		((Ong)o).desuscribirZona(this);
 	}
 
 	/**
@@ -193,7 +206,7 @@ public class ZonaDeCobertura implements ZonaDeCoberturaObservable {
 	@Override
 	public void notificarNuevaMuestra() {
 		for (Ong suscriptor : this.getOngsSubscriptas()) {
-			suscriptor.update();
+			suscriptor.nuevaMuestra();
 		}
 	}
 
@@ -203,7 +216,7 @@ public class ZonaDeCobertura implements ZonaDeCoberturaObservable {
 	@Override
 	public void notificarValidacion() {
 		for (Ong suscriptor : this.getOngsSubscriptas()) {
-			suscriptor.updateValidacion();
+			suscriptor.nuevaValidacion();
 		}
 	}
 

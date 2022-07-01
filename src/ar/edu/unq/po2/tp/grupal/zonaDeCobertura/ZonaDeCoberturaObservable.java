@@ -1,5 +1,7 @@
 package ar.edu.unq.po2.tp.grupal.zonaDeCobertura;
 
+import ar.edu.unq.po2.tp.grupal.ong.Observer;
+
 /**
  * Interface hecha para que implemente zona de cobertura.
  * 

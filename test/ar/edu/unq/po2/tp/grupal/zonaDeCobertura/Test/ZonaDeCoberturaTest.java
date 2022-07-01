@@ -2,8 +2,6 @@ package ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
-
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -25,8 +23,6 @@ class ZonaDeCoberturaTest {
 
 	FuncionalidadExterna muestra;
 	FuncionalidadExterna validacion;
-	Ong ong1 = new Ong("Ong1", muestra, validacion);
-	Ong spyOng;
 
 	Ubicacion puntoA = new Ubicacion(0, 0);
 	Ubicacion puntoB = new Ubicacion(0, 1);
@@ -36,6 +32,9 @@ class ZonaDeCoberturaTest {
 	Ubicacion puntoF = new Ubicacion(1, 2);
 	Ubicacion puntoG = new Ubicacion(2, 1);
 	Ubicacion puntoH = new Ubicacion(2, 2);
+
+	Ong ong1 = new Ong(puntoA, null, 0, muestra, validacion);
+	Ong spyOng;
 
 	ArrayList<Ubicacion> ubicaciones1 = new ArrayList<Ubicacion>();
 	ArrayList<Ubicacion> ubicaciones2 = new ArrayList<Ubicacion>();
@@ -72,9 +71,15 @@ class ZonaDeCoberturaTest {
 		this.muestra = mock(FuncionalidadExterna.class);
 		this.validacion = mock(FuncionalidadExterna.class);
 		this.muestraC = mock(Muestra.class);
-		
-		spyOng = Mockito.spy(new Ong("SpyOng",  muestra, validacion));
+
+		spyOng = Mockito.spy(new Ong(puntoA, null, 0, muestra, validacion));
 		ongs.add(ong1);
+	}
+
+// Se teste la distancia total de la zona de cobertura en kilometros con un radio de ejemplo de 2.
+	@Test
+	void testDistanciaDeLaZonaEnKM() {
+		assertEquals(zona1.distanciaDeLaZonaEnKM(), 12);
 	}
 
 // Se testea que el nombre sea el esperado.
@@ -154,7 +159,7 @@ class ZonaDeCoberturaTest {
 	void testNotificarNuevaMuestra() {
 		zona1.registrar(spyOng);
 		zona1.notificarNuevaMuestra();
-		Mockito.verify(spyOng).update();
+		Mockito.verify(spyOng).nuevaMuestra();
 	}
 
 // Se testea que la organizción reciba el mensaje updateValidación.
@@ -162,12 +167,14 @@ class ZonaDeCoberturaTest {
 	void testNotificarValidacion() {
 		zona1.registrar(spyOng);
 		zona1.notificarValidacion();
-		Mockito.verify(spyOng).updateValidacion();
+		Mockito.verify(spyOng).nuevaValidacion();
 	}
+
 // Se testea que si la ubicacion de una muestra no esta en la zona, no se agregue la muestra.
 	@Test
 	void testNoAgregarMuestra() {
-		//La muestra va a tener como ubicacion el puntoG, el cual no es un punto de la zona1
+		// La muestra va a tener como ubicacion el puntoG, el cual no es un punto de la
+		// zona1
 		when(muestraC.getUbicacion()).thenReturn(puntoG);
 		zona1.agregarMuestra(muestraC);
 		assertEquals(2, zona1.getMuestras().size());
