@@ -10,6 +10,7 @@ import ar.edu.unq.po2.tp.grupal.aplicacion.AplicacionWeb;
 import ar.edu.unq.po2.tp.grupal.aplicacion.Imagen;
 import ar.edu.unq.po2.tp.grupal.revision.*;
 import ar.edu.unq.po2.tp.grupal.usuario.Basico;
+import ar.edu.unq.po2.tp.grupal.usuario.Usuario;
 
 /**
  * Esta clase representa y guarda datos de una muestra tomada, como la fecha en que se registró la muestra, el id del
@@ -62,7 +63,7 @@ public class Muestra {
 	 * @param ubicacion Ubicación en la que se generó la muestra.
 	 * @param opinion Opinión del propio usuario que tomó la muestra.
 	 */
-	public Muestra(int idUsuario, LocalDate fecha, Imagen Foto, Ubicacion ubicacion, Opinion opinion, AplicacionWeb sistema) {
+	public Muestra(Usuario usuario, LocalDate fecha, Imagen Foto, Ubicacion ubicacion, Opinion opinion, AplicacionWeb sistema) throws Exception {
 		super();
 		this.setIdUsuario(idUsuario);
 		this.setFecha(fecha);
@@ -72,11 +73,23 @@ public class Muestra {
 		this.setRevisiones(new ArrayList<Revision>());
 		this.setEstado(new EstadoSinVerificar());
 		this.setSistema(sistema);
-		this.agregarRevision(new Revision(opinion, fecha, new Basico(), idUsuario));
+		this.recibirRevision(new Revision(opinion, fecha, usuario.getNivel(), usuario.getidUsuario()));
 	}
 	
+	public void historialDeVotaciones() {
+		int contadorVotaciones = 1;
+		for (Revision revision:this.getRevisiones()) {
+			String datosRevision = new String();
+			datosRevision = datosRevision + contadorVotaciones + ". " +
+		                           "Votacion de usuario: " + revision.getIdUsuario() +
+					               " - Opinión: " + revision.getOpinion().getDescripcion() +
+		                           " - Fecha de votación: " + revision.getFecha().toString() +
+		                           " - Nivel de opinión: " + revision.getNivelDeUsuario().getDescripcion();
+			System.out.println(datosRevision);
+			contadorVotaciones ++;
+		}
+	}
 	
-
 	/**
 	 * Método que retorna la fecha de la ultima revisión realizada hacia esta muestra.
 	 * @return Un LocalDate que representa la fecha de la ultima revisión realizada hacia esta muestra.

@@ -8,4 +8,5 @@ package ar.edu.unq.po2.tp.grupal.usuario;
 public abstract class NivelDeUsuario {
 
 	public abstract boolean esExperto();
+	public abstract String getDescripcion();
 }

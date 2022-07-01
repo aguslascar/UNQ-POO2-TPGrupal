@@ -14,5 +14,10 @@ public class Experto extends NivelDeUsuario {
 		
 		return true;
 	}
+	
+	@Override
+	public String getDescripcion() {
+		return "Nivel de usuario experto";
+	}
 
 }

@@ -161,12 +161,12 @@ public class AplicacionWeb {
 	 * 			una Ubicacion que representa la ubicacion donde fue tomada la muestra
 	 * 			una Opinion que representa que tipo de insecto le parecio al usuario que subio la muestra
 	 */
-	public void registrarMuestra(Usuario usuario, LocalDate fecha, Imagen imagen, Ubicacion ubicacion, Opinion opinion) {
+	public void registrarMuestra(Usuario usuario, LocalDate fecha, Imagen imagen, Ubicacion ubicacion, Opinion opinion) throws Exception {
 		
 		int id = usuario.getidUsuario();
 		//Chequeo que el idUsuario que paso como parametro sea un id que este dentro de mis usuarios
 		if(this.esUsuario(id)) {
-			Muestra muestra = new Muestra(id, LocalDate.now(), imagen, ubicacion, opinion, this);
+			Muestra muestra = new Muestra(usuario, LocalDate.now(), imagen, ubicacion, opinion, this);
 			muestras.add(muestra);
 			this.agregarAZona(muestra);
 			}

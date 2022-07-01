@@ -25,7 +25,7 @@ public class EstadoVerificada extends EstadoDeMuestra {
 	}
 	
 	public String obtenerResultadoActual(Muestra muestra) {
-		return (this.getOpinionVerificada());
+		return opinionVerificada;
 	}
 	
 	public void recibirRevision(Revision revision, Muestra muestra) throws Exception {

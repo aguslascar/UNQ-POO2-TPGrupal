@@ -14,5 +14,10 @@ public class Basico extends NivelDeUsuario {
 		
 		return false;
 	}
+	
+	@Override
+	public String getDescripcion() {
+		return "Nivel de usuario básico";
+	}
 
 }

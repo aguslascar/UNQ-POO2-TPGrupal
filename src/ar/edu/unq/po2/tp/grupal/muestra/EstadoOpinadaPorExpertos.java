@@ -49,7 +49,7 @@ public class EstadoOpinadaPorExpertos extends EstadoDeMuestra {
 		    muestra.agregarRevision(revision);
 		    this.getRevisionesDeExpertos().add(revision);
 		// Si el usuario que realizo 'revision' no es experto, entonces se lanza una excepción.
-		} else if (!revision.getNivelDeUsuario().esExperto()) {
+		} else {
 			throw new Exception();
 		}
 	}
@@ -62,13 +62,12 @@ public class EstadoOpinadaPorExpertos extends EstadoDeMuestra {
 	 *         un usuario nivel experto.
 	 */
 	private boolean coincideConOpinionDeExperto(Revision rev) {
-		// Evalua para cada 'revision' en 'revisionesDeExpertos' si 'rev' coincide con esta.
-		for(Revision revision:this.getRevisionesDeExpertos()) {
-			if (revision.getOpinion().getDescripcion().equals(rev.getOpinion().getDescripcion())) {
-				return true;
-			}
-		}
-		return false;
+		// Evalua para cada 'r' en 'revisionesDeExpertos' si 'rev' coincide con esta.
+		List<Revision> revisiones = new ArrayList<Revision>();
+		revisiones.addAll(this.getRevisionesDeExpertos());
+		 return (revisiones
+				 .stream()
+		         .anyMatch(r -> r.getOpinion().getDescripcion().equals(rev.getOpinion().getDescripcion())));
 	}
 	
 	/**

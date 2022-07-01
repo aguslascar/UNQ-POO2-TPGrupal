@@ -66,7 +66,7 @@ class AplicacionTest {
 	}
 	
 	@Test
-	void testAgregarNuevaMuestra() {
+	void testAgregarNuevaMuestra() throws Exception {
 		//Testeo que se cree y se agregue una nueva muestra
 		app.registrarNuevoUsuario(usuarioBasico);
 		when(usuarioBasico.getidUsuario()).thenReturn(1);
@@ -77,7 +77,7 @@ class AplicacionTest {
 	}
 	
 	@Test
-	void testAgregarNuevaMuestraUsuarioNoRegistrado() {
+	void testAgregarNuevaMuestraUsuarioNoRegistrado() throws Exception {
 		//Testeo que un usuario no registrado quiera subir una muestra. Usuario experto nunca fue registrado en sistema.
 		app.registrarMuestra(usuarioExperto, LocalDate.now(), imagen, ubicacion, opinion);
 		//La muestra no se registro en el sistema.
@@ -109,7 +109,7 @@ class AplicacionTest {
 	}
 	
 	@Test
-	void testAgregarRevisionDeOtraMuestra() {
+	void testAgregarRevisionDeOtraMuestra() throws Exception {
 		//Agrego una revision de una muestra de un usuario existente en el sistema.
 		app.registrarNuevoUsuario(usuarioBasico);
 		app.registrarNuevoUsuario(usuarioExperto);
@@ -249,7 +249,7 @@ class AplicacionTest {
 	}
 	
 	@Test
-	void testAgregarNuevaMuestraYRegistrarEnZona() {
+	void testAgregarNuevaMuestraYRegistrarEnZona() throws Exception {
 		//Testeo que al agregar una muestra, se agregue a la zona de cobertura
 		//Mockeo la zona para que indique que la ubicacion de la muestra si pertenece a esa zona
 		app.agregarZona(zona);
@@ -261,7 +261,7 @@ class AplicacionTest {
 	}
 	
 	@Test
-	void testAgregarNuevaMuestraYNoRegistrarEnZona() {
+	void testAgregarNuevaMuestraYNoRegistrarEnZona() throws Exception {
 		//Testeo que al agregar una muestra, no se agregue a una zona de cobertura
 		//Mockeo la zona para que indique que la ubicacion de la muestra no pertenece a esa zona
 		app.agregarZona(zona);

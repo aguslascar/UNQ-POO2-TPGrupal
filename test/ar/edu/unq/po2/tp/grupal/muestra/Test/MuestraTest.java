@@ -15,6 +15,7 @@ import ar.edu.unq.po2.tp.grupal.muestra.Muestra;
 import ar.edu.unq.po2.tp.grupal.revision.Opinion;
 import ar.edu.unq.po2.tp.grupal.revision.Revision;
 import ar.edu.unq.po2.tp.grupal.usuario.NivelDeUsuario;
+import ar.edu.unq.po2.tp.grupal.usuario.Usuario;
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Ubicacion;
 
 public class MuestraTest {
@@ -32,7 +33,7 @@ public class MuestraTest {
 	private Opinion opinion2;
 	private NivelDeUsuario nivelDeUsuario1;
 	private NivelDeUsuario nivelDeUsuario2;
-	private int idUsuario;
+	private Usuario usuarioAutor;
 	private AplicacionWeb app;
 	
 	@BeforeEach
@@ -49,15 +50,15 @@ public class MuestraTest {
 	    opinionAutor = mock(Opinion.class);
 	    opinion1 = mock(Opinion.class);
 	    opinion2 = mock(Opinion.class);
-	    idUsuario = 2578670;
+	    usuarioAutor = new Usuario(app, false);;
 	    app = mock(AplicacionWeb.class);
-		muestra = new Muestra(idUsuario, fecha, foto, ubicacion, opinionAutor, app); 
+		muestra = new Muestra(usuarioAutor, fecha, foto, ubicacion, opinionAutor, app); 
 	}
 	
 	// Se testea que al instanciar una nueva Muestra, el idUsuario este bien almacenado y sea accesible publicamente
 	@Test
 	public void testConocerElIdDelUsuarioQueSubioLaMuestra() throws Exception {
-		assertEquals(muestra.getIdUsuario(), idUsuario);
+		assertEquals(muestra.getIdUsuario(), usuarioAutor.getidUsuario());
 	}
 	
 	// Se testea que al instanciar una nueva Muestra, la fecha este bien almacenada y sea accesible publicamente
@@ -140,9 +141,10 @@ public class MuestraTest {
 		when(opinion1.getDescripcion()).thenReturn("Chinche Foliada");
 		when(revision1.getNivelDeUsuario()).thenReturn(nivelDeUsuario1);
 		when(nivelDeUsuario1.esExperto()).thenReturn(false);
+		when(revision1.getFecha()).thenReturn(fecha);
 		
 		muestra.recibirRevision(revision1);
-		
+		muestra.historialDeVotaciones();
 		assertEquals(muestra.getResultadoActual(), "No definido");
 	}
 	
@@ -162,6 +164,7 @@ public class MuestraTest {
 		when(revision4.getOpinion()).thenReturn(opinion2);
 		when(opinion1.getDescripcion()).thenReturn("Vinchuca Sordida");
 		when(opinion2.getDescripcion()).thenReturn("Chinche Foliada");
+		when(opinionAutor.getDescripcion()).thenReturn("Vinchuca Infestans");
 		
 		muestra.recibirRevision(revision1);
 		muestra.recibirRevision(revision2);
@@ -361,7 +364,7 @@ public class MuestraTest {
 		assertEquals(muestra.getNivelDeRevision(),"Muestra sin verificar");
 	}
 	
-	//Se testea que la fecha de la ultima votacion, corresponda con la fecha de la ultima revision agregada.
+	// Se testea que la fecha de la ultima votacion, corresponda con la fecha de la ultima revision agregada.
 	@Test
 	public void testObtenerUltimaFechaDeVotacion() throws Exception {
 		when(revision1.getFecha()).thenReturn(LocalDate.now());
@@ -369,5 +372,20 @@ public class MuestraTest {
 		when(nivelDeUsuario1.esExperto()).thenReturn(true);
 		muestra.recibirRevision(revision1);
 		assertEquals(LocalDate.now(), muestra.fechaUltimaVotacion());
+	}
+	
+	// Se testea que el historial de votaciones sobre una muestra se obtenga correctamente
+	@Test
+	public void testObtenerElHistorialDeVotaciones() throws Exception {
+		when(opinionAutor.getDescripcion()).thenReturn("Vinchuca Infestans");
+		when(revision1.getIdUsuario()).thenReturn(201023012);
+		when(revision1.getFecha()).thenReturn(LocalDate.now());
+		when(revision1.getOpinion()).thenReturn(opinion1);
+		when(revision1.getNivelDeUsuario()).thenReturn(nivelDeUsuario1);
+		when(opinion1.getDescripcion()).thenReturn("Imagen poco clara");
+		when(nivelDeUsuario1.getDescripcion()).thenReturn("Nivel de usuario básico");
+		
+		muestra.recibirRevision(revision1);
+		
 	}
 }
