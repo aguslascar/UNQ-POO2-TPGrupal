@@ -50,7 +50,7 @@ public class MuestraTest {
 	    opinionAutor = mock(Opinion.class);
 	    opinion1 = mock(Opinion.class);
 	    opinion2 = mock(Opinion.class);
-	    usuarioAutor = new Usuario(app, false);;
+	    usuarioAutor = new Usuario(false);;
 	    app = mock(AplicacionWeb.class);
 		muestra = new Muestra(usuarioAutor, fecha, foto, ubicacion, opinionAutor, app); 
 	}
