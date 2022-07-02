@@ -38,6 +38,7 @@ class AplicacionTest {
 	NivelDeUsuario nivelDeUsuario;
 	Ong organizacion;
 	ZonaDeCobertura zona;
+	NivelDeUsuario nivel;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -54,6 +55,7 @@ class AplicacionTest {
 		nivelDeUsuario = mock(NivelDeUsuario.class);
 		zona = mock(ZonaDeCobertura.class);
 		organizacion = mock(Ong.class);
+		nivel = mock(NivelDeUsuario.class);
 	}
 
 	@Test
@@ -70,6 +72,7 @@ class AplicacionTest {
 		//Testeo que se cree y se agregue una nueva muestra
 		app.registrarNuevoUsuario(usuarioBasico);
 		when(usuarioBasico.getidUsuario()).thenReturn(1);
+		when(usuarioBasico.getNivel()).thenReturn(nivel);
 		app.registrarMuestra(usuarioBasico, LocalDate.now(), imagen, ubicacion, opinion);
 		assertEquals(1, app.getMuestras().size());
 		//Me fijo que el id de usuario de la muestra cargada sea el mismo id del usuario que la cargo.
@@ -116,6 +119,7 @@ class AplicacionTest {
 		when(usuarioBasico.getidUsuario()).thenReturn(1);
 		when(revision.getNivelDeUsuario()).thenReturn(nivelDeUsuario);
 		when(nivelDeUsuario.esExperto()).thenReturn(true);
+		when(usuarioBasico.getNivel()).thenReturn(nivel);
 		//Primero agrego la muestra al sistema con id 1(usuario basico)
 		app.registrarMuestra(usuarioBasico, LocalDate.now(), imagen, ubicacion, opinion);
 		//Luego guardo esa muestra para luego agregarle la revision
@@ -134,6 +138,7 @@ class AplicacionTest {
 		app.registrarNuevoUsuario(usuarioBasico);
 		when(usuarioBasico.getidUsuario()).thenReturn(1);
 		when(revision.getIdUsuario()).thenReturn(1);
+		when(usuarioBasico.getNivel()).thenReturn(nivel);
 		//Ahora agrego una revision de una muestra de un usuario existente en el sistema.
 		//Primero agrego la muestra al sistema
 		app.registrarMuestra(usuarioBasico, LocalDate.now(), imagen, ubicacion, opinion);
@@ -256,6 +261,7 @@ class AplicacionTest {
 		app.registrarNuevoUsuario(usuarioBasico);
 		when(zona.perteneceAZona(ubicacion)).thenReturn(true);
 		when(usuarioBasico.getidUsuario()).thenReturn(1);
+		when(usuarioBasico.getNivel()).thenReturn(nivel);
 		app.registrarMuestra(usuarioBasico, LocalDate.now(), imagen, ubicacion, opinion);
 		verify(zona).agregarMuestra(any());
 	}
@@ -268,6 +274,7 @@ class AplicacionTest {
 		app.registrarNuevoUsuario(usuarioBasico);
 		when(zona.perteneceAZona(ubicacion)).thenReturn(false);
 		when(usuarioBasico.getidUsuario()).thenReturn(1);
+		when(usuarioBasico.getNivel()).thenReturn(nivel);
 		app.registrarMuestra(usuarioBasico, LocalDate.now(), imagen, ubicacion, opinion);
 		verify(zona, never()).agregarMuestra(any());
 	}

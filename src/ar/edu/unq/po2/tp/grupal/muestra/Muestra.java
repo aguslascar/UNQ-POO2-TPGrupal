@@ -2,6 +2,7 @@ package ar.edu.unq.po2.tp.grupal.muestra;
 
 import java.util.List;
 
+
 import java.time.*;
 import java.util.ArrayList;
 
@@ -9,8 +10,7 @@ import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.*;
 import ar.edu.unq.po2.tp.grupal.aplicacion.AplicacionWeb;
 import ar.edu.unq.po2.tp.grupal.aplicacion.Imagen;
 import ar.edu.unq.po2.tp.grupal.revision.*;
-import ar.edu.unq.po2.tp.grupal.usuario.Basico;
-import ar.edu.unq.po2.tp.grupal.usuario.Usuario;
+import ar.edu.unq.po2.tp.grupal.usuario.*;
 
 /**
  * Esta clase representa y guarda datos de una muestra tomada, como la fecha en que se registró la muestra, el id del
@@ -65,7 +65,7 @@ public class Muestra {
 	 */
 	public Muestra(Usuario usuario, LocalDate fecha, Imagen Foto, Ubicacion ubicacion, Opinion opinion, AplicacionWeb sistema) throws Exception {
 		super();
-		this.setIdUsuario(idUsuario);
+		this.setIdUsuario(usuario.getidUsuario());
 		this.setFecha(fecha);
 		this.setFoto(Foto);
 		this.setUbicacion(ubicacion);
