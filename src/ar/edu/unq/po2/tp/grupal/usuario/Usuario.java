@@ -104,7 +104,7 @@ public class Usuario {
 	public void agregarRevision(Muestra muestra, Opinion opinion)  {
 		
 		try {
-			Revision revision = new Revision(opinion, LocalDate.now(), nivel, idUsuario);
+			Revision revision = new Revision(opinion, LocalDate.now(), this);
 			muestra.recibirRevision(revision);
 			revisiones.add(revision);
 			} catch (Exception e) {

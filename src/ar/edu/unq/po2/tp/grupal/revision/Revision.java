@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 
 import ar.edu.unq.po2.tp.grupal.usuario.NivelDeUsuario;
+import ar.edu.unq.po2.tp.grupal.usuario.Usuario;
 
 /**
  * Esta clase representa y guarda los datos de una revisión realizada por un usuario hacia otra muestra, o hacia su 
@@ -29,10 +30,11 @@ public class Revision {
 	 */
 	private NivelDeUsuario nivelDeUsuario;
 	/**
-	 * Un int que representa el número identificatorio del usuario que realizó la revisión.
+	 * Un Usuario que representa el número identificatorio del usuario que realizó la revisión.
 	 */
-	private int idUsuario;
+	private Usuario usuario;
 	
+
 	/**
 	 * Constructor de la clase Revisión, recrea una nueva Revisión realizada.
 	 * @param opinion Instancia de la clase Opinion que representa la opinión del usuario que realiza la revisión.
@@ -45,12 +47,12 @@ public class Revision {
 	 * @see LocalDate
 	 * @see ar.edu.unq.po2.tp.grupal.usuario.NivelDeUsuario NivelDeUsuario
 	 */
-	public Revision(Opinion opinion, LocalDate fecha, NivelDeUsuario nivelDeUsuario, int idUsuario) {
+	public Revision(Opinion opinion, LocalDate fecha, Usuario usuario) {
 		super();
 		this.setOpinion(opinion);
 		this.setFecha(fecha);
-		this.setNivelDeUsuario(nivelDeUsuario);
-		this.setIdUsuario(idUsuario);
+		this.setNivelDeUsuario(usuario.getNivel());
+		this.setUsuario(usuario);
 	}
 
 	/**
@@ -112,14 +114,19 @@ public class Revision {
 	 * @return Un int que representa el número identificatorio del usuario que realizó la revisión.
 	 */
 	public int getIdUsuario() {
-		return idUsuario;
+		return usuario.getidUsuario();
 	}
 
 	/**
 	 * Guarda en la variable de instancia idUsuario el valor pasado como parámetro.
 	 * @param idUsuario Un int que representa el número identificatorio del usuario que realizó la revisión.
 	 */
-	private void setIdUsuario(int idUsuario) {
-		this.idUsuario = idUsuario;
+	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 }

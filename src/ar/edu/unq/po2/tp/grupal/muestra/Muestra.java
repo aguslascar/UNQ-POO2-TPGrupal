@@ -73,7 +73,7 @@ public class Muestra {
 		this.setRevisiones(new ArrayList<Revision>());
 		this.setEstado(new EstadoSinVerificar());
 		this.setSistema(sistema);
-		this.recibirRevision(new Revision(opinion, fecha, usuario.getNivel(), usuario.getidUsuario()));
+		this.recibirRevision(new Revision(opinion, fecha, usuario));
 	}
 	
 	public void historialDeVotaciones() {
