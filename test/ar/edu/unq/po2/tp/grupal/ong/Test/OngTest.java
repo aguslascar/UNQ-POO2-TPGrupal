@@ -6,6 +6,7 @@ import static org.mockito.Mockito.mock;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 
+import ar.edu.unq.po2.tp.grupal.ong.Funcionalidad;
 import ar.edu.unq.po2.tp.grupal.ong.FuncionalidadExterna;
 import ar.edu.unq.po2.tp.grupal.ong.Ong;
 import ar.edu.unq.po2.tp.grupal.ong.TipoDeOrg;
@@ -16,15 +17,15 @@ public class OngTest {
 
 	Ubicacion ubicacion = new Ubicacion(0, 0);
 	TipoDeOrg tipo;
-	FuncionalidadExterna muestra;
-	FuncionalidadExterna validacion;
+	Funcionalidad muestra;
+	Funcionalidad validacion;
 	Ong ong = new Ong(ubicacion, tipo, 28, muestra, validacion);
 	ZonaDeCobertura zona;
 
 	@BeforeEach
 	public void setUp() {
-		this.muestra = mock(FuncionalidadExterna.class);
-		this.validacion = mock(FuncionalidadExterna.class);
+		this.muestra = mock(Funcionalidad.class);
+		this.validacion = mock(Funcionalidad.class);
 		this.zona = mock(ZonaDeCobertura.class);
 		ong.registrarZona(zona);
 	}

@@ -156,7 +156,7 @@ public class ZonaDeCobertura implements ZonaDeCoberturaObservable {
 	public void agregarMuestra(Muestra muestra) {
 		if (perteneceAZona(muestra.getUbicacion())) {
 			muestras.add(muestra);
-			this.notificarNuevaMuestra();
+			this.notificarNuevaMuestra(muestra);
 		}
 	}
 
@@ -204,9 +204,9 @@ public class ZonaDeCobertura implements ZonaDeCoberturaObservable {
 	 * Notifica a todas las organizaciones cuando se añade una nueva muestra.
 	 */
 	@Override
-	public void notificarNuevaMuestra() {
+	public void notificarNuevaMuestra(Muestra muestra) {
 		for (Ong suscriptor : this.getOngsSubscriptas()) {
-			suscriptor.nuevaMuestra();
+			suscriptor.nuevaMuestra(this, muestra);
 		}
 	}
 
@@ -214,9 +214,9 @@ public class ZonaDeCobertura implements ZonaDeCoberturaObservable {
 	 * Notifica a todas las organizaciones cuando se valida una muestra.
 	 */
 	@Override
-	public void notificarValidacion() {
+	public void notificarValidacion(Muestra muestra) {
 		for (Ong suscriptor : this.getOngsSubscriptas()) {
-			suscriptor.nuevaValidacion();
+			suscriptor.nuevaValidacion(this, muestra);
 		}
 	}
 

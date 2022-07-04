@@ -1,5 +1,8 @@
 package ar.edu.unq.po2.tp.grupal.ong;
 
+import ar.edu.unq.po2.tp.grupal.muestra.Muestra;
+import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.ZonaDeCobertura;
+
 /**
  * Interface hecha para que implemente la ong.
  * 
@@ -8,7 +11,22 @@ package ar.edu.unq.po2.tp.grupal.ong;
  */
 public interface Observer {
 
-	public void nuevaMuestra();
+	/**
+	 * Llama a la funcionalidad externa de muestra.
+	 * @param zonaDeCobertura Zona de cobertura en la que se agrego una nueva muestra.
+	 * @param muestra muestra agregada.
+	 */
+	void nuevaMuestra(ZonaDeCobertura zonaDeCobertura, Muestra muestra);
 
-	public void nuevaValidacion();
+
+	/**
+	 * Llama a la funcionalidad externa de validacion
+	 * @param zonaDeCobertura Zona de cobertura en la que validó la muestra.
+	 * @param muestra validada.
+	 */
+	public void nuevaValidacion(ZonaDeCobertura zona, Muestra muestra);
+
+
+
+
 }

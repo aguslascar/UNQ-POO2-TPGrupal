@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.*;
 
+import ar.edu.unq.po2.tp.grupal.ong.Funcionalidad;
 import ar.edu.unq.po2.tp.grupal.ong.FuncionalidadExterna;
 import ar.edu.unq.po2.tp.grupal.ong.Ong;
 import ar.edu.unq.po2.tp.grupal.muestra.*;
@@ -21,8 +22,8 @@ class ZonaDeCoberturaTest {
 	Muestra muestraB;
 	Muestra muestraC;
 
-	FuncionalidadExterna muestra;
-	FuncionalidadExterna validacion;
+	Funcionalidad funcionalidadMuestra;
+	Funcionalidad funcinoalidadValidacion;
 
 	Ubicacion puntoA = new Ubicacion(0, 0);
 	Ubicacion puntoB = new Ubicacion(0, 1);
@@ -33,7 +34,7 @@ class ZonaDeCoberturaTest {
 	Ubicacion puntoG = new Ubicacion(2, 1);
 	Ubicacion puntoH = new Ubicacion(2, 2);
 
-	Ong ong1 = new Ong(puntoA, null, 0, muestra, validacion);
+	Ong ong1;
 	Ong spyOng;
 
 	ArrayList<Ubicacion> ubicaciones1 = new ArrayList<Ubicacion>();
@@ -68,11 +69,13 @@ class ZonaDeCoberturaTest {
 		muestras1.add(muestraA);
 		muestras1.add(muestraB);
 
-		this.muestra = mock(FuncionalidadExterna.class);
-		this.validacion = mock(FuncionalidadExterna.class);
+		this.funcionalidadMuestra = mock(Funcionalidad.class);
+		this.funcinoalidadValidacion = mock(Funcionalidad.class);
 		this.muestraC = mock(Muestra.class);
 
-		spyOng = Mockito.spy(new Ong(puntoA, null, 0, muestra, validacion));
+		this.ong1 = mock(Ong.class);
+		
+		spyOng = Mockito.spy(new Ong(puntoA, null, 0, funcionalidadMuestra, funcinoalidadValidacion));
 		ongs.add(ong1);
 	}
 
@@ -158,16 +161,16 @@ class ZonaDeCoberturaTest {
 	@Test
 	void testNotificarNuevaMuestra() {
 		zona1.registrar(spyOng);
-		zona1.notificarNuevaMuestra();
-		Mockito.verify(spyOng).nuevaMuestra();
+		zona1.notificarNuevaMuestra(muestraA);
+		Mockito.verify(spyOng).nuevaMuestra(zona1, muestraA);
 	}
 
 // Se testea que la organizción reciba el mensaje updateValidación.
 	@Test
 	void testNotificarValidacion() {
 		zona1.registrar(spyOng);
-		zona1.notificarValidacion();
-		Mockito.verify(spyOng).nuevaValidacion();
+		zona1.notificarValidacion(muestraA);
+		Mockito.verify(spyOng).nuevaValidacion(zona1, muestraA);
 	}
 
 // Se testea que si la ubicacion de una muestra no esta en la zona, no se agregue la muestra.

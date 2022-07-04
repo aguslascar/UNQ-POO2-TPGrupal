@@ -2,6 +2,7 @@ package ar.edu.unq.po2.tp.grupal.ong;
 
 import java.util.ArrayList;
 
+import ar.edu.unq.po2.tp.grupal.muestra.Muestra;
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Ubicacion;
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.ZonaDeCobertura;
 
@@ -40,20 +41,22 @@ public class Ong implements Observer {
 	 * Funcionalidad externa del tipo FuncionalidadExterna que es llamada cada vez
 	 * que se añade una muestra.
 	 */
-	private FuncionalidadExterna nuevaMuestra;
+
+	private Funcionalidad funcionalidadMuestra;
+
 	/**
 	 * Funcionalidad externa del tipo FuncionalidadExterna que es llamada cada vez
 	 * que se valida una muestra.
 	 */
-	private FuncionalidadExterna validacion;
+	private Funcionalidad funcionalidadValidacion;
 
 	/**
 	 * Constructor de una nueva organización.
 	 * 
 	 * @param nombre El nombre de la organización.
 	 */
-	public Ong(Ubicacion ubicacion, TipoDeOrg tipo, int trabajadores, FuncionalidadExterna muestra,
-			FuncionalidadExterna validacion) {
+	public Ong(Ubicacion ubicacion, TipoDeOrg tipo, int trabajadores, Funcionalidad muestra,
+			Funcionalidad validacion) {
 		this.ubicacion = ubicacion;
 		this.tipo = tipo;
 		this.trabajadores = trabajadores;
@@ -75,20 +78,24 @@ public class Ong implements Observer {
 		return trabajadores;
 	}
 
-	public FuncionalidadExterna getFuncionalidadExternaMuestra() {
-		return nuevaMuestra;
+
+	public Funcionalidad getFuncionalidadExternaMuestra() {
+		return funcionalidadMuestra;
+
 	}
 
-	public FuncionalidadExterna getFuncionalidadExternaValidacion() {
-		return validacion;
+	public Funcionalidad getFuncionalidadExternaValidacion() {
+		return funcionalidadValidacion;
 	}
 
-	public void setFuncionalidadMuestra(FuncionalidadExterna nuevaFuncionalidad) {
-		nuevaMuestra = nuevaFuncionalidad;
+
+	public void setFuncionalidadMuestra(Funcionalidad nuevaFuncionalidad) {
+		funcionalidadMuestra = nuevaFuncionalidad;
+
 	}
 
-	public void setFuncionalidadValidacion(FuncionalidadExterna nuevaFuncionalidad) {
-		validacion = nuevaFuncionalidad;
+	public void setFuncionalidadValidacion(Funcionalidad nuevaFuncionalidad) {
+		funcionalidadValidacion = nuevaFuncionalidad;
 	}
 	
 	public ArrayList<ZonaDeCobertura> getZonasSubscriptas() {
@@ -98,10 +105,12 @@ public class Ong implements Observer {
 	// ------------------------------------------------------------------------------
 	/**
 	 * Llama a la funcionalidad externa de muestra.
+	 * @param zonaDeCobertura 
+	 * @param muestra2 
 	 */
 	@Override
-	public void nuevaMuestra() {
-		this.getFuncionalidadExternaMuestra();
+	public void nuevaMuestra(ZonaDeCobertura zona, Muestra muestra) {
+		funcionalidadMuestra.nuevoEvento(this, zona, muestra);
 
 	}
 
@@ -109,8 +118,8 @@ public class Ong implements Observer {
 	 * Llama a la funcionalidad externa de validación.
 	 */
 	@Override
-	public void nuevaValidacion() {
-		this.getFuncionalidadExternaValidacion();
+	public void nuevaValidacion(ZonaDeCobertura zona, Muestra muestra) {
+		funcionalidadValidacion.nuevoEvento(this, zona, muestra);
 
 	}
 

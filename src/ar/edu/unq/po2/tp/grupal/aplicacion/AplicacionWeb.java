@@ -309,7 +309,7 @@ public class AplicacionWeb {
 	public void seValidoMuestra(Muestra muestra) {
 		for(ZonaDeCobertura zona : zonas) {
 			if(zona.esMuestraDeZona(muestra)) {
-				zona.notificarValidacion();
+				zona.notificarValidacion(muestra);
 			}
 		}
 	}

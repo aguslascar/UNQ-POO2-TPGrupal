@@ -1,5 +1,6 @@
 package ar.edu.unq.po2.tp.grupal.zonaDeCobertura;
 
+import ar.edu.unq.po2.tp.grupal.muestra.Muestra;
 import ar.edu.unq.po2.tp.grupal.ong.Observer;
 
 /**
@@ -10,12 +11,29 @@ import ar.edu.unq.po2.tp.grupal.ong.Observer;
  */
 public interface ZonaDeCoberturaObservable {
 
+	/**
+	 * Registra una ong que se esta registrando a una zona de cobertura.
+	 * 
+	 * @param o observer que es una ong.
+	 */
 	public void registrar(Observer o);
 
+	/**
+	 * Desuscribe a una ong que se esta desuscribiendo de una zona de cobertura.
+	 * 
+	 * @param o observer que es una ong.
+	 */
 	public void desuscribir(Observer o);
 
-	public void notificarNuevaMuestra();
+	/**
+	 * Notifica a todas las organizaciones cuando se añade una nueva muestra.
+	 */
 
-	public void notificarValidacion();
+	public void notificarNuevaMuestra(Muestra muestra);
+
+	/**
+	 * Notifica a todas las organizaciones cuando se valida una muestra.
+	 */
+	public void notificarValidacion(Muestra muestra);
 
 }
