@@ -2,6 +2,8 @@ package ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
+
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -9,9 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.*;
 
-import ar.edu.unq.po2.tp.grupal.ong.Funcionalidad;
-import ar.edu.unq.po2.tp.grupal.ong.FuncionalidadExterna;
-import ar.edu.unq.po2.tp.grupal.ong.Ong;
+import ar.edu.unq.po2.tp.grupal.ong.*;
 import ar.edu.unq.po2.tp.grupal.muestra.*;
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Ubicacion;
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.ZonaDeCobertura;
@@ -22,8 +22,8 @@ class ZonaDeCoberturaTest {
 	Muestra muestraB;
 	Muestra muestraC;
 
-	Funcionalidad funcionalidadMuestra;
-	Funcionalidad funcinoalidadValidacion;
+	FuncionalidadExterna funcionalidadMuestra;
+	FuncionalidadExterna funcinoalidadValidacion;
 
 	Ubicacion puntoA = new Ubicacion(0, 0);
 	Ubicacion puntoB = new Ubicacion(0, 1);
@@ -69,8 +69,8 @@ class ZonaDeCoberturaTest {
 		muestras1.add(muestraA);
 		muestras1.add(muestraB);
 
-		this.funcionalidadMuestra = mock(Funcionalidad.class);
-		this.funcinoalidadValidacion = mock(Funcionalidad.class);
+		this.funcionalidadMuestra = mock(FuncionalidadExterna.class);
+		this.funcinoalidadValidacion = mock(FuncionalidadExterna.class);
 		this.muestraC = mock(Muestra.class);
 
 		this.ong1 = mock(Ong.class);

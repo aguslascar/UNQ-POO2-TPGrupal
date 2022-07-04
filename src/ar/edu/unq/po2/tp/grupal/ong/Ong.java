@@ -2,6 +2,7 @@ package ar.edu.unq.po2.tp.grupal.ong;
 
 import java.util.ArrayList;
 
+
 import ar.edu.unq.po2.tp.grupal.muestra.Muestra;
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.Ubicacion;
 import ar.edu.unq.po2.tp.grupal.zonaDeCobertura.ZonaDeCobertura;
@@ -42,21 +43,21 @@ public class Ong implements Observer {
 	 * que se añade una muestra.
 	 */
 
-	private Funcionalidad funcionalidadMuestra;
+	private FuncionalidadExterna funcionalidadMuestra;
 
 	/**
 	 * Funcionalidad externa del tipo FuncionalidadExterna que es llamada cada vez
 	 * que se valida una muestra.
 	 */
-	private Funcionalidad funcionalidadValidacion;
+	private FuncionalidadExterna funcionalidadValidacion;
 
 	/**
 	 * Constructor de una nueva organización.
 	 * 
 	 * @param nombre El nombre de la organización.
 	 */
-	public Ong(Ubicacion ubicacion, TipoDeOrg tipo, int trabajadores, Funcionalidad muestra,
-			Funcionalidad validacion) {
+	public Ong(Ubicacion ubicacion, TipoDeOrg tipo, int trabajadores, FuncionalidadExterna muestra,
+			FuncionalidadExterna validacion) {
 		this.ubicacion = ubicacion;
 		this.tipo = tipo;
 		this.trabajadores = trabajadores;
@@ -79,22 +80,22 @@ public class Ong implements Observer {
 	}
 
 
-	public Funcionalidad getFuncionalidadExternaMuestra() {
+	public FuncionalidadExterna getFuncionalidadExternaMuestra() {
 		return funcionalidadMuestra;
 
 	}
 
-	public Funcionalidad getFuncionalidadExternaValidacion() {
+	public FuncionalidadExterna getFuncionalidadExternaValidacion() {
 		return funcionalidadValidacion;
 	}
 
 
-	public void setFuncionalidadMuestra(Funcionalidad nuevaFuncionalidad) {
+	public void setFuncionalidadMuestra(FuncionalidadExterna nuevaFuncionalidad) {
 		funcionalidadMuestra = nuevaFuncionalidad;
 
 	}
 
-	public void setFuncionalidadValidacion(Funcionalidad nuevaFuncionalidad) {
+	public void setFuncionalidadValidacion(FuncionalidadExterna nuevaFuncionalidad) {
 		funcionalidadValidacion = nuevaFuncionalidad;
 	}
 	
