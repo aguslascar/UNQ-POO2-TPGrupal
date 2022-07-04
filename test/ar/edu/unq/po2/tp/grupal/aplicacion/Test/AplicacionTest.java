@@ -264,7 +264,7 @@ class AplicacionTest {
 		app.agregarZona(zona);
 		when(zona.esMuestraDeZona(muestraFalsa)).thenReturn(true);
 		app.seValidoMuestra(muestraFalsa);
-		verify(zona).notificarValidacion();
+		verify(zona).notificarValidacion(muestraFalsa);
 	}
 	
 	@Test 
@@ -274,7 +274,7 @@ class AplicacionTest {
 		when(zona.esMuestraDeZona(muestraFalsa)).thenReturn(false);
 		app.seValidoMuestra(muestraFalsa);
 		//Verifico que a la unica zona del sistema, no se le envie ningun mensaje
-		verify(zona, never()).notificarValidacion();
+		verify(zona, never()).notificarValidacion(any());
 	}
 	
 	@Test
