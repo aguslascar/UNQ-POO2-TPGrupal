@@ -17,12 +17,19 @@ class NivelTest {
 	void testEsExpertoUnBasico() {
 		//Testeo que el nivel basico no sea experto.
 		nivel = new Basico();
+		//Primero veo que se haya creado correctamente el usuario preguntadonle su descripcion.
+		assertEquals(nivel.getDescripcion(), "Nivel de usuario básico");
+		
 		assertFalse(nivel.esExperto());
 	}
 	@Test
 	void testEsExpertoUnExperto() {
 		//Testeo que el nivel experto sea experto.
 		nivel = new Experto();
+		//Primero veo que se haya creado correctamente el usuario preguntadonle su descripcion.
+		assertEquals(nivel.getDescripcion(), "Nivel de usuario experto");
+		
 		assertTrue(nivel.esExperto());
+		
 	}
 }

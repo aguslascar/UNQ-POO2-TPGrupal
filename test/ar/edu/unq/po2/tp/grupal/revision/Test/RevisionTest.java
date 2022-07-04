@@ -69,4 +69,14 @@ public class RevisionTest {
 		
 		assertEquals(revision.getIdUsuario(), usuario.getidUsuario());
 	}
+	
+	// Se testea que al momento de instanciar una Revisión, el Usuario que realizó la revisión sea guardado
+	// correctamente y sea accesible de manera pública
+	@Test
+	public void testObtenerElUsuarioQueRealizoLaRevision() {
+		
+		revision = new Revision(opinion, fecha, usuario);
+		
+		assertEquals(revision.getUsuario(), usuario);
+	}
 }

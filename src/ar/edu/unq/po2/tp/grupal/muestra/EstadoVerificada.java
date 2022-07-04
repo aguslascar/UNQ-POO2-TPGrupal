@@ -24,20 +24,16 @@ public class EstadoVerificada extends EstadoDeMuestra {
 		this.setOpinionVerificada(opinionVerificada);
 	}
 	
+	/**
+	 * Método que retorna la opinión verificada en la que coincidieron dos expertos.
+	 * @return Un String que representa la opinión en la que coincidieron dos expertos.
+	 */
 	public String obtenerResultadoActual(Muestra muestra) {
 		return opinionVerificada;
 	}
 	
 	public void recibirRevision(Revision revision, Muestra muestra) throws Exception {
 		throw new Exception();
-	}
-	
-	/**
-	 * Método que retorna la opinión verificada en la que coincidieron dos expertos.
-	 * @return Un String que representa la opinión en la que coincidieron dos expertos.
-	 */
-	public String getOpinionVerificada() {
-		return opinionVerificada;
 	}
 
 	/**

@@ -40,7 +40,7 @@ public class Ong implements Observer {
 	 * Funcionalidad externa del tipo FuncionalidadExterna que es llamada cada vez
 	 * que se añade una muestra.
 	 */
-	private FuncionalidadExterna muestra;
+	private FuncionalidadExterna nuevaMuestra;
 	/**
 	 * Funcionalidad externa del tipo FuncionalidadExterna que es llamada cada vez
 	 * que se valida una muestra.
@@ -76,7 +76,7 @@ public class Ong implements Observer {
 	}
 
 	public FuncionalidadExterna getFuncionalidadExternaMuestra() {
-		return muestra;
+		return nuevaMuestra;
 	}
 
 	public FuncionalidadExterna getFuncionalidadExternaValidacion() {
@@ -84,7 +84,7 @@ public class Ong implements Observer {
 	}
 
 	public void setFuncionalidadMuestra(FuncionalidadExterna nuevaFuncionalidad) {
-		muestra = nuevaFuncionalidad;
+		nuevaMuestra = nuevaFuncionalidad;
 	}
 
 	public void setFuncionalidadValidacion(FuncionalidadExterna nuevaFuncionalidad) {
