@@ -71,6 +71,8 @@ public class Muestra {
 		this.setUbicacion(ubicacion);
 		this.setOpinion(opinion);
 		this.setRevisiones(new ArrayList<Revision>());
+		//El estado se inicializa sin verificar, pero luego al recibirRevision,
+		// si el usuario es experto, le cambia el estado a opinadaPorExpertos
 		this.setEstado(new EstadoSinVerificar());
 		this.setSistema(sistema);
 		this.recibirRevision(new Revision(opinion, fecha, usuario));
