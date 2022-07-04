@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-07-04T00:04:53.886Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.53 Safari/537.36 Edg/103.0.1264.37" etag="I5alSY5fhvbhMsy41EOx" version="20.0.3" type="github">
+<mxfile host="app.diagrams.net" modified="2022-07-04T00:09:01.902Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.53 Safari/537.36 Edg/103.0.1264.37" etag="Cc-n04YjIp6uMHMJ5PZS" version="20.0.3" type="github">
   <diagram id="vw9YXLVe1vG7YreCULzH" name="Page-1">
     <mxGraphModel dx="1695" dy="1651" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -966,16 +966,6 @@
         </mxCell>
         <mxCell id="3Q4b-I4lOvKTHn2svIIw-49" value="+ muestrasObtenidasA(Muestra, int, ArrayList&lt;Muestra&gt;): ArrayList&lt;Muestra&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="3Q4b-I4lOvKTHn2svIIw-46" vertex="1">
           <mxGeometry y="78" width="480" height="26" as="geometry" />
-        </mxCell>
-        <mxCell id="3Q4b-I4lOvKTHn2svIIw-50" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=none;endFill=0;startArrow=openThin;startFill=0;" parent="1" edge="1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="473" y="1154" as="sourcePoint" />
-            <Array as="points">
-              <mxPoint x="473" y="1174" />
-              <mxPoint x="473" y="1174" />
-            </Array>
-            <mxPoint x="473.4000000000001" y="1199" as="targetPoint" />
-          </mxGeometry>
         </mxCell>
       </root>
     </mxGraphModel>
